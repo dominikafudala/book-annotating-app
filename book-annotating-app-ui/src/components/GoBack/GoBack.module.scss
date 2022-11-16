@@ -1,0 +1,14 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.back {
+    display: block;
+    color: $gray-900;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: rem(26);
+
+    img {
+        margin-right: rem(8);
+    }
+}

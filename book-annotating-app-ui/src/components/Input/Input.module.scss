@@ -1,0 +1,47 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+
+.formItem {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .label {
+        position: absolute;
+        top: rem(12);
+        left: 0;
+        font-family: $inter;
+        font-weight: 500;
+        font-size: rem(16);
+        transition: .1s linear;
+        color: $gray-700;
+    }
+
+    .input {
+        height: rem(44);
+        margin-bottom: rem(50);
+        border: none;
+        border-bottom: rem(1) solid $gray-600;
+        transition: border-bottom .1s ease-in-out;
+        font-size: rem(16);
+        background-color: transparent;
+    }
+
+    &:nth-last-of-type(1)>.input {
+        margin-bottom: rem(36);
+    }
+
+
+    .input:focus {
+        outline: none;
+        border-bottom: rem(2) solid $gray-600;
+    }
+
+    .input:focus+.label,
+    .input:not(:placeholder-shown)+.label {
+        transform: translateY(- rem(28));
+        font-size: rem(14);
+        color: $gray-700;
+    }
+}

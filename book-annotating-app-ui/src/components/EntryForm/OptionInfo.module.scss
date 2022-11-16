@@ -1,0 +1,18 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.info {
+    text-align: center;
+    margin-top: rem(32);
+
+    .action {
+        padding-left: em(8);
+        color: $gray-900;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    &Left {
+        text-align: left;
+    }
+}

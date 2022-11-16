@@ -1,0 +1,12 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.heading {
+    margin-bottom: rem(8);
+    color: $gray-900;
+    font-weight: 600;
+
+    &-24 {
+        font-size: rem(24);
+    }
+}

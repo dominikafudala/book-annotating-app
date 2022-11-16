@@ -1,0 +1,7 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.frame {
+    padding: em(40);
+    border: 1px solid $gray-900;
+}

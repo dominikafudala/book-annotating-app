@@ -1,0 +1,52 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.wrapper {
+    max-width: rem(740);
+    width: 55%;
+
+    .action {
+        width: rem(360);
+        margin-top: rem(40);
+
+        .orLine {
+            margin: rem(32) auto;
+            position: relative;
+
+            .orText {
+                color: $gray-600;
+                font-weight: 400;
+                text-align: center;
+            }
+
+            &>div {
+                position: absolute;
+                width: rem(148);
+                height: rem(1);
+                background-color: $gray-400;
+                top: 50%;
+                transform: translateY(-50%);
+
+                &:first-child {
+                    left: 0;
+                }
+
+                &:last-child {
+                    right: 0;
+                }
+            }
+        }
+
+        .forgotPassword {
+            position: relative;
+            display: block;
+            width: fit-content;
+            text-decoration: none;
+            color: $gray-900;
+            font-weight: 600;
+            left: 100%;
+            bottom: rem(24);
+            transform: translateX(-100%);
+        }
+    }
+}

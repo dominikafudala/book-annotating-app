@@ -1,0 +1,27 @@
+@use 'styles/utils' as *;
+
+.wrapper {
+    height: rem(80);
+    width: 100%;
+    max-width: rem(1400);
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logoWrapper {
+        height: rem(46);
+        padding: 0 em(32);
+    }
+
+    .buttonWrapper {
+        display: flex;
+        justify-content: space-between;
+        gap: rem(12);
+        margin-right: em(32);
+    }
+}

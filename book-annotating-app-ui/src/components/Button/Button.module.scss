@@ -1,0 +1,42 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.button {
+    font-weight: 600;
+    border: rem(1) solid $gray-900;
+    font-family: $inter;
+    font-size: rem(16);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .googleIcon {
+        margin-right: rem(12);
+    }
+}
+
+.buttonLink {
+    @extend .button;
+    text-decoration: none;
+}
+
+.primary {
+    color: white;
+    background-color: $gray-900;
+}
+
+.secondary {
+    color: $gray-900;
+    background-color: transparent;
+}
+
+.small {
+    height: rem(44);
+    padding: rem(10) rem(18);
+}
+
+.big {
+    width: 100%;
+    height: rem(48);
+}

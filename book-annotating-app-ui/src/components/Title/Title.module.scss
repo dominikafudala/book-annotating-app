@@ -1,0 +1,11 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+
+.title {
+    color: $gray-900;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: rem(60);
+    margin-bottom: rem(16);
+}
