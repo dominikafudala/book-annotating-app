@@ -1,9 +1,7 @@
 package com.dominikafudala.papier.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "user_type")
@@ -30,5 +28,4 @@ public class UserType {
     public void setName(String name) {
         this.name = name;
     }
-
 }

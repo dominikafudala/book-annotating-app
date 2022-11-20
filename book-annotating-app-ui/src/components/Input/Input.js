@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from "./Input.module.scss";
 
 
-const Input = ({name, label, type}) => {
+const Input = ({name, label, type, ...props}) => {
     return(
         <div className={styles.formItem}>
             <input
@@ -13,6 +13,7 @@ const Input = ({name, label, type}) => {
                 className = {styles.input} 
                 placeholder = " "
                 required
+                {...props}
             />
             <label 
                 className={styles.label}

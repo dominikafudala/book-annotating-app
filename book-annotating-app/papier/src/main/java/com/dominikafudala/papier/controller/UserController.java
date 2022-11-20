@@ -1,9 +1,11 @@
 package com.dominikafudala.papier.controller;
 
 
+import com.dominikafudala.papier.entity.User;
 import com.dominikafudala.papier.model.UserModel;
 import com.dominikafudala.papier.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -13,14 +15,17 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController() {
-        this.userService = new UserService();
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-
     @PostMapping("/signup")
-    public String newUser(@RequestBody UserModel userModel){
-        return "ye";
+    public ResponseEntity<?> newUser(@RequestBody UserModel userModel){
+        User user = this.userService.newUser(userModel);
+        this.userService.signupToken(user);
+
+        return ResponseEntity.ok("ok");
     }
 
 

@@ -1,5 +1,6 @@
 package com.dominikafudala.papier.entity;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -24,7 +25,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_typeID", nullable = false)
-    private UserType userTypeid;
+    private UserType userTypeid = new UserType();
 
     public UserType getUserTypeid() {
         return userTypeid;
