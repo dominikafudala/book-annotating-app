@@ -56,4 +56,35 @@ public class UserService {
         Token token = this.tokenService.createSignupToken(user);
         this.emailService.sendTokenMail(user, token.getToken());
     }
+
+    public void verifyToken(String token) {
+        Token tokenFound = tokenService.findToken(token);
+
+        if(tokenFound == null) {
+            // TODO: exception token not found
+            System.out.println("Token not found");
+            return;
+        }
+
+        if(!tokenService.verifyTime(tokenFound)){
+            // TODO: token expired
+            System.out.println("Token expired");
+            tokenService.deleteToken(tokenFound);
+            return;
+        }
+
+        User user = tokenFound.getUserID();
+
+        tokenService.deleteToken(tokenFound);
+
+        if(user == null){
+            // TODO: users token not found
+            System.out.println("Token not found");
+            return;
+        }
+
+        user.setEnabled(true);
+
+        userRepository.save(user);
+    }
 }

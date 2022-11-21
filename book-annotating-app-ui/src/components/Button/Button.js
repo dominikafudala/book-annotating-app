@@ -16,7 +16,7 @@ const Button = ({children, small, secondary, google, href}) => {
             {
                 href ?
                 (
-                    <Link to={href}
+                    <Link to={'/' + href}
                     className={`${styles.buttonLink} ${buttonClassSize} ${buttonClassSecondary}`}
                     onClick = {() =>{
                         context.setLocation(

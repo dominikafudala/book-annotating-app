@@ -28,5 +28,16 @@ public class UserController {
         return ResponseEntity.ok("ok");
     }
 
+    @GetMapping("/verifyMail")
+    public String verifyToken(@RequestParam("token") String token){
+        try {
+            userService.verifyToken(token);
+        } catch(Exception e){
+            // TODO: łapać exceptions z tokenów
+            return "Couldn't verify account";
+        }
+        return "Your account was verified";
+    }
+
 
 }

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./EntryForm.module.scss";
 import Title from "components/Title/Title";
 import Button from "components/Button/Button";
@@ -15,6 +15,7 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
 
     const context = useContext(LocationContext);
     const types = context.PAGES;
+    const navigation = useNavigate();
 
     const [user, setUser] = useState(
         {
@@ -35,7 +36,11 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
     const onSubmitFn = async (e) => {
         e.preventDefault();
         await axios.post(BACKEND_LOCATION+page, user);
-        window.location.reload();
+        navigation(`/${types.checkSignup}`, {
+            state: {
+                mail: user.email
+            }
+            });
     }
 
     return (
@@ -63,7 +68,7 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
                     null
                 }
                 {
-                    page !== types.check ?
+                    page !== types.check && page !== types.checkSignup?
                     <form onSubmit={e => onSubmitFn(e)} className={styles.form}>
                         {
                             page === types.signup ?
@@ -71,13 +76,13 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
                             null
                         }
                         {
-                            page !== types.set ?
+                            page !== types.set && page !== types.verifyEmail ?
                             <Input name = {"email"} label = {"Email"} type = {"email"} onChange = {onChangeFn}/>
                             :
                             null
                         }
                         {
-                            page !== types.reset ?
+                            page !== types.reset && page !== types.verifyEmail ?
                             <Input name = {"password"} label = {"Password"} type = {"password"}  onChange = {onChangeFn}/>
                             :
                             null
@@ -93,14 +98,14 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
                             <Link to={`/${types.reset}`} className={styles.forgotPassword}>Forgot password?</Link>:
                             null
                         }
-                        <Button>{buttonText}</Button>
+                        <Button href={page === types.verifyEmail ? types.login : null}>{buttonText}</Button>
                     </form>
                     :
                     null
                 }
                 {
                     page !== types.reset ?
-                    <OptionInfo question={questionText} action = {actionText} href = {link} left={page === types.check ? true : false}/> 
+                    <OptionInfo question={questionText} action = {actionText} href = {link} left={page === types.check || page === types.checkSignup ? true : false}/> 
                     :
                     null
                 }

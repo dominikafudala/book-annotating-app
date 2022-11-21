@@ -9,13 +9,17 @@ import SetNewPasswordView from "views/ResetPasswordView/SetNewPasswordView";
 import Background from "components/Background/Background";
 import Header from "components/Header/Header";
 import { useState } from "react";
+import CheckEmailSignupView from "views/SignUpView/CheckEmailSignupView";
+import VerifyEmailView from "views/SignUpView/VerifyEmailView";
 
 const PAGES = {
     signup: 'signup',
     login: 'login',
     reset: 'reset',
     check: 'check',
-    set: 'set'
+    set: 'set',
+    checkSignup: 'checkSignup',
+    verifyEmail: 'VerifyMail'
 }
 
 const Root = () => {
@@ -37,6 +41,8 @@ const Root = () => {
                 <Route path = {`/${PAGES.reset}`} element = {<ResetPasswordView/>}></Route>
                 <Route path = {`/${PAGES.check}`} element = {<CheckEmailView/>}></Route>
                 <Route path = {`/${PAGES.set}`} element = {<SetNewPasswordView/>}></Route>
+                <Route path = {`/${PAGES.checkSignup}`} element = {<CheckEmailSignupView/>}></Route>
+                <Route path = {`/${PAGES.verifyEmail}`} element = {<VerifyEmailView/>}></Route>
             </Routes>
             </AppContext.Provider>
         </BrowserRouter>
