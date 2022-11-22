@@ -1,11 +1,20 @@
 package com.dominikafudala.papier.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "token")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Token {
     private final Integer EXP_TIME_MINUTES = 15;
     @Id
@@ -29,45 +38,9 @@ public class Token {
         this.expirationDate = this.calculateExpDate();
     }
 
-    public Token() {
-
-    }
-
     private Instant calculateExpDate() {
         Instant i = Instant.now();
         return i.plus(EXP_TIME_MINUTES, ChronoUnit.MINUTES);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Instant getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(Instant expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public User getUserID() {
-        return userID;
-    }
-
-    public void setUserID(User userID) {
-        this.userID = userID;
     }
 
 }

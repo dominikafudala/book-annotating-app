@@ -6,28 +6,31 @@ import com.dominikafudala.papier.entity.UserType;
 import com.dominikafudala.papier.exceptions.PasswordDontMatchException;
 import com.dominikafudala.papier.model.UserModel;
 import com.dominikafudala.papier.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dominikafudala.papier.repository.UserTypeRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+@RequiredArgsConstructor
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
     private final EmailService emailService;
     private final TokenService tokenService;
+    private final UserTypeRepository userTypeRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserService(UserRepository userRepository, EmailService emailService, TokenService tokenService, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.emailService = emailService;
-        this.tokenService = tokenService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public User newUser(UserModel userModel){
         checkPasswords(userModel.getPassword(), userModel.getRepeatPassword());
@@ -37,8 +40,8 @@ public class UserService {
         newUser.setEmail(userModel.getEmail());
         newUser.setPassword(passwordEncoder.encode(userModel.getPassword()));
 
-        UserType userType = new UserType();
-        userType.setId(2);
+        UserType userType = userTypeRepository.findById(2).orElse(new UserType());
+
         newUser.setUserTypeid(userType);
 
         this.userRepository.save(newUser);
@@ -86,5 +89,33 @@ public class UserService {
         user.setEnabled(true);
 
         userRepository.save(user);
+    }
+
+    public User login(String email, String password) {
+        // TODO: case jak nie znajdzie usera o danym mailu
+        User user = userRepository.findByEmail(email);
+
+        if(Objects.equals(passwordEncoder.encode(password), user.getPassword())){
+            System.out.println("złe hasło");
+        }
+
+        return user;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(mail);
+
+        if (user != null) {
+            return new org.springframework.security.core.userdetails.User(user.getEmail(),
+                    user.getPassword(),
+                    mapRolesToAuthorities(user.getUserTypeid()));
+        }else{
+            throw new UsernameNotFoundException("Invalid username or password.");
+        }
+    }
+
+    private Collection < ? extends GrantedAuthority> mapRolesToAuthorities(UserType role) {
+        return Collections.singleton(new SimpleGrantedAuthority(role.getName()));
     }
 }

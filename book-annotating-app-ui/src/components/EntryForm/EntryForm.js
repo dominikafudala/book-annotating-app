@@ -35,12 +35,25 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
 
     const onSubmitFn = async (e) => {
         e.preventDefault();
-        await axios.post(BACKEND_LOCATION+page, user);
-        navigation(`/${types.checkSignup}`, {
-            state: {
-                mail: user.email
-            }
-            });
+
+        const response = await axios.post(BACKEND_LOCATION+page, user, {
+            headers: {
+                'Content-Type': page === 'login' ? 'application/x-www-form-urlencoded' : 'application/json'
+              }
+          });
+
+        if(page === 'login'){
+            const [accessToken, refreshToken] = [response.data.access_token, response.data.refreshToken];
+        }
+
+        if(page === 'signup'){
+            navigation(`/${types.checkSignup}`, {
+                state: {
+                    mail: user.email
+                }
+                });
+        }
+        
     }
 
     return (
