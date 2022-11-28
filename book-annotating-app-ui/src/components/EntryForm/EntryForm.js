@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ReactSession } from 'react-client-session';
 import styles from "./EntryForm.module.scss";
 import Title from "components/Title/Title";
 import Button from "components/Button/Button";
@@ -10,6 +11,7 @@ import Subeading from "components/Subheading/Subheading";
 import BACKEND_LOCATION from "properties";
 import axios from "axios";
 import LocationContext from "contexts/LocationContext";
+import LeftContentWrapper from "components/LeftContentWrapper/LeftContentWrapper";
 
 const EntryForm = ({title, buttonText, page, questionText, actionText, link, subtitle}) => {
 
@@ -43,7 +45,10 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
           });
 
         if(page === 'login'){
-            const [accessToken, refreshToken] = [response.data.access_token, response.data.refreshToken];
+            const [accessToken, refreshToken] = [response.data.access_token, response.data.refresh_token];
+            ReactSession.setStoreType("localStorage");
+            ReactSession.set("access_token", accessToken);
+            ReactSession.set("refresh_token", refreshToken);
         }
 
         if(page === 'signup'){
@@ -57,13 +62,13 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
     }
 
     return (
-        <div className={styles.wrapper}>
-            <GoBack/>
+        <LeftContentWrapper>
+            <GoBack>Go back</GoBack>
             <Title>{title}</Title>
             {
                 page !== types.signup && page !== types.login
                 ?
-                <Subeading size={20}>{subtitle}</Subeading>
+                <Subeading bigger>{subtitle}</Subeading>
                 :
                 null
             }
@@ -123,7 +128,7 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
                     null
                 }
             </div>
-        </div>
+        </LeftContentWrapper>
     )
 }
 

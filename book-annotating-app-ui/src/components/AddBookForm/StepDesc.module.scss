@@ -1,0 +1,22 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.wrapper {
+    display: flex;
+    gap: rem(8);
+    align-items: center;
+    margin-bottom: rem(32);
+
+    .square {
+        width: rem(16);
+        height: rem(16);
+        background-color: $gray-900;
+    }
+
+    .description {
+        text-transform: uppercase;
+        font-size: rem(18);
+        font-weight: 700;
+        color: $gray-900;
+    }
+}

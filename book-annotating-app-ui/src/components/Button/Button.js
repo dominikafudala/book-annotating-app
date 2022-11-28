@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import LocationContext from "contexts/LocationContext";
 
-const Button = ({children, small, secondary, google, href}) => {
+const Button = ({children, small, secondary, google, href, onClickFn}) => {
 
     const buttonClassSize = small ? styles.small : styles.big;
     const buttonClassSecondary = secondary ? styles.secondary : styles.primary;
@@ -29,7 +29,7 @@ const Button = ({children, small, secondary, google, href}) => {
                         {children}
                     </Link>
                     ) : (
-                        <button className={`${styles.button} ${buttonClassSize} ${buttonClassSecondary}`} type = {"submit"}>
+                        <button className={`${styles.button} ${buttonClassSize} ${buttonClassSecondary}`} type = {"submit"} onClick = {onClickFn}>
                             {
                                 google ?
                                 <img className = {styles.googleIcon} src={googleIcon} alt="Google Icon" /> :

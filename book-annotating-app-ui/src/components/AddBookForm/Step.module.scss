@@ -1,0 +1,28 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.wrapper {
+    display: flex;
+    gap: rem(8);
+
+    .step {
+        width: rem(175);
+
+        .bar {
+            height: rem(12);
+            border: rem(1) solid $gray-900;
+        }
+
+        .barBlack {
+            @extend .bar;
+            background-color: $gray-900;
+        }
+
+        .stepName {
+            margin: em(8) auto;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+    }
+}

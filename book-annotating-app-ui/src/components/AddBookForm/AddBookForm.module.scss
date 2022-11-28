@@ -1,0 +1,7 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.wrapper {
+    margin-top: rem(40);
+    width: rem(420);
+}

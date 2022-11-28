@@ -1,0 +1,6 @@
+@use 'styles/utils/' as *;
+
+.buttonContainer {
+    display: flex;
+    gap: rem(8);
+}

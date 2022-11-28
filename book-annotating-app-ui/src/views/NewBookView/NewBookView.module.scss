@@ -1,0 +1,7 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+
+.summary {
+    width: min(rem(412), 30vw);
+}

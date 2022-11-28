@@ -1,0 +1,15 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.inputGroup {
+    display: flex;
+    gap: rem(16);
+
+    &>*:nth-child(1) {
+        width: 100%;
+    }
+
+    &>*:nth-child(2) {
+        width: rem(72);
+    }
+}

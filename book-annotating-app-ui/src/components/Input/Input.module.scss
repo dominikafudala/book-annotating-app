@@ -10,7 +10,7 @@
     .label {
         position: absolute;
         top: rem(12);
-        left: 0;
+        left: rem(4);
         font-family: $inter;
         font-weight: 500;
         font-size: rem(16);
@@ -29,7 +29,7 @@
     }
 
     &:nth-last-of-type(1)>.input {
-        margin-bottom: rem(36);
+        margin-bottom: rem(40);
     }
 
 
@@ -40,7 +40,35 @@
 
     .input:focus+.label,
     .input:not(:placeholder-shown)+.label {
-        transform: translateY(- rem(28));
+        transform: translate(- rem(4), - rem(32));
+        font-size: rem(14);
+        color: $gray-700;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.formItem.multipleInputs {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: rem(12);
+
+    .input {
+        width: 100%;
+        text-align: center;
+        -moz-appearance: textfield;
+
+        &:focus {
+            border: rem(2) solid $gray-600;
+        }
+    }
+
+    .label {
+        transform: translateY(- rem(32));
         font-size: rem(14);
         color: $gray-700;
     }
