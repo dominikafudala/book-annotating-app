@@ -1,0 +1,187 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.formItem {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .select {
+        margin-bottom: rem(50);
+        border-bottom: rem(1) solid $gray-600;
+        transition: border-bottom .08s ease-in-out;
+        display: flex;
+
+        .checkedOptions {
+            display: flex;
+            height: rem(44);
+            align-items: center;
+            margin-left: rem(8);
+            gap: rem(8);
+
+            .checkedOption {
+                display: flex;
+                height: rem(28);
+                width: rem(90);
+                text-align: center;
+                border: rem(1) solid $gray-600;
+                align-items: center;
+
+                &:hover {
+                    border-color: $red;
+                }
+
+                p {
+                    padding: 0 rem(8);
+                    color: $gray-900;
+                    line-height: rem(28);
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    font-size: rem(14);
+                    width: 100%;
+                }
+
+                &:hover p {
+                    color: $red;
+                }
+
+                .close {
+                    height: rem(16);
+                    padding: 0 rem(6);
+                    display: flex;
+                    align-items: center;
+                    border-left: rem(1) solid $gray-600;
+
+                    .img {
+                        height: rem(10);
+                        width: rem(10);
+                        background-image: url("/assets/Close.svg");
+                        background-size: cover;
+                    }
+                }
+
+                &:hover .close {
+                    border-color: $red;
+
+                    .img {
+                        background-image: url("/assets/Close_red.svg");
+                    }
+                }
+            }
+
+            .checkedOptionSingle {
+                @extend .checkedOption;
+
+                width: rem(200);
+
+            }
+        }
+
+
+        .label {
+            position: absolute;
+            top: rem(-24);
+            left: 0;
+            font-family: $inter;
+            font-weight: 500;
+            font-size: rem(14);
+            transition: .1s linear;
+            color: $gray-700;
+        }
+
+        .input {
+            height: rem(44);
+            width: 100%;
+            border: none;
+            font-size: rem(16);
+            background-color: transparent;
+            appearance: textfield;
+            padding-left: rem(14);
+        }
+
+        &:has(.input:focus) {
+            outline: none;
+            border: rem(1) solid $gray-600;
+        }
+
+        .input:focus {
+            outline: none;
+        }
+
+        .input::placeholder {
+            font-weight: 400;
+            font-size: rem(16);
+            color: $gray-500;
+        }
+
+    }
+
+    .arrowWrapper {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: rem(48);
+        height: rem(44);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: -1;
+    }
+
+    .arrowWrapperFocus {
+        @extend .arrowWrapper;
+
+        transform: scaleY(-1);
+        z-index: 1;
+    }
+
+    .options {
+        display: none;
+        position: absolute;
+        height: rem(100);
+        width: 100%;
+        top: rem(44);
+        border: rem(1) solid $gray-600;
+        border-top: none;
+        overflow: scroll;
+        overflow-x: hidden;
+        background-color: $beige;
+        z-index: 1;
+
+        .inner {
+            position: relative;
+            height: auto;
+            min-height: 100%;
+
+            .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url('/assets/paper_texture.png');
+                opacity: 38%;
+                mix-blend-mode: multiply;
+            }
+
+            .option {
+                height: rem(44);
+                padding-left: rem(14);
+                line-height: rem(44);
+                border-top: rem(1) solid $gray-400;
+
+                font-size: rem(14);
+                position: relative;
+
+                &:nth-last-child(1) {
+                    border-bottom: rem(1) solid $gray-400;
+                }
+            }
+        }
+    }
+
+    .arrowWrapperFocus~.options {
+        display: block;
+    }
+}

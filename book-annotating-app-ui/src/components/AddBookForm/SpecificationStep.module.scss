@@ -1,0 +1,29 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.inputGroup {
+    display: flex;
+    gap: rem(16);
+
+    &>*:nth-child(1) {
+        width: 100%;
+    }
+
+    &>*:nth-child(2) {
+        width: rem(72);
+    }
+}
+
+.fieldset {
+    border: none;
+    display: flex;
+    gap: rem(4);
+    margin-bottom: rem(70);
+
+    .legend {
+        font-size: rem(14);
+        margin-bottom: rem(6);
+        color: $gray-700;
+        font-weight: 500;
+    }
+}

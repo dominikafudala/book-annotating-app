@@ -30,5 +30,10 @@
 
     .blobOrange {
         bottom: 0;
+
+        &.top {
+            top: 0;
+            width: 80vh;
+        }
     }
 }

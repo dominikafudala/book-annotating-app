@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./StepDesc.module.scss";
 
-const StepDesc = ({children}) => {
+const StepDesc = ({children, smaller}) => {
     return(
-        <div className={styles.wrapper}>
+        <div className={`${styles.wrapper} ${smaller ? styles.smaller : ""}`}>
             <div className={styles.square}></div>
             <p className={styles.description}>{children}</p>
         </div>

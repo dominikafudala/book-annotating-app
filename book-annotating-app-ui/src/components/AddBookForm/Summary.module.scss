@@ -1,0 +1,43 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.summary {
+    margin-bottom: rem(24);
+
+
+    .title {
+        height: rem(28);
+        display: flex;
+        align-items: center;
+        gap: rem(8);
+        margin-bottom: rem(8);
+
+        .line {
+            height: rem(1);
+            width: 100%;
+            background-color: $gray-900;
+        }
+    }
+
+    .element {
+        display: flex;
+        align-items: center;
+        gap: rem(8);
+        margin-bottom: rem(8);
+
+        p:nth-child(1) {
+            font-weight: 500;
+            font-size: rem(14);
+            color: $gray-600;
+        }
+
+        p:nth-child(2) {
+            font-weight: 600;
+            font-size: rem(14);
+            color: $gray-900;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+}

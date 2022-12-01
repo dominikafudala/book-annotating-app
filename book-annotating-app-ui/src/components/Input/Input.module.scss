@@ -18,24 +18,69 @@
         color: $gray-700;
     }
 
+    .labelTop {
+        @extend .label;
+
+        top: rem(-24);
+        left: 0;
+        font-size: rem(14);
+    }
+
+    .textarea+.label {
+        transform: translate(- rem(4), - rem(36));
+        font-size: rem(14);
+    }
+
+    .checkbox+.label {
+        position: static;
+        width: fit-content;
+        padding: em(8) em(16);
+        border: rem(1) solid $gray-700;
+        border-radius: rem(500);
+    }
+
     .input {
         height: rem(44);
         margin-bottom: rem(50);
         border: none;
         border-bottom: rem(1) solid $gray-600;
-        transition: border-bottom .1s ease-in-out;
+        transition: border-bottom .08s ease-in-out;
         font-size: rem(16);
         background-color: transparent;
+        appearance: textfield;
+    }
+
+
+    .textarea {
+        @extend .input;
+        resize: none;
+        min-height: rem(114);
+        border: rem(1) solid $gray-600;
+    }
+
+    .checkbox {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
     }
 
     &:nth-last-of-type(1)>.input {
         margin-bottom: rem(40);
     }
 
-
     .input:focus {
         outline: none;
         border-bottom: rem(2) solid $gray-600;
+    }
+
+    .textarea:focus {
+        outline: none;
+        border: rem(2) solid $gray-600;
     }
 
     .input:focus+.label,
@@ -45,10 +90,26 @@
         color: $gray-700;
     }
 
+    .input:focus+.labelTop,
+    .input:not(:placeholder-shown)+.labelTop {
+        transform: none;
+    }
+
+    .textarea:focus+.label,
+    .textarea:not(:placeholder-shown)+.label {
+        transform: translate(- rem(4), - rem(36));
+    }
+
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+
+    .checkbox:checked+.label {
+        border-color: $gray-900;
+        background-color: $gray-900;
+        color: white;
     }
 }
 
@@ -68,8 +129,60 @@
     }
 
     .label {
-        transform: translateY(- rem(32));
+        transform: translate(- rem(4), - rem(32));
         font-size: rem(14);
         color: $gray-700;
+    }
+}
+
+
+.radio {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: rem(14);
+
+    .input {
+        margin-bottom: 0;
+        accent-color: $gray-900;
+        appearance: none;
+        width: rem(18);
+        height: rem(18);
+        border-radius: 50%;
+        border: rem(1) solid $gray-700;
+        position: relative;
+    }
+
+    .input:checked {
+        border: rem(2) solid $gray-900;
+    }
+
+    .input:checked::after {
+        position: absolute;
+        content: "";
+        width: rem(9);
+        height: rem(9);
+        background-color: $gray-900;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+    }
+
+    .input:nth-last-of-type(1) {
+        margin-bottom: 0;
+    }
+
+    .input:checked+.label {
+        font-weight: 700;
+    }
+
+
+    .label {
+        position: static;
+        transform: none !important;
+        padding-left: rem(8);
     }
 }

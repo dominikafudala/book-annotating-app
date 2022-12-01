@@ -1,0 +1,17 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+
+.fieldset {
+    border: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(4);
+
+    .legend {
+        font-size: rem(14);
+        margin-bottom: rem(6);
+        color: $gray-700;
+        font-weight: 500;
+    }
+}

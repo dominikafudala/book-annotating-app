@@ -37,7 +37,10 @@ const Root = () => {
     return (
         <BrowserRouter>
         <AppContext.Provider value={context}> 
-            <Background blobBig={location.location !== `/${PAGES.signup}` ? true : false}/>
+            <Background 
+                blobBig={location.location !== `/${PAGES.signup}` ? true : false}
+                blobTop={location.location === `/${PAGES.newBook}` ? true : false}
+                />
             <Header/>
             <Routes>
                 <Route path = {`/${PAGES.signup}`} element = {<SignUpView/>}></Route>

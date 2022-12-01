@@ -5,11 +5,11 @@ import Step from "./Step";
 import PlotStep from "./PlotStep";
 import SpecificationStep from "./SpecificationStep";
 
-const AddBookForm = ({formIndex}) => {
+const AddBookForm = ({formIndex, changeFormIndexFn}) => {
 
     return(
         <>
-            <Step step = {formIndex}/> 
+            <Step step = {formIndex} changeFormIndexFn = {changeFormIndexFn}/> 
             <div className={styles.wrapper}>
                 {
                     {
