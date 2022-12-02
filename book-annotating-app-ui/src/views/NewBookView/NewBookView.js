@@ -23,7 +23,7 @@ const NewBookView = () => {
     const [book, setBook] = useState({
         isbn: "",
         title: "",
-        series_name: "",
+        series_name: {},
         series_number: "",
         authors: [],
         description: "",

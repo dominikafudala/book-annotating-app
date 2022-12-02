@@ -44,7 +44,15 @@ const SpecificationStep = () => {
 
     for(let f of formats){
         formatElements.push(
-            <Input name = {"format"} label = {f.name} type= {"radio"} id = {f.id} key = {f.name} onChange = {context.changeBookState}/>
+            <Input 
+                name = {"format"} 
+                label = {f.name} 
+                type= {"radio"} 
+                id = {f.id} 
+                key = {f.name} 
+                defaultChecked = {context.book.format.name === f.name} 
+                onChange = {context.changeBookState}
+            />
         );
     }
 
@@ -57,13 +65,14 @@ const SpecificationStep = () => {
                 label = {"Publisher"} 
                 placeholder = {"Select a publisher"} 
                 values = {publishers} 
+                startValues = {[context.book.publisher]}
                 setStateFn = {context.changeBookState}
                 single
                 key = {"publisher"}
             />
             <div className={styles.inputGroup}>
-                <Input name = {"publication_date"} label = {"Publication date"} type= {"date"} key = {"publication_date"}labelTop onChange = {context.changeBookState}/>
-                <Input name = {"page_number"} label = {"Pages"} type = {"number"} key = {"page_number"} labelTop onChange = {context.changeBookState}/>
+                <Input name = {"publication_date"} label = {"Publication date"} type= {"date"} key = {"publication_date"}labelTop value = {context.book.publication_date} onChange = {context.changeBookState}/>
+                <Input name = {"page_number"} label = {"Pages"} type = {"number"} key = {"page_number"} labelTop value = {context.book.page_number} onChange = {context.changeBookState}/>
             </div>
 
             <fieldset className={styles.fieldset}>
@@ -76,6 +85,7 @@ const SpecificationStep = () => {
                 label = {"Language"} 
                 placeholder = {"Select a language"} 
                 values = {languages} 
+                startValues = {[context.book.language]}
                 setStateFn = {context.changeBookState}
                 single
                 noAdd

@@ -20,13 +20,33 @@ const GeneralStep = () => {
             name: "nome3"
         }];
 
+    const series = [{
+            id: 1,
+            name: "series1"
+        }, {
+            id: 2,
+            name: "series2"
+        },{
+            id: 3,
+            name: "series3"
+        }];
+
     return(
         <>
             <StepDesc>General</StepDesc>
-            <Input name = {"title"} label = {"Title"} labelTop onChange = {context.changeBookState}/>
+            <Input name = {"title"} label = {"Title"} labelTop value = {context.book.title} onChange = {context.changeBookState}/>
             <div className={styles.inputGroup}>
-                <Input name = {"series_name"} label = {"Series name"} labelTop key = {"series_name"} onChange = {context.changeBookState}/>
-                <Input name = {"series_number"} label = {"Number"} type = {"number"} key = {"series_number"} labelTop onChange = {context.changeBookState}/>
+                <SelectInput 
+                    name = {"series_name"} 
+                    label = {"Series name"} 
+                    placeholder = {"Select series"} 
+                    values = {series} 
+                    setStateFn = {context.changeBookState}
+                    startValues = {[context.book.series_name]}
+                    key = {"series_name"}
+                    single
+                />
+                <Input name = {"series_number"} label = {"Number"} type = {"number"} key = {"series_number"} value = {context.book.series_number} labelTop onChange = {context.changeBookState}/>
             </div>
             <SelectInput 
                 name = {"authors"} 
@@ -34,6 +54,7 @@ const GeneralStep = () => {
                 placeholder = {"Select author(s)"} 
                 values = {authors} 
                 setStateFn = {context.changeBookState}
+                startValues = {[...context.book.authors]}
             />
         </>
     )

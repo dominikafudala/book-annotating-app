@@ -20,13 +20,20 @@ const PlotStep = () => {
         }];
     const genresCheckbox = [];
     for(let g of genres){
-        const checkbox = <Input name = {"genres"} label = {g.name} id = {g.id} type = {"checkbox"} key = {g.name} onChange = {context.changeBookState}/>;
+        const checkbox = <Input    
+                    name = {"genres"} 
+                    label = {g.name} 
+                    id = {g.id} type = {"checkbox"} 
+                    defaultChecked = {context.book.genres.length !== 0 ? context.book.genres.map(el  => el.name).includes(g.name) : false} 
+                    key = {g.name} 
+                    onChange = {context.changeBookState}
+        />;
         genresCheckbox.push(checkbox)
     }
     return(
         <>
             <StepDesc>Plot</StepDesc>
-            <Input name = {"description"} label = {"Description"} tag = "textarea" onChange = {context.changeBookState}/>
+            <Input name = {"description"} label = {"Description"} tag = "textarea" value = {context.book.description} onChange = {context.changeBookState}/>
             <fieldset className={styles.fieldset}>
                 <legend className={styles.legend}>Genres</legend>
                 {genresCheckbox}

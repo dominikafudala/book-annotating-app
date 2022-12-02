@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
+import PropTypes from 'prop-types';
 import styles from "./SelectInput.module.scss";
 import arrow from "assets/arrow_select.svg";
 import { useState } from "react";
 
-const SelectInput = ({name, label, placeholder, setStateFn, values, single, noAdd}) => {
-    const [newValues, setNewValues] =  useState([]);
-    const [checkedValues, setCheckedValues] = useState([]);
+const SelectInput = ({name, label, placeholder, setStateFn, values, single, noAdd, startValues}) => {
+    const [newValues, setNewValues] =  useState([...startValues.filter(el => el.id < 0)]);
+    const [checkedValues, setCheckedValues] = useState(startValues.length > 0 && Object.keys(startValues[0]).length > 0 ? [...startValues] : []);
     const [renderedCheck, setRenderedCheck] = useState([]);
     let newIndex = -1;
 
@@ -89,6 +90,7 @@ const SelectInput = ({name, label, placeholder, setStateFn, values, single, noAd
 
     //render what options should be in dropdown
     const [options, setOptions] = useState([
+        ...newValues,
         ...values
     ]);
 
@@ -176,6 +178,15 @@ const SelectInput = ({name, label, placeholder, setStateFn, values, single, noAd
             </div>
         </div>
     )
+}
+
+SelectInput.propTypes = {
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
+    setStateFn: PropTypes.func.isRequired,
+    values: PropTypes.array.isRequired,
+    startValues:  PropTypes.array.isRequired
 }
 
 export default SelectInput;
