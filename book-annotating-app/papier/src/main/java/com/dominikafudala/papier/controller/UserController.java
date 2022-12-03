@@ -39,10 +39,4 @@ public class UserController {
         return "Your account was verified";
     }
 
-    @GetMapping("/random")
-    public void random(){
-        System.out.println("ye");
-    }
-
-
 }

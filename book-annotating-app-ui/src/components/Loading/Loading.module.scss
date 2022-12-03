@@ -1,0 +1,52 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .dots {
+        position: relative;
+        width: rem(10);
+        height: rem(10);
+        border-radius: 50%;
+        background-color: $gray-700;
+
+        @include keyframes(loading) {
+            0% {
+                background-color: $gray-700;
+            }
+
+            50%,
+            100% {
+                background-color: $gray-500;
+            }
+        }
+
+        @include animate(loading, 1s, linear, infinite, alternate, .5s);
+
+        &::after,
+        &::before {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            width: rem(10);
+            height: rem(10);
+            border-radius: rem(5);
+            background-color: $gray-500;
+        }
+
+        &::before {
+            left: rem(-15);
+            @include animate(loading, 1s, linear, infinite, alternate, 1s);
+        }
+
+        &::after {
+            left: rem(15);
+            @include animate(loading, 1s, linear, infinite, alternate, 0);
+        }
+    }
+}

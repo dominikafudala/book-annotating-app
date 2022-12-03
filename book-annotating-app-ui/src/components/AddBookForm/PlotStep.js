@@ -3,21 +3,15 @@ import StepDesc from "./StepDesc";
 import Input from "components/Input/Input";
 import styles from "./PlotStep.module.scss";
 import BookContext from "contexts/BookContext";
+import FormDataContext from "contexts/FormDataContext";
 import { useContext } from "react";
 
 const PlotStep = () => {
     const context = useContext(BookContext);
+    const formDataContext = useContext(FormDataContext);
 
-    // TODO: pobrac genres z bazy
-    const genres = [
-        {
-            id: 1,
-            name: "Young adult"
-        },
-        {
-            id: 2,
-            name: "Science fiction"
-        }];
+    const genres = [...formDataContext.genres];
+
     const genresCheckbox = [];
     for(let g of genres){
         const checkbox = <Input    

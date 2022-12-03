@@ -4,32 +4,17 @@ import StepDesc from "./StepDesc";
 import Input from "components/Input/Input";
 import BookContext from "contexts/BookContext";
 import SelectInput from "components/Input/SelectInput";
+import FormDataContext from "contexts/FormDataContext";
+import { useState } from "react";
 
 const GeneralStep = () => {
 
     const context = useContext(BookContext);
+    const formDataContext = useContext(FormDataContext);
 
-    const authors = [{
-            id: 1,
-            name: "name1"
-        }, {
-            id: 2,
-            name: "name2"
-        },{
-            id: 3,
-            name: "nome3"
-        }];
+    const authors = [...formDataContext.authors];
 
-    const series = [{
-            id: 1,
-            name: "series1"
-        }, {
-            id: 2,
-            name: "series2"
-        },{
-            id: 3,
-            name: "series3"
-        }];
+    const series = [...formDataContext.series];
 
     return(
         <>

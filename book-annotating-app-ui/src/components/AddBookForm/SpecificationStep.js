@@ -5,40 +5,17 @@ import BookContext from "contexts/BookContext";
 import { useContext } from "react";
 import Input from "components/Input/Input";
 import styles from "./SpecificationStep.module.scss";
+import FormDataContext from "contexts/FormDataContext";
 
 const SpecificationStep = () => {
     const context = useContext(BookContext);
+    const formDataContext = useContext(FormDataContext);
 
-    const publishers = [{
-        id: 1,
-        name: "Wydawnictwo Test"
-    },
-    {
-        id: 2,
-        name: "Inne Wydawnictow Dwa"
-    }]
+    const publishers = [...formDataContext.publishers];
 
-    const languages = [{
-        id: 1,
-        name: "English"
-    },
-    {
-        id: 2,
-        name: "Polish"
-    }]
+    const languages = [...formDataContext.languages];
 
-    const formats = [{
-        id: 1,
-        name: "Hardcover"
-    },
-    {
-        id: 2,
-        name: "Softcover"
-    },
-    {
-        id: 3,
-        name: "Ebook"
-    }]
+    const formats = [...formDataContext.formats];
 
     const formatElements = [];
 

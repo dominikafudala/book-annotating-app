@@ -12,13 +12,17 @@ import { useContext } from "react";
 
 
 const AddBookView = () => {
+    
     const context = useContext(LocationContext);
     const pages = context.PAGES;
-    const nextInputFn = () => {
+    const nextInputFn = (e) => {
         const inputs = [...document.querySelectorAll('[name="isbn"]')];
         const currentInput = document.querySelector('[name="isbn"]:focus');
         const indexCurrent = inputs.indexOf(currentInput);
-        if(indexCurrent + 1 < inputs.length){
+        if(indexCurrent > 0 && (e.key === "ArrowLeft" || e.key === "Backspace")){
+            inputs[indexCurrent - 1].focus();
+        }
+        else if((e.key !== "ArrowLeft" && e.key !== "Backspace" && !isNaN(parseInt(e.key)) && isFinite(e.key)) && indexCurrent + 1 < inputs.length){
             inputs[indexCurrent + 1].focus();
         }
     }

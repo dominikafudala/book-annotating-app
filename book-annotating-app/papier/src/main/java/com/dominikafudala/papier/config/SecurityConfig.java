@@ -31,7 +31,7 @@ public class SecurityConfig {
     };
 
     private static final String[] USER_URLS = {
-            "/random"
+            "/book/**"
     };
     @Bean
     public AuthenticationManager authenticationManager(

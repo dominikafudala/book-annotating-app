@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./NewBookView.module.scss";
+import DataService from "services/DataService";
+import BookService from "services/BookService";
 import BookContext from "contexts/BookContext";
 import LocationContext from "contexts/LocationContext";
 import ContentWrapper from "components/ContentWrapper/ContentWrapper";
@@ -13,9 +15,52 @@ import Frame from "components/Frame/Frame";
 import Button from "components/Button/Button";
 import Subeading from "components/Subheading/Subheading";
 import Summary from "components/AddBookForm/Summary";
+import FormDataContext from "contexts/FormDataContext";
+import Loading from "components/Loading/Loading";
 
 
 const NewBookView = () => {
+    // load data of publishers, authors etc from database and set context
+    const [isLoadingSeries, setLoadingSeries] = useState(true);
+    const [isLoadingAuthors, setLoadingAuthors] = useState(true);
+
+    const [publishers, setPublishers] = useState([]);
+    const [authors, setAuthors] = useState([]);
+    const [languages, setLanguages] = useState([]);
+    const [formats, setFormats] = useState([]);
+    const [series, setSeries] = useState([]);
+    const [genres, setGenres] = useState([]);
+
+    useEffect(
+        () => {
+            const loadData =  async () => {
+                DataService.getData("series").then(
+                    data => {
+                        setSeries([...data]);
+                        setLoadingSeries(false);
+                    }
+                );
+                DataService.getData("authors").then(
+                    data => {
+                        setAuthors([...data]);
+                        setLoadingAuthors(false);
+                    }
+                );
+                const publishersReq = await DataService.getData("publishers");
+                const languagesReq = await DataService.getData("languages");
+                const formatsReq = await DataService.getData("formats");
+                const genresReq = await DataService.getData("genres");
+                setPublishers([...publishersReq]);
+                setLanguages([...languagesReq])
+                setFormats([...formatsReq]);
+                setGenres([...genresReq]);
+            }
+
+            loadData();
+        }, []
+    )
+
+
     const navigate = useNavigate();
     const locationContext = useContext(LocationContext);
     const types = locationContext.PAGES;
@@ -85,6 +130,12 @@ const NewBookView = () => {
         })
     }
 
+    const addBookFn = async () => {
+        const modal = await BookService.addBook(book);
+        console.log(modal);
+    }
+
+    // check if summary should be shown 
     const [bookInfoCount, setBookInfoCount] = useState(0);
 
     const countBookInfo = () => {
@@ -96,6 +147,8 @@ const NewBookView = () => {
          [book]
     )
 
+    if(isLoadingSeries || isLoadingAuthors) return <Loading/>;
+    else
     return(
         <ContentWrapper>
             <BookContext.Provider value={context}>
@@ -110,7 +163,9 @@ const NewBookView = () => {
                     }
                         </GoBack>
                     <Title smaller>Add a book</Title>
-                    <AddBookForm formIndex={formIndex.formIndex} changeFormIndexFn = {changeFormIndex}/>
+                    <FormDataContext.Provider value={{publishers, authors, languages, formats, series, genres}}>
+                        <AddBookForm formIndex={formIndex.formIndex} changeFormIndexFn = {changeFormIndex}/>
+                    </FormDataContext.Provider>
                 </LeftContentWrapper>
                 <Frame>
                     <div className={styles.summary}>
@@ -122,7 +177,7 @@ const NewBookView = () => {
                             :
                             <Summary/>
                         }
-                        <Button onClickFn = {onClickFnForward}>{
+                        <Button onClickFn = {formIndex.formIndex !== 2 ? onClickFnForward : addBookFn}>{
                             {
                                 0: "Next",
                                 1: "Next",
