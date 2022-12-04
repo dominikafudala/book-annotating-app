@@ -14,6 +14,20 @@
     .googleIcon {
         margin-right: rem(12);
     }
+
+    &:disabled {
+        background-color: $gray-400;
+        color: $gray-500;
+        border: none
+    }
+
+    &:disabled::after {
+        content: "Add required information";
+        position: absolute;
+        bottom: rem(16);
+        font-size: rem(13);
+        font-weight: 400;
+    }
 }
 
 .buttonLink {

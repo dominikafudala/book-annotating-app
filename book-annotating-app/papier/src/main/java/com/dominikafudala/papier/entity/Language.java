@@ -22,4 +22,7 @@ public class Language implements DataInterface {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
+    @Column(name = "isbn_group", nullable = false, length = 20)
+    private String isbn_group;
+
 }

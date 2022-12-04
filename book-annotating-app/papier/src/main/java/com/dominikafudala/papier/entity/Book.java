@@ -60,6 +60,8 @@ public class Book {
     @Column(name = "isbn")
     private String isbn;
 
+    @Column(name = "reviewed")
+    private boolean reviewed;
 
     public Book(String title, Integer page_number) {
         this.title = title;

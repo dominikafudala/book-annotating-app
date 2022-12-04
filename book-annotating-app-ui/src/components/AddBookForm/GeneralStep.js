@@ -19,7 +19,7 @@ const GeneralStep = () => {
     return(
         <>
             <StepDesc>General</StepDesc>
-            <Input name = {"title"} label = {"Title"} labelTop value = {context.book.title} onChange = {context.changeBookState}/>
+            <Input name = {"title"} label = {"Title *"} labelTop value = {context.book.title} onChange = {context.changeBookState}/>
             <div className={styles.inputGroup}>
                 <SelectInput 
                     name = {"series_name"} 

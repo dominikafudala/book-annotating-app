@@ -49,7 +49,7 @@ const SpecificationStep = () => {
             />
             <div className={styles.inputGroup}>
                 <Input name = {"publication_date"} label = {"Publication date"} type= {"date"} key = {"publication_date"}labelTop value = {context.book.publication_date} onChange = {context.changeBookState}/>
-                <Input name = {"page_number"} label = {"Pages"} type = {"number"} key = {"page_number"} labelTop value = {context.book.page_number} onChange = {context.changeBookState}/>
+                <Input name = {"page_number"} label = {"Pages *"} type = {"number"} key = {"page_number"} labelTop value = {context.book.page_number} onChange = {context.changeBookState}/>
             </div>
 
             <fieldset className={styles.fieldset}>

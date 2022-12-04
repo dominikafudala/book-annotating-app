@@ -1,5 +1,6 @@
 package com.dominikafudala.papier.controller;
 
+import com.dominikafudala.papier.entity.Book;
 import com.dominikafudala.papier.model.BookModel;
 import com.dominikafudala.papier.repository.*;
 import com.dominikafudala.papier.service.BookService;
@@ -7,6 +8,8 @@ import com.dominikafudala.papier.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -66,7 +69,17 @@ public class BookController {
 
     @PostMapping("/addBook")
     public ResponseEntity<?> addBook(@RequestBody BookModel bookModel){
-        bookService.newBook(bookModel);
+        Book book = bookService.newBook(bookModel);
+
+        if(book == null){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(book.getId());
+    }
+
+    @PostMapping("/findbyisbn")
+    public ResponseEntity<?> findByIsbn(@RequestBody String isbn){
+        bookService.findBookByIsbn(isbn);
         return ResponseEntity.ok("ok");
     }
 }

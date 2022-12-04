@@ -4,15 +4,18 @@ import SessionService from "services/SessionService";
 
 class BookService {
     static async addBook(bookModel) {
-        if(bookModel.title.length === 0 || bookModel.page_number.length === 0 || parseInt(bookModel.page_number) === NaN){
-            return false;
+        if(bookModel.title.length === 0 || bookModel.page_number.length === 0 || isNaN(parseInt(bookModel.page_number))){
+            return -1;
         }
 
-        await axios.post(BACKEND_LOCATION+"book/addBook", bookModel, {
+        const response = await axios.post(BACKEND_LOCATION+"book/addBook", bookModel, {
             headers: {
                 'Authorization': `Bearer ${SessionService.getAccessToken()}`
             }
-        }).then(response => console.log(response));
+        });
+
+        if(response.status === 200) return response.data;
+        else return -1;
     } 
 }
 

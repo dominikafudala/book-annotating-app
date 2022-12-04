@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./NewBookView.module.scss";
 import DataService from "services/DataService";
 import BookService from "services/BookService";
@@ -17,6 +17,7 @@ import Subeading from "components/Subheading/Subheading";
 import Summary from "components/AddBookForm/Summary";
 import FormDataContext from "contexts/FormDataContext";
 import Loading from "components/Loading/Loading";
+import Modal from "components/Modal/Modal";
 
 
 const NewBookView = () => {
@@ -130,17 +131,45 @@ const NewBookView = () => {
         })
     }
 
-    // TODO: show modal with info if book was added
+    //add book and show modal with info if book was added
+    const [modal, setModal] = useState(false);
+
+    const [modalTitle, setModalTitle] = useState();
+    const [modalSubtitle, setModalSubTitle] = useState();
+    const [modalButton, setModalButton] = useState();
+    const [modalSuccess, setModalSuccess] = useState();
+
     const addBookFn = async () => {
-        const modal = await BookService.addBook(book);
-        console.log(modal);
+        await BookService.addBook(book).then(resp => {
+            setModal(true);
+            if(resp !== -1) {
+                setModalTitle("Book added!");
+                setModalSubTitle(<>
+                    {"Go to the "}
+                    <Link to={"/book/"+ resp}>{"book page"}</Link>
+                </>);
+                setModalButton(<Button href = {"login"}>Got it</Button>)
+                setModalSuccess(true);
+            } else{
+                setModalTitle("Something went wrong!");
+                setModalSubTitle("Check if Title and Pages are filled in and then try again");
+                setModalButton(<Button onClickFn={() => setModal(false)}>Close</Button>)
+                setModalSuccess(false);
+            }
+        });
     }
 
     // check if summary should be shown 
     const [bookInfoCount, setBookInfoCount] = useState(0);
+    const [requiredInformation, setRequiredInformation] = useState(false)
 
     const countBookInfo = () => {
         setBookInfoCount(Object.values(book).filter(el => el.length !== 0 && Object.keys(el).length !== 0 ).length);
+        if(book.title.length !== 0 && !isNaN(parseInt(book.page_number))){
+            setRequiredInformation(true);
+        } else{
+            setRequiredInformation(false)
+        }
     }
 
     useEffect(
@@ -150,45 +179,48 @@ const NewBookView = () => {
 
     if(isLoadingSeries || isLoadingAuthors) return <Loading/>;
     else
-    return(
-        <ContentWrapper>
-            <BookContext.Provider value={context}>
-                <LeftContentWrapper>
-                    <GoBack onClickFn = {onClickFnBackward}>
-                        {
-                        {
-                            0: "Back to: Find a book",
-                            1: "Back to: General",
-                            2: "Back to: Plot"
-                        }[formIndex.formIndex]
-                    }
-                        </GoBack>
-                    <Title smaller>Add a book</Title>
-                    <FormDataContext.Provider value={{publishers, authors, languages, formats, series, genres}}>
-                        <AddBookForm formIndex={formIndex.formIndex} changeFormIndexFn = {changeFormIndex}/>
-                    </FormDataContext.Provider>
-                </LeftContentWrapper>
-                <Frame>
-                    <div className={styles.summary}>
-                        
-                        {
-                            bookInfoCount === 0  //check wheter any element exists in book info
-                            ?
-                            <Subeading>Fill out the form to see the summary.</Subeading>
-                            :
-                            <Summary/>
-                        }
-                        <Button onClickFn = {formIndex.formIndex !== 2 ? onClickFnForward : addBookFn}>{
+    return(<>
+            {modal && <Modal title = {modalTitle} subheading = {modalSubtitle} button = {modalButton} success = {modalSuccess}/>}
+            <ContentWrapper>
+                <BookContext.Provider value={context}>
+                    <LeftContentWrapper>
+                        <GoBack onClickFn = {onClickFnBackward}>
                             {
-                                0: "Next",
-                                1: "Next",
-                                2: "Add a book"
-                            }[formIndex.formIndex]  
-                        }</Button>
-                    </div>
-                </Frame>
-            </BookContext.Provider>
-        </ContentWrapper>
+                            {
+                                0: "Back to: Find a book",
+                                1: "Back to: General",
+                                2: "Back to: Plot"
+                            }[formIndex.formIndex]
+                        }
+                            </GoBack>
+                        <Title smaller>Add a book</Title>
+                        <FormDataContext.Provider value={{publishers, authors, languages, formats, series, genres}}>
+                            <AddBookForm formIndex={formIndex.formIndex} changeFormIndexFn = {changeFormIndex}/>
+                        </FormDataContext.Provider>
+                    </LeftContentWrapper>
+                    <Frame>
+                        <div className={styles.summary}>
+                            
+                            {
+                                bookInfoCount === 0  //check wheter any element exists in book info
+                                ?
+                                <Subeading>Fill out the form to see the summary.</Subeading>
+                                :
+                                <Summary/>
+                            }
+                            <Button onClickFn = {formIndex.formIndex !== 2 ? onClickFnForward : addBookFn} disabled = {formIndex.formIndex === 2 && !requiredInformation ? true: false}>{
+                                {
+                                    0: "Next",
+                                    1: "Next",
+                                    2: "Add a book"
+                                }[formIndex.formIndex]  
+                            }</Button>
+                        </div>
+                    </Frame>
+                </BookContext.Provider>
+            </ContentWrapper>
+        </>
+        
     )
 }
 

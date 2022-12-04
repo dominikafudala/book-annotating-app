@@ -13,6 +13,7 @@ import CheckEmailSignupView from "views/SignUpView/CheckEmailSignupView";
 import VerifyEmailView from "views/SignUpView/VerifyEmailView";
 import AddBookView from "views/AddBookView/AddBookView";
 import NewBookView from "views/NewBookView/NewBookView";
+import PrivateRoute from "components/PrivateRoute/PrivateRoute";
 
 const PAGES = {
     signup: 'signup',
@@ -43,15 +44,19 @@ const Root = () => {
                 />
             <Header/>
             <Routes>
-                <Route path = {`/${PAGES.signup}`} element = {<SignUpView/>}></Route>
-                <Route path = {`/${PAGES.login}`} element = {<LoginView/>}></Route>
-                <Route path = {`/${PAGES.reset}`} element = {<ResetPasswordView/>}></Route>
-                <Route path = {`/${PAGES.check}`} element = {<CheckEmailView/>}></Route>
-                <Route path = {`/${PAGES.set}`} element = {<SetNewPasswordView/>}></Route>
-                <Route path = {`/${PAGES.checkSignup}`} element = {<CheckEmailSignupView/>}></Route>
+                <Route exact path = {`/${PAGES.signup}`} element = {<SignUpView/>}></Route>
+                <Route exact path = {`/${PAGES.login}`} element = {<LoginView/>}></Route>
+                <Route exact path = {`/${PAGES.reset}`} element = {<ResetPasswordView/>}></Route>
+                <Route exact path = {`/${PAGES.check}`} element = {<CheckEmailView/>}></Route>
+                <Route exact path = {`/${PAGES.set}`} element = {<SetNewPasswordView/>}></Route>
+                <Route exact path = {`/${PAGES.checkSignup}`} element = {<CheckEmailSignupView/>}></Route>
                 <Route path = {`/${PAGES.verifyEmail}`} element = {<VerifyEmailView/>}></Route>
-                <Route path = {`/${PAGES.addBook}`} element = {<AddBookView/>}></Route>
-                <Route path = {`/${PAGES.newBook}`} element = {<NewBookView/>}></Route>
+                <Route exact path={`/${PAGES.addBook}`} element={<PrivateRoute/>}>
+                    <Route path = {`/${PAGES.addBook}`} element = {<AddBookView/>}></Route>
+                </Route>
+                <Route exact path={`/${PAGES.newBook}`} element={<PrivateRoute/>}>
+                    <Route path = {`/${PAGES.newBook}`} element = {<NewBookView/>}></Route>
+                </Route>
             </Routes>
             </AppContext.Provider>
         </BrowserRouter>
