@@ -22,4 +22,7 @@ public class Genre implements DataInterface {
     @Column(name = "name", nullable = false)
     private String name;
 
+    public Genre(String name) {
+        this.name = name;
+    }
 }

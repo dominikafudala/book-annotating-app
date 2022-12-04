@@ -8,21 +8,18 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "series")
+@Table(name = "edition")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Series implements DataInterface{
+public class Edition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "seriesID", nullable = false)
+    @Column(name = "editionID", nullable = false)
     private Integer id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "edition_isbn", nullable = false)
+    private Integer editionIsbn;
 
-    public Series(String name) {
-        this.name = name;
-    }
 }

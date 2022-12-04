@@ -22,4 +22,7 @@ public class Publisher implements DataInterface{
     @Column(name = "name", nullable = false)
     private String name;
 
+    public Publisher(String name) {
+        this.name = name;
+    }
 }

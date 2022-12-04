@@ -130,6 +130,7 @@ const NewBookView = () => {
         })
     }
 
+    // TODO: show modal with info if book was added
     const addBookFn = async () => {
         const modal = await BookService.addBook(book);
         console.log(modal);
