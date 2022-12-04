@@ -1,0 +1,46 @@
+@use 'styles/utils' as *;
+@use 'styles/global' as *;
+
+.wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(16, 24, 40, 80%);
+    z-index: 2;
+
+    .modal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: rem(461);
+        padding: em(24);
+        background-color: $beige;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .success {
+            width: rem(64);
+            height: rem(64);
+            background-color: black;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: rem(24);
+
+            .icon {
+                height: rem(28);
+                width: rem(28);
+            }
+        }
+
+        p,
+        h1 {
+            text-align: center;
+        }
+    }
+}
