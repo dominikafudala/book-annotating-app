@@ -78,7 +78,8 @@ const NewBookView = () => {
         publication_date: "",
         format: {},
         language: {},
-        page_number: ""
+        page_number: "",
+        imgUrl:""
     })
 
     const [formIndex, setFormIndex] = useState({

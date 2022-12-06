@@ -45,7 +45,7 @@ public class BookService {
         Book newBook = new Book(bookModel.getTitle(), bookModel.getPage_number());
 
         if(bookModel.getIsbn().length() != 0) newBook.setIsbn(bookModel.getIsbn());
-        if(!bookModel.getSeries_name().isEmpty()){
+        if(bookModel.getSeries_name().get("id") != null){
             Integer seriesId = bookModel.getSeries_name().getAsNumber("id").intValue();
 
             Series series;
@@ -105,6 +105,9 @@ public class BookService {
 
         if(bookModel.getPage_number() > 0){
             newBook.setPageCount(bookModel.getPage_number());
+        }
+        if(bookModel.getImgUrl().length() > 0){
+            newBook.setCoverLink(bookModel.getImgUrl());
         }
 
         newBook.setReviewed(false);

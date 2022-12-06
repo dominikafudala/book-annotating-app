@@ -18,7 +18,8 @@ const Summary = () => {
             "title": "Title",
             "series_name": "Series",
             "series_number": "Series number",
-            "authors": "Authors"
+            "authors": "Authors",
+            "imgUrl": "Cover"
         },
         "plot" :{
             "description": "Description",

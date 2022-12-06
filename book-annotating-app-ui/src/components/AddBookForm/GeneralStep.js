@@ -41,6 +41,7 @@ const GeneralStep = () => {
                 setStateFn = {context.changeBookState}
                 startValues = {[...context.book.authors]}
             />
+            <Input name = {"imgUrl"} label = {"Cover url"} labelTop value = {context.book.imgUrl} onChange = {context.changeBookState}/>
         </>
     )
 }
