@@ -1,6 +1,7 @@
 package com.dominikafudala.papier.service;
 
 import com.dominikafudala.papier.entity.*;
+import com.dominikafudala.papier.exceptions.BookWithIsbnExistsException;
 import com.dominikafudala.papier.model.BookModel;
 import com.dominikafudala.papier.repository.*;
 import com.google.gson.JsonArray;
@@ -9,12 +10,19 @@ import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
 
 import javax.transaction.Transactional;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +37,7 @@ public class BookService {
     private final PublisherRepository publisherRepository;
     private final FormatRepository formatRepository;
     private final LanguageRepository languageRepository;
+    private final EditionRepository editionRepository;
 
     private final IsbnService isbnService;
 
@@ -61,7 +70,7 @@ public class BookService {
             newBook.setDescription(bookModel.getDescription());
         }
 
-        if(!bookModel.getPublisher().isEmpty()){
+        if(bookModel.getPublisher().get("id") != null){
             Integer publisherId = bookModel.getPublisher().getAsNumber("id").intValue();
 
             Publisher publisher;
@@ -82,13 +91,13 @@ public class BookService {
             newBook.setPublishedDate(bookModel.getPublication_date());
         }
 
-        if(!bookModel.getFormat().isEmpty()){
+        if(bookModel.getFormat().get("id") != null){
             Integer formatId = bookModel.getFormat().getAsNumber("id").intValue();
             Format format = formatRepository.findById(formatId).orElse(new Format());
             newBook.setFormatID(format);
         }
 
-        if(!bookModel.getLanguage().isEmpty()){
+        if(bookModel.getLanguage().get("id") != null){
             Integer languageId = bookModel.getLanguage().getAsNumber("id").intValue();
             Language language = languageRepository.findById(languageId).orElse(new Language());
             newBook.setLanguageID(language);
@@ -134,9 +143,13 @@ public class BookService {
         return newBook;
     }
 
-    public void findBookByIsbn(String isbn) {
+    public Book findBookByIsbn(String isbn) {
         // TODO: sprawdzać czy isbn w dobrym formacie
-        // TODO: sprawdzać czy ISBN istnieje już w bazie
+
+        if(bookRepository.findByIsbn(isbn) != null){
+            throw new BookWithIsbnExistsException(bookRepository.findByIsbn(isbn).getId());
+        }
+
         Book newBook = new Book();
         newBook.setIsbn(isbn);
         newBook.setReviewed(true);
@@ -148,13 +161,47 @@ public class BookService {
 
                 this.setBookFromGoogle(volumeInfo, newBook);
 
+                String editionIsbn = isbnService.getEditionData(isbn);
+
+                if(editionIsbn != null)
+                    this.setBookEdition(newBook, editionIsbn);
+
+                JsonObject info = null;
+                try{
+                    info = isbnService.getDataFromOpenLibrary(isbn);
+                }catch(FileNotFoundException e){
+
+                }
+
+                if(info != null)
+                    this.setDataFromOpenLibrary(info, newBook);
+
                 bookRepository.save(newBook);
 
                 this.setCategories(volumeInfo, newBook);
+
+                if(info != null)
+                    this.setAuthors(info, newBook);
             }
         }catch (IOException e){
-
+            throw new RuntimeException(e);
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        } catch (SAXException e) {
+            throw new RuntimeException(e);
         }
+
+        return newBook;
+    }
+
+    private void setBookEdition(Book newBook, String editionIsbn) {
+        Edition edition = editionRepository.findByEditionIsbn(editionIsbn);
+        if(edition == null)
+        {
+            edition = new Edition(editionIsbn);
+            editionRepository.save(edition);
+        }
+        newBook.setEditionID(edition);
     }
 
     private void setBookFromGoogle(JsonObject volumeInfo, Book newBook){
@@ -181,6 +228,8 @@ public class BookService {
 
         if(volumeInfo.get("pageCount") != null){
             newBook.setPageCount(volumeInfo.get("pageCount").getAsInt());
+        } else{
+            newBook.setPageCount(0);
         }
 
         if(volumeInfo.get("language") != null){
@@ -188,8 +237,37 @@ public class BookService {
             if(language != null)  newBook.setLanguageID(language);
         }
 
-        if(volumeInfo.get("imageLinks").getAsJsonObject().get("smallThumbnail") != null){
+        if(volumeInfo.get("imageLinks") != null && volumeInfo.get("imageLinks").getAsJsonObject().get("smallThumbnail") != null){
             newBook.setCoverLink(volumeInfo.get("imageLinks").getAsJsonObject().get("smallThumbnail").getAsString());
+        }
+    }
+    private void setDataFromOpenLibrary(JsonObject info, Book newBook){
+        if(info.get("physical_format") != null){
+            Format format = formatRepository.findByNameContainingIgnoreCase(info.get("physical_format").getAsString());
+            newBook.setFormatID(format);
+        }
+
+        if(info.get("series") != null){
+            String seriesName = info.get("series").getAsString();
+
+            if(seriesName.matches(".*#.*")){
+                int index = seriesName.indexOf("#");
+                String name = seriesName.substring(0, index).trim();
+
+                Series series = seriesRepository.findByNameIgnoreCase(name);
+                if(series == null){
+                    series = new Series(name);
+                    seriesRepository.save(series);
+                }
+                newBook.setSeriesID(series);
+
+                try{
+                    Integer number = Integer.valueOf(seriesName.substring(index + 1));
+                    newBook.setSeriesNumber(number);
+                }catch (NumberFormatException e){
+
+                }
+            }
         }
     }
 
@@ -210,5 +288,56 @@ public class BookService {
                 bookGenreRepository.save(bookGenre);
             }
         }
+    }
+
+    private void setAuthors(JsonObject info, Book newBook) throws IOException {
+        if(info.get("authors") != null){
+            JsonArray authors= info.get("authors").getAsJsonArray();
+
+            for(JsonElement a: authors){
+                String authorCode = a.getAsJsonObject().get("key").getAsString().replace("/authors/", "");
+
+                Author author = authorRepository.findByAuthorOpenLibraryId(authorCode);
+
+                if(author == null){
+                    JsonObject authorObject = isbnService.getAuthor(authorCode);
+                    if(authorObject.get("personal_name")!= null || authorObject.get("name")!= null){
+                        JsonElement nonNullName = Stream.of(authorObject.get("personal_name"), authorObject.get("name")).filter(Objects::nonNull).findFirst().orElse(null);
+                        author = new Author(authorCode, nonNullName.getAsString());
+                        authorRepository.save(author);
+                    }else{
+                        return;
+                    }
+                }
+
+                BookAuthorId bookAuthorId = new BookAuthorId(newBook.getId(), author.getId());
+                BookAuthor bookAuthor = new BookAuthor(bookAuthorId, newBook, author);
+
+                bookAuthorRepository.save(bookAuthor);
+
+            }
+        }
+    }
+
+    public BookModel getBookModelFromId(Integer id){
+        Optional<Book> book = bookRepository.findById(id);
+        if(book.isEmpty()){
+            return null;
+        }
+        Book bookFound = book.get();
+        BookModel bookModel = new BookModel(bookFound);
+
+        List<BookAuthor> bookAuthors = bookAuthorRepository.findAllByBookID(bookFound);
+        List<Author> authors = authorRepository.findByIdIn(bookAuthors.stream().map(ba -> ba.getAuthorID().getId()).toList());
+        bookModel.setAuthors(authors);
+
+        List<BookGenre> bookGenres = bookGenreRepository.findAllByBookID(bookFound);
+        List<Genre> genres = genreRepository.findByIdIn(bookGenres.stream().map(bg -> bg.getGenreID().getId()).toList());
+
+        bookModel.setGenres(genres);
+        bookModel.setPublisher(bookFound.getPublisherID());
+        bookModel.setFormat(bookFound.getFormatID());
+        bookModel.setLanguage(bookFound.getLanguageID());
+        return bookModel;
     }
 }

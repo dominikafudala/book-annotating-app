@@ -1,11 +1,13 @@
 package com.dominikafudala.papier.controller;
 
 import com.dominikafudala.papier.entity.Book;
+import com.dominikafudala.papier.exceptions.BookWithIsbnExistsException;
 import com.dominikafudala.papier.model.BookModel;
 import com.dominikafudala.papier.repository.*;
 import com.dominikafudala.papier.service.BookService;
 import com.dominikafudala.papier.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,7 +81,22 @@ public class BookController {
 
     @PostMapping("/findbyisbn")
     public ResponseEntity<?> findByIsbn(@RequestBody String isbn){
-        bookService.findBookByIsbn(isbn);
-        return ResponseEntity.ok("ok");
+        isbn = isbn.replace("=", "");
+        Book book;
+        try{
+            book = bookService.findBookByIsbn(isbn);
+        } catch (BookWithIsbnExistsException e){
+            return ResponseEntity.ok("-" + e.getMessage());
+        }
+
+        return ResponseEntity.ok(book.getId());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findBook (@PathVariable Integer id){
+        BookModel bookModel = bookService.getBookModelFromId(id);
+        if(bookModel == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(bookModel);
     }
 }

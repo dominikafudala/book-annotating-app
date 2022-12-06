@@ -64,7 +64,7 @@ const NewBookView = () => {
 
     const navigate = useNavigate();
     const locationContext = useContext(LocationContext);
-    const types = locationContext.PAGES;
+    const pages = locationContext.PAGES;
 
     const [book, setBook] = useState({
         isbn: "",
@@ -121,7 +121,7 @@ const NewBookView = () => {
                 formIndex: prev.formIndex - 1
             }))
         } else if(formIndex.formIndex === 0){
-            navigate("/"+ types.addBook)
+            navigate("/"+ pages.addBook)
         }
     }
 
@@ -146,9 +146,9 @@ const NewBookView = () => {
                 setModalTitle("Book added!");
                 setModalSubTitle(<>
                     {"Go to the "}
-                    <Link to={"/book/"+ resp}>{"book page"}</Link>
+                    <Link onClick={() => window.location.href = "/book/" + resp} to={"/book/"+ resp}>{"book page"}</Link>
                 </>);
-                setModalButton(<Button href = {"login"}>Got it</Button>)
+                setModalButton(<Button href = {pages.login}>Got it</Button>)
                 setModalSuccess(true);
             } else{
                 setModalTitle("Something went wrong!");

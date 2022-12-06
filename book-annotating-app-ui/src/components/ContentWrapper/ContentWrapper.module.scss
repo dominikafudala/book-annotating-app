@@ -6,5 +6,7 @@
     padding: 0 em(96);
     display: flex;
     align-items: center;
-    gap: rem(48)
+    gap: rem(48);
+    position: relative;
+    min-height: calc(100vh - rem(160));
 }

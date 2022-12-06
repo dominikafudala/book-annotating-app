@@ -28,4 +28,9 @@ public class Author implements DataInterface {
     public Author(String name) {
         this.name = name;
     }
+
+    public Author(String authorCode, String personal_name) {
+        this.authorOpenLibraryId = authorCode;
+        this.name = personal_name;
+    }
 }

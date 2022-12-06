@@ -2,6 +2,7 @@ package com.dominikafudala.papier.config;
 
 import com.dominikafudala.papier.filter.AuthenticationFilter;
 import com.dominikafudala.papier.filter.AuthorizationFilter;
+import com.dominikafudala.papier.filter.ResponseServerFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -60,6 +62,7 @@ public class SecurityConfig {
         authenticationFilter.setFilterProcessesUrl("/login");
         http.addFilter(authenticationFilter);
         http.addFilterBefore(new AuthorizationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(new ResponseServerFilter(), AuthenticationFilter.class);
 
         return http.build();
     }

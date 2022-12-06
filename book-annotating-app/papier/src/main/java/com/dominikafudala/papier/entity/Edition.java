@@ -20,6 +20,9 @@ public class Edition {
     private Integer id;
 
     @Column(name = "edition_isbn", nullable = false)
-    private Integer editionIsbn;
+    private String editionIsbn;
 
+    public Edition(String editionIsbn) {
+        this.editionIsbn = editionIsbn;
+    }
 }

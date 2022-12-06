@@ -7,7 +7,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: -1;
+    z-index: -3;
 
     .overlay {
         width: 100%;
@@ -16,24 +16,38 @@
         opacity: 38%;
         mix-blend-mode: multiply;
     }
+}
 
-    img {
-        width: 60vh;
-        position: absolute;
-        right: 0;
-        z-index: -1;
+.img {
+    width: 60vh;
+    position: fixed;
+    right: 0;
+    z-index: -1;
+
+    &.book {
+        width: 100vh;
     }
+}
 
-    .blobPink {
+.blobPink {
+    top: 0;
+
+    &.book {
+        width: 120vh;
+        left: 10vw;
+    }
+}
+
+.blobOrange {
+    bottom: 0;
+
+    &.top {
         top: 0;
+        width: 80vh;
     }
 
-    .blobOrange {
-        bottom: 0;
-
-        &.top {
-            top: 0;
-            width: 80vh;
-        }
+    &.book {
+        top: 0;
+        left: 0;
     }
 }

@@ -1,0 +1,52 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.wrapper {
+    position: absolute;
+    top: 0;
+    left: rem(96);
+    transform: translateY(-50%);
+    width: 32%;
+    border: rem(1) solid $gray-900;
+    padding: em(28);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: -2;
+
+    .cover {
+        width: rem(153);
+        height: rem(233);
+        margin-bottom: rem(28);
+    }
+
+    .save {
+        position: absolute;
+        top: rem(28);
+        right: rem(28);
+    }
+
+    .genres {
+        display: flex;
+        flex-wrap: wrap;
+        gap: rem(4);
+        margin-bottom: rem(28);
+        justify-content: center;
+
+        .genre {
+            padding: em(4) em(8);
+            border: 1px solid $gray-700;
+            border-radius: rem(500);
+            font-weight: 500;
+            font-size: rem(14);
+            color: $gray-900;
+        }
+    }
+}
+
+.coverImg {
+    position: fixed;
+    width: rem(153);
+    height: rem(233);
+    border-radius: rem(8);
+}
