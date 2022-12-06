@@ -338,6 +338,7 @@ public class BookService {
         bookModel.setPublisher(bookFound.getPublisherID());
         bookModel.setFormat(bookFound.getFormatID());
         bookModel.setLanguage(bookFound.getLanguageID());
+        bookModel.setSeries_name(bookFound.getSeriesID());
         return bookModel;
     }
 }

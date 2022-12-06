@@ -89,4 +89,12 @@ public class BookModel {
         jsonObject.put("name", languageID.getName());
         this.language = jsonObject;
     }
+
+    public void setSeries_name(Series seriesID) {
+        if(seriesID == null) return;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", seriesID.getId());
+        jsonObject.put("name", seriesID.getName());
+        this.series_name = jsonObject;
+    }
 }
