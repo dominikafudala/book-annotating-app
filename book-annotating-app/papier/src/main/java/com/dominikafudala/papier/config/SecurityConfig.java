@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -29,11 +29,13 @@ public class SecurityConfig {
     private static final String[] NO_AUTH_URLS = {
             "/signup",
             "/verifyMail",
-            "/login"
+            "/login",
+            "/book/{id:\\d+}"
     };
 
     private static final String[] USER_URLS = {
             "/book/**"
+
     };
     @Bean
     public AuthenticationManager authenticationManager(
@@ -52,8 +54,8 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(STATELESS);
         http
                 .authorizeHttpRequests()
-                .antMatchers(GET, USER_URLS).hasAnyAuthority("user")
-                .antMatchers(NO_AUTH_URLS).permitAll();
+                .antMatchers(NO_AUTH_URLS).permitAll()
+                .antMatchers(USER_URLS).hasAnyAuthority("user");
 
         // authorize user
 

@@ -120,10 +120,9 @@
         }
     }
 
-    .buttons {
+    .buttonsPlaceholder {
+        height: rem(44);
         width: 100%;
-        display: flex;
-        gap: rem(8);
     }
 }
 
@@ -139,4 +138,35 @@
     top: rem(28);
     right: rem(28);
     width: rem(30);
+}
+
+.buttons {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    gap: rem(8);
+    top: 0;
+    left: 0;
+}
+
+.pageInfo {
+    position: relative;
+    bottom: rem(36);
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+
+    div {
+        font-weight: 400;
+        font-size: rem(14);
+
+        p {
+            font-weight: 500;
+        }
+    }
+
+    div:nth-child(2) {
+        display: flex;
+        gap: rem(4);
+    }
 }

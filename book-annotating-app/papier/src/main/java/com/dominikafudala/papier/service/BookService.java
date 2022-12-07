@@ -38,8 +38,11 @@ public class BookService {
     private final FormatRepository formatRepository;
     private final LanguageRepository languageRepository;
     private final EditionRepository editionRepository;
+    private final BookProgressRepository bookProgressRepository;
 
     private final IsbnService isbnService;
+    private final BookProgressService bookProgressService;
+
 
     public Book newBook (BookModel bookModel){
         Book newBook = new Book(bookModel.getTitle(), bookModel.getPage_number());
@@ -343,5 +346,72 @@ public class BookService {
         bookModel.setLanguage(bookFound.getLanguageID());
         bookModel.setSeries_name(bookFound.getSeriesID());
         return bookModel;
+    }
+    public boolean checkIsbn(String isbn){
+        int sum = 0;
+        if(isbn.length() == 13){
+            if(!isbn.startsWith("978") && !isbn.startsWith("979")) return false;
+            for (int i = 0; i < isbn.length(); i++) {
+                int sumElement = Integer.parseInt(isbn.substring(i, i+1));
+                int pre = i%2 == 0 ? 1: 3;
+                sum = sum + (sumElement * pre);
+            }
+
+            if(sum % 10 == 0) return true;
+
+        }else{
+            for (int i = 0; i < isbn.length(); i++) {
+                int sumElement = Integer.parseInt(isbn.substring(i, i+1));
+                int pre = isbn.length() - i;
+                sum = sum + (sumElement * pre);
+            }
+
+            if(sum % 11 == 0) return true;
+        }
+
+        return false;
+    }
+
+    public Language getLanguageFromIsbn(String isbn){
+        List<Language> languages = languageRepository.findAll();
+
+        if(isbn.length() == 13){
+            isbn = isbn.substring(3);
+        }
+
+        for(Language l : languages){
+            String codes = l.getIsbn_group();
+            for(String c : codes.split(",")){
+                if(isbn.startsWith(c)) return l;
+            }
+        }
+
+        return null;
+    }
+
+    public Integer getBookProgress(Integer bookId, String userToken){
+        BookProgress bookProgress = bookProgressService.getBookProgressFromTokenAndBookId(userToken, bookId);
+
+        if(bookProgress == null)
+            return 0;
+        else
+            return bookProgress.getProgressPage();
+    }
+
+    public Integer updateProgress(Integer bookId, Integer newProgress, String userToken) {
+        BookProgress bookProgress = bookProgressService.getBookProgressFromTokenAndBookId(userToken, bookId);
+
+        if(newProgress == 0 && bookProgress != null){
+            bookProgressRepository.delete(bookProgress);
+        }else if(newProgress != 0 && bookProgress == null){
+            bookProgress = bookProgressService.createProgressFromTokenAndBookId(userToken, bookId, newProgress);
+            bookProgressRepository.save(bookProgress);
+        }else{
+            bookProgress.setProgressPage(newProgress);
+            bookProgressRepository.save(bookProgress);
+            return newProgress;
+        }
+
+        return 0;
     }
 }

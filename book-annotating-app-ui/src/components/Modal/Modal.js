@@ -5,7 +5,7 @@ import Subeading from "components/Subheading/Subheading";
 import successIcon from "assets/success_icon.svg";
 
 
-const Modal = ({title, subheading, button, success}) => {
+const Modal = ({title, subheading, button, success, children}) => {
 
     return(
         <div className={styles.wrapper}>
@@ -18,7 +18,10 @@ const Modal = ({title, subheading, button, success}) => {
                 }
                 <Title smaller>{title}</Title>
                 <Subeading>{subheading}</Subeading>
-                {button}
+                {children}
+                <div className={styles.buttonWrapper}>
+                    {button}
+                </div>
             </div>
         </div>
     )

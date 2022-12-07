@@ -8,9 +8,11 @@ import com.dominikafudala.papier.service.BookService;
 import com.dominikafudala.papier.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
@@ -99,4 +101,28 @@ public class BookController {
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(bookModel);
     }
+
+    @PostMapping("/checkIsbn")
+    public ResponseEntity<?> checkIsbn(@RequestBody String isbn){
+        return ResponseEntity.ok(bookService.checkIsbn(isbn.replace("=", "")));
+    }
+
+    @PostMapping("/getLanguageFromIsbn")
+    public ResponseEntity<?> getLanguageFromIsbn(@RequestBody String isbn){
+        return ResponseEntity.ok(bookService.getLanguageFromIsbn(isbn.replace("=", "")));
+    }
+
+    @GetMapping("/getbookprogress/{bookid}")
+    public ResponseEntity<?> getProgress(@PathVariable Integer bookid, HttpServletRequest request){
+
+        return ResponseEntity.ok(bookService.getBookProgress(bookid, request.getHeader("Authorization")));
+    }
+
+    @PostMapping("/updateprogress/{bookid}")
+    public ResponseEntity<?> updateProgress(@PathVariable Integer bookid, @RequestBody Integer newProgress, HttpServletRequest request){
+
+        return ResponseEntity.ok(bookService.updateProgress(bookid, newProgress, request.getHeader("Authorization")));
+    }
+
+
 }

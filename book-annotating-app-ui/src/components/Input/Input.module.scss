@@ -48,8 +48,16 @@
         font-size: rem(16);
         background-color: transparent;
         appearance: textfield;
+
+        &.errorInput {
+            border-color: $red;
+            position: relative;
+        }
     }
 
+    .input[type="number"] {
+        text-align: center;
+    }
 
     .textarea {
         @extend .input;
@@ -73,9 +81,27 @@
         margin-bottom: rem(40);
     }
 
+    &.errorInput::before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: rem(22);
+        right: rem(8);
+        transform: translateY(-50%);
+        width: rem(24);
+        height: rem(24);
+        background-image: url("/assets/error.svg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
     .input:focus {
         outline: none;
         border-bottom: rem(2) solid $gray-600;
+
+        &.errorInput {
+            border-color: $red;
+        }
     }
 
     .textarea:focus {

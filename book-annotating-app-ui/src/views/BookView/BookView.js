@@ -13,7 +13,21 @@ const BookView = () => {
 
     const [isLoading, setLoading] = useState(true);
     const [bookData, setBookData] = useState();
+    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [progress, setProgress] = useState();
 
+    const updateProgressFn = async (newProgress) => {
+        if(newProgress < 0 || newProgress > bookData.page_number) return;
+        else{
+            await BookService.updateBookProgress(newProgress, bookId).then(resp => {
+                if(resp !== -1) {
+                    window.location.reload();
+                }
+            });
+        }
+    }
+
+    //set loading or book summary
     useEffect(
         () => {
             const loadBook = async () =>{
@@ -22,7 +36,16 @@ const BookView = () => {
                     if(resp === -1) console.log("nie znaleziono");
                     else{
                         setBookData(resp);
-                        setLoading(false);
+                        BookService.getBookProgress(bookId).then(progressResp => {
+                            if(progressResp === -1){
+                                setLoggedIn(false);
+                                setProgress(0);
+                            }else{
+                                setLoggedIn(true);
+                                setProgress(progressResp);
+                            }
+                            setLoading(false);
+                        })
                     }
                 })
             };
@@ -34,7 +57,7 @@ const BookView = () => {
     else
     return(
         <ContentWrapper>
-            <BookSummary bookData = {bookData}/>
+            <BookSummary bookData = {bookData} userLoggedIn = {isLoggedIn} userProgress = {progress} updateProgressFn = {updateProgressFn}/>
             <div style={{height: "200vh"}}></div>
         </ContentWrapper>
     )

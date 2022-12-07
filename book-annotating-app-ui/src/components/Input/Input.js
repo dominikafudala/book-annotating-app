@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import styles from "./Input.module.scss";
 
 
-const Input = ({name, label, id, type, inputQuantity, tag:Tag, labelTop, ...props}) => {
+const Input = ({name, label, id, type, inputQuantity, tag:Tag, labelTop, errorInput, ...props}) => {
     const labelClass = labelTop ? styles.labelTop : styles.label;
     const inputs = [];
+   const erroraClassInput = errorInput ? styles.errorInput : "";
+
     for(let i = 0; i < inputQuantity; i++){
         inputs.push(
             <Tag
@@ -14,10 +16,9 @@ const Input = ({name, label, id, type, inputQuantity, tag:Tag, labelTop, ...prop
                 id = {id ? id : label} 
                 data-name = {name}
                 data-label = {label}
-                className = {Tag === "input" ? (type === "checkbox" ? styles.checkbox : styles.input) : styles.textarea} 
+                className = {`${Tag === "input" ? (type === "checkbox" ? styles.checkbox : styles.input) : styles.textarea} ${erroraClassInput}`} 
                 placeholder = " "
                 key={`${label}${i}`}
-                required
                 {...props}
             />
         );
@@ -27,7 +28,7 @@ const Input = ({name, label, id, type, inputQuantity, tag:Tag, labelTop, ...prop
     const radioClass = type === "radio" ? styles.radio: "";
 
     return(
-        <div className={`${styles.formItem} ${multipleInputsClassName} ${radioClass}`}>
+        <div className={`${styles.formItem} ${multipleInputsClassName} ${radioClass} ${erroraClassInput}`}>
             {inputs}            
             <label 
                 className={labelClass}

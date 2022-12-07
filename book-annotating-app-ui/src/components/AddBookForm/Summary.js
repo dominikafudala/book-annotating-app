@@ -15,6 +15,7 @@ const Summary = () => {
     // groups with keys in state in titles for summary
     const groups = {
         "general": {
+            "isbn": "ISBN",
             "title": "Title",
             "series_name": "Series",
             "series_number": "Series number",

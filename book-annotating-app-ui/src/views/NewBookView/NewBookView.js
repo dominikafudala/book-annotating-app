@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./NewBookView.module.scss";
 import DataService from "services/DataService";
 import BookService from "services/BookService";
@@ -82,6 +82,39 @@ const NewBookView = () => {
         imgUrl:""
     })
 
+    //see if isbn from prev page is valid and then set language
+    const state = useLocation().state;
+
+
+    useEffect(() => {
+        const checkIsbn = async () => {
+            let isbn = null;
+            if(state !== null)
+                isbn = state.params;
+    
+            if(isbn !== null && isbn !== undefined && (isbn.length === 10 || isbn.length === 13 )) {
+                let isValid = await BookService.checkIsbn(isbn);
+                if(isValid){
+                    setBook(prev => (
+                        {
+                            ...prev,
+                            isbn: isbn
+                        }
+                    ))
+                    const language = await BookService.getLanguageFromIsbn(isbn);
+                    setBook(prev => (
+                        {
+                            ...prev, 
+                            language: language
+                        }
+                    ))
+                }
+            }
+        }
+
+        checkIsbn();
+    },[])
+
     const [formIndex, setFormIndex] = useState({
         formIndex: 0
     })
@@ -147,7 +180,10 @@ const NewBookView = () => {
                 setModalTitle("Book added!");
                 setModalSubTitle(<>
                     {"Go to the "}
-                    <Link onClick={() => window.location.href = "/book/" + resp} to={"/book/"+ resp}>{"book page"}</Link>
+                    <Link onClick = {() => locationContext.setLocation({
+                        location: "/book"
+                    })}  
+                    to={"/book/"+ resp}>{"book page"}</Link>
                 </>);
                 setModalButton(<Button href = {pages.login}>Got it</Button>)
                 setModalSuccess(true);

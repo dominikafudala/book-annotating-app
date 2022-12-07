@@ -27,6 +27,8 @@ public class AuthorizationHelper {
     public String getUsernameFromToken(String token){
 
         String username;
+        if(token.startsWith("Bearer "))
+            token = token.substring(7);
         try{
             DecodedJWT decodedJWT = verifier.verify(token);
             username = decodedJWT.getSubject();

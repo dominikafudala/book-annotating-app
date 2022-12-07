@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import LocationContext from "contexts/LocationContext";
 
-const Button = ({children, small, secondary, google, href, onClickFn, ...rest}) => {
+const Button = ({children, small, secondary, google, href, onClickFn, params, ...rest}) => {
 
     const buttonClassSize = small ? styles.small : styles.big;
     const buttonClassSecondary = secondary ? styles.secondary : styles.primary;
@@ -17,6 +17,10 @@ const Button = ({children, small, secondary, google, href, onClickFn, ...rest}) 
                 href ?
                 (
                     <Link to={'/' + href}
+                    state = {{
+                        params: params
+                    }
+                    }
                     className={`${styles.buttonLink} ${buttonClassSize} ${buttonClassSecondary}`}
                     onClick = {() =>{
                         context.setLocation(

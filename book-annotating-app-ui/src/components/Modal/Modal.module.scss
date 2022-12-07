@@ -22,6 +22,10 @@
         flex-direction: column;
         align-items: center;
 
+        >* {
+            width: 100%;
+        }
+
         .success {
             width: rem(64);
             height: rem(64);
@@ -41,6 +45,12 @@
         p,
         h1 {
             text-align: center;
+        }
+
+        .buttonWrapper {
+            width: 100%;
+            display: flex;
+            gap: rem(8);
         }
     }
 }

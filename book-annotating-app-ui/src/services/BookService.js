@@ -55,6 +55,71 @@ class BookService {
         if(response.status === 200) return response.data;
         else return -1;
     }
+
+    static async checkIsbn(isbn){
+        let response;
+        try{
+            response = await axios.post(BACKEND_LOCATION+"book/checkIsbn",isbn,{
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`
+                }
+            });
+        }catch (err){
+            return false;
+        }
+
+        if(response.status === 200) return response.data;
+        else return false;
+    }
+
+    static async getLanguageFromIsbn(isbn){
+        let response;
+        try{
+            response = await axios.post(BACKEND_LOCATION+"book/getLanguageFromIsbn",isbn,{
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`
+                }
+            });
+        }catch (err){
+            return false;
+        }
+
+        if(response.status === 200) return response.data;
+        else return false;
+    }
+
+    static async getBookProgress(bookId){
+        let response;
+        try{
+            response = await axios.get(BACKEND_LOCATION+"book/getbookprogress/"+bookId,{
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return 0;
+    }
+    
+    static async updateBookProgress(newProgress, bookId){
+        let response;
+        try{
+            response = await axios.post(BACKEND_LOCATION+"book/updateprogress/"+bookId, newProgress, {
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return 0;
+    }
 }
 
 export default BookService;

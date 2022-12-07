@@ -1,52 +1,62 @@
 @use 'styles/utils' as *;
 @use 'styles/global' as *;
 
-.wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.loading {
+    position: fixed;
+    z-index: 10;
+    width: 100vw;
+    height: 100%;
+    background-color: rgba(#000, .02);
+    top: 0;
+    left: 0;
 
-    .dots {
-        position: relative;
-        width: rem(10);
-        height: rem(10);
-        border-radius: 50%;
-        background-color: $gray-700;
+    .wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
 
-        @include keyframes(loading) {
-            0% {
-                background-color: $gray-700;
-            }
-
-            50%,
-            100% {
-                background-color: $gray-500;
-            }
-        }
-
-        @include animate(loading, 1s, linear, infinite, alternate, .5s);
-
-        &::after,
-        &::before {
-            content: "";
-            display: inline-block;
-            position: absolute;
-            top: 0;
+        .dots {
+            position: relative;
             width: rem(10);
             height: rem(10);
-            border-radius: rem(5);
-            background-color: $gray-500;
-        }
+            border-radius: 50%;
+            background-color: $gray-700;
 
-        &::before {
-            left: rem(-15);
-            @include animate(loading, 1s, linear, infinite, alternate, 1s);
-        }
+            @include keyframes(loading) {
+                0% {
+                    background-color: $gray-700;
+                }
 
-        &::after {
-            left: rem(15);
-            @include animate(loading, 1s, linear, infinite, alternate, 0);
+                50%,
+                100% {
+                    background-color: $gray-500;
+                }
+            }
+
+            @include animate(loading, 1s, linear, infinite, alternate, .5s);
+
+            &::after,
+            &::before {
+                content: "";
+                display: inline-block;
+                position: absolute;
+                top: 0;
+                width: rem(10);
+                height: rem(10);
+                border-radius: rem(5);
+                background-color: $gray-500;
+            }
+
+            &::before {
+                left: rem(-15);
+                @include animate(loading, 1s, linear, infinite, alternate, 1s);
+            }
+
+            &::after {
+                left: rem(15);
+                @include animate(loading, 1s, linear, infinite, alternate, 0);
+            }
         }
     }
 }

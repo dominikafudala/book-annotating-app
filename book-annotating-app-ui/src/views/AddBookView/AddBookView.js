@@ -20,10 +20,36 @@ const AddBookView = () => {
     const context = useContext(LocationContext);
     const pages = context.PAGES;
 
+    const [isbn, setIsbn] = useState()
+
     const nextInputFn = (e) => {
+        const isbnNew = document.querySelectorAll(`[name = "isbn"]`);
+        let isbnString = "";
+        
+        isbnNew.forEach(i => {
+            isbnString = isbnString + i.value;
+        });
+        
+        setIsbn(isbnString);
+
         const inputs = [...document.querySelectorAll('[name="isbn"]')];
         const currentInput = document.querySelector('[name="isbn"]:focus');
         const indexCurrent = inputs.indexOf(currentInput);
+
+        // check if ctrlV
+        const key = e.keyCode;
+        const ctrl = e.ctrlKey ? e.ctrlKey : ((key === 17)? true : false);
+        const newValue = e.target.value.slice(0,e.target.maxLength);
+        if (key === 86 && ctrl) {
+            const nextValue = e.target.value.slice(1);
+            for(let i = 0; i < nextValue.length; i++){
+                const nextVal = nextValue.slice(i);
+                inputs[indexCurrent + 1 + i].value =  nextVal.slice(0,e.target.maxLength);
+                inputs[indexCurrent + 1 + i].focus();
+            }
+        }
+
+        e.target.value= newValue;
         if(indexCurrent > 0 && (e.key === "ArrowLeft" || e.key === "Backspace")){
             inputs[indexCurrent - 1].focus();
         }
@@ -43,14 +69,8 @@ const AddBookView = () => {
     const [isLoading, setLoading] = useState(false);
 
     const addBookFromIsbn = async () => {
-        const isbn = document.querySelectorAll(`[name = "isbn"]`);
-        let isbnString = "";
-        
-        isbn.forEach(i => {
-            isbnString = isbnString + i.value;
-        });
 
-        if(isbnString.length !== 10 && isbnString.length !== 13){
+        if(isbn.length !== 10 && isbn.length !== 13){
             setModalTitle("ISBN Error!");
             setModalSubTitle("ISBN should contain 10 or 13 numbers!");
             setModalButton(<Button onClickFn={() => setModal(false)}>Close</Button>)
@@ -58,9 +78,9 @@ const AddBookView = () => {
             setModal(true);
             return;
         }
-
         setLoading(true);
-        await BookService.addBookByIsbn(isbnString).then(resp => {
+
+        await BookService.addBookByIsbn(isbn).then(resp => {
             if(resp === -1){
                 setModalTitle("Something went wrong!");
                 setModalSubTitle("Please try again");
@@ -70,7 +90,10 @@ const AddBookView = () => {
                 setModalTitle("We couldn't find this book!");
                 setModalSubTitle(<>
                     {"Add your book "}
-                    <Link to={"/newBook"}>{"manually"}</Link>
+                    <Link to={"/newBook"} state = {{
+                        params: isbn
+                    }
+                    }>{"manually"}</Link>
                 </>);
                 setModalButton(<Button onClickFn={() => setModal(false)}>Close</Button>)
                 setModalSuccess(false);
@@ -78,21 +101,30 @@ const AddBookView = () => {
                 setModalTitle(`Book with this ISBN already exists!`);
                 setModalSubTitle(<>
                     {"Go to the "}
-                    <Link onClick={() => window.location.href = "/book/" + -resp} to={"/book/"+ -resp}>{"book page"}</Link>
+                    <Link 
+                    onClick = {() => context.setLocation({
+                        location: "/book"
+                    })} 
+                    to={"/book/"+ -resp}>{"book page"}</Link>
                 </>);
+                
                 setModalButton(<Button onClickFn={() => setModal(false)}>Close</Button>)
                 setModalSuccess(false);
             }else{
                 setModalTitle("Book added!");
                 setModalSubTitle(<>
                     {"Go to the "}
-                    <Link to={"/book/"+ resp}>{"book page"}</Link>
+                    <Link onClick = {() => context.setLocation({
+                        location: "/book"
+                    })} 
+                    to={"/book/"+ resp}>{"book page"}</Link>
                 </>);
                 setModalButton(<Button onClickFn={() => window.location.reload()}>Got it</Button>)
                 setModalSuccess(true);
             }
-            setModal(true);
             setLoading(false);
+            setModal(true);
+            
         })
     }
 
@@ -104,9 +136,19 @@ const AddBookView = () => {
                 <GoBack>Cancel and go back</GoBack>
                 <Title>Find a book</Title>
                 <Subeading bigger>Use an ISBN number to fill in most of the book's information.</Subeading>
-                <Input name = {"isbn"} label = {"ISBN number"} inputQuantity = {13} type = "number" autoComplete = "none" min = "0" max = "9" onKeyUp = {nextInputFn}/>
+                <Input 
+                name = {"isbn"} 
+                label = {"ISBN number"} 
+                inputQuantity = {13} 
+                type = "number" 
+                autoComplete = "none" 
+                min = "0" 
+                max = "9" 
+                onKeyUp = {nextInputFn} 
+                maxLength = {1}
+                />
                 <div className={styles.buttonContainer}>
-                    <Button href = {pages.newBook} secondary>Skip and add manually</Button>
+                    <Button href = {pages.newBook} secondary params = {isbn}>Skip and add manually</Button>
                     <Button onClickFn={addBookFromIsbn}>Find my book</Button>
                 </div>
             </LeftContentWrapper>
