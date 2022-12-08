@@ -1,8 +1,6 @@
 package com.dominikafudala.papier.repository;
 
-import com.dominikafudala.papier.entity.Book;
-import com.dominikafudala.papier.entity.Note;
-import com.dominikafudala.papier.entity.NoteAccess;
+import com.dominikafudala.papier.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,5 +14,9 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
     @Query("select count(distinct n) from Note n where n.parentNote.id = ?1")
     Integer countDistinctByParentNote_IdIs(Integer id);
 
+    @Query("select n from Note n where n.book = ?1 and n.user = ?2 and n.parentNote is null order by n.likes desc")
+    List<Note> findAllByBookAndUser(Book book, User user);
+
+    List<Note> findNoteByBookAndBuddyReadidIn(Book book, List<BuddyRead> buddyReads);
 
 }

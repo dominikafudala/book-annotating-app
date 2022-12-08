@@ -3,13 +3,13 @@
 
 
 .wrapper {
-    height: rem(262);
+    height: rem(298);
 
     .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: rem(30);
+        margin-bottom: rem(24);
 
         .buttonContainer {
             width: rem(106);
@@ -27,7 +27,15 @@
 
     .notesContainer {
         display: flex;
-        height: 100%;
+        height: rem(234);
         gap: rem(40);
+
+        .empty {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid $gray-500;
+        }
     }
 }

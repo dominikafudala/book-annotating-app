@@ -1,11 +1,8 @@
 package com.dominikafudala.papier.service;
 
-import com.dominikafudala.papier.entity.Book;
-import com.dominikafudala.papier.entity.Note;
-import com.dominikafudala.papier.entity.NoteAccess;
-import com.dominikafudala.papier.repository.BookRepository;
-import com.dominikafudala.papier.repository.NoteAccessRepository;
-import com.dominikafudala.papier.repository.NoteRepository;
+import com.dominikafudala.papier.entity.*;
+import com.dominikafudala.papier.filter.AuthorizationHelper;
+import com.dominikafudala.papier.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +12,17 @@ public class NoteService {
     private final NoteRepository noteRepository;
     private final NoteAccessRepository noteAccessRepository;
     private final BookRepository bookRepository;
+    private final AuthorizationHelper authorizationHelper;
+    private final UserRepository userRepository;
+    private final BuddyReadUserRepository buddyReadUserRepository;
 
-    public NoteService(NoteRepository noteRepository, NoteAccessRepository noteAccessRepository, BookRepository bookRepository) {
+    public NoteService(NoteRepository noteRepository, NoteAccessRepository noteAccessRepository, BookRepository bookRepository, AuthorizationHelper authorizationHelper, UserRepository userRepository, BuddyReadUserRepository buddyReadUserRepository) {
         this.noteRepository = noteRepository;
         this.noteAccessRepository = noteAccessRepository;
         this.bookRepository = bookRepository;
+        this.authorizationHelper = authorizationHelper;
+        this.userRepository = userRepository;
+        this.buddyReadUserRepository = buddyReadUserRepository;
     }
 
     public List<Note> getAllPublicNotes(Integer bookId){
@@ -29,7 +32,23 @@ public class NoteService {
     }
 
     public Integer countReplies(Integer id) {
-        System.out.println(id);
         return noteRepository.countDistinctByParentNote_IdIs(id);
+    }
+
+    public List<Note> getAllUserNotes(Integer bookid, String authorization) {
+        String userMail = authorizationHelper.getUsernameFromToken(authorization);
+        Book book = bookRepository.findById(bookid).orElseThrow();
+        User user = userRepository.findByEmail(userMail);
+
+        return noteRepository.findAllByBookAndUser(book, user);
+    }
+
+    public List<Note> getAllBuddyNotes(Integer bookid, String authorization) {
+        String userMail = authorizationHelper.getUsernameFromToken(authorization);
+        Book book = bookRepository.findById(bookid).orElseThrow();
+        User user = userRepository.findByEmail(userMail);
+
+        List<BuddyRead> buddyReads = buddyReadUserRepository.findBuddyReadsByUserId(user);
+        return noteRepository.findNoteByBookAndBuddyReadidIn(book, buddyReads);
     }
 }

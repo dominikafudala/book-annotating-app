@@ -1,6 +1,5 @@
 package com.dominikafudala.papier.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -64,8 +63,10 @@ public class Note {
     @JoinColumn(name = "access_id", nullable = false)
     private NoteAccess access;
 
-    @Column(name = "buddy_readID")
-    private Integer buddyReadid;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIncludeProperties("id")
+    @JoinColumn(name = "buddy_readID")
+    private BuddyRead buddyReadid;
 
     private Integer replies;
 

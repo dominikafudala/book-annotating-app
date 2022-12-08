@@ -18,6 +18,42 @@ class NoteService {
         if(response.status === 200) return response.data;
         else return -1;
     }
+
+    static async getUserNotes(bookId) {
+
+        let response;
+
+        try{
+            response = await axios.get(BACKEND_LOCATION+this.#mapping+"/user/"+bookId,{
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return -1;
+    }
+
+    static async getBuddyNotes(bookId) {
+
+        let response;
+
+        try{
+            response = await axios.get(BACKEND_LOCATION+this.#mapping+"/buddy/"+bookId,{
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return -1;
+    }
 }
 
 export default NoteService;

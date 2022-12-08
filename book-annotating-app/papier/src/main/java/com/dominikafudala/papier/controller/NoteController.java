@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -25,5 +26,24 @@ public class NoteController {
         List<Note> notes = noteService.getAllPublicNotes(bookid);
         notes.forEach(note -> note.setReplies(noteService.countReplies(note.getId())));
         return ResponseEntity.ok(notes);
+    }
+
+    @GetMapping("/user/{bookid}")
+    public ResponseEntity<?> getUserNotes(@PathVariable Integer bookid, HttpServletRequest request){
+        List<Note> notes = noteService.getAllUserNotes(bookid, request.getHeader("Authorization"));
+        notes.forEach(note -> note.setReplies(noteService.countReplies(note.getId())));
+        return ResponseEntity.ok(notes);
+    }
+
+    @GetMapping("/buddy/{bookid}")
+    public ResponseEntity<?> getBuddyNotes(@PathVariable Integer bookid, HttpServletRequest request){
+        List<Note> notes = noteService.getAllBuddyNotes(bookid, request.getHeader("Authorization"));
+        notes.forEach(note -> note.setReplies(noteService.countReplies(note.getId())));
+        return ResponseEntity.ok(notes);
+    }
+
+    @PostMapping("addnote")
+    public ResponseEntity<?> addNote(){
+        return ResponseEntity.ok("");
     }
 }

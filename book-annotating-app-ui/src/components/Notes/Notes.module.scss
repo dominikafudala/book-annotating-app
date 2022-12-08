@@ -7,4 +7,8 @@
     right: 0;
     width: 55%;
     padding: rem(32);
+
+    display: flex;
+    flex-direction: column;
+    gap: rem(64);
 }

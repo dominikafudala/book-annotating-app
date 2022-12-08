@@ -2,14 +2,14 @@
 @use 'styles/global/' as *;
 
 .wrapper {
-    height: 100%;
     border-left: rem(3) solid $gray-900;
     width: 100%;
-    padding: rem(12);
+    padding: 0 rem(12);
     display: flex;
     flex-direction: column;
     gap: rem(12);
     justify-content: space-between;
+    cursor: pointer;
 
     .wrapper>* {
         width: 100%;
@@ -21,6 +21,10 @@
         flex-direction: column;
         gap: rem(12);
         justify-content: space-between;
+    }
+
+    .bottom {
+        gap: rem(6);
     }
 
     .cardTop {
