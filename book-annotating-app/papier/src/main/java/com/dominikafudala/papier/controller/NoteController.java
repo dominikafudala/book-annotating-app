@@ -1,6 +1,7 @@
 package com.dominikafudala.papier.controller;
 
 import com.dominikafudala.papier.entity.Note;
+import com.dominikafudala.papier.model.NoteModel;
 import com.dominikafudala.papier.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +43,9 @@ public class NoteController {
         return ResponseEntity.ok(notes);
     }
 
-    @PostMapping("addnote")
-    public ResponseEntity<?> addNote(){
-        return ResponseEntity.ok("");
+    @PostMapping("/addnote")
+    public ResponseEntity<?> addNote(@RequestBody NoteModel noteModel, HttpServletRequest request){
+        noteService.addNewNote(noteModel, request.getHeader("Authorization"));
+        return ResponseEntity.ok("ok");
     }
 }

@@ -1,0 +1,26 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.wrapper {
+    width: 100%;
+    height: rem(96);
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+    padding: em(16) 0;
+    border: 1px solid $gray-900;
+    align-items: center;
+    cursor: pointer;
+
+    img {
+        height: rem(32);
+        width: rem(32);
+    }
+
+    p {
+        font-weight: 600;
+        font-size: 16px;
+        color: $gray-900;
+    }
+
+}

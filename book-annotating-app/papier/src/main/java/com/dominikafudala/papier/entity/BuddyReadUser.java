@@ -1,5 +1,6 @@
 package com.dominikafudala.papier.entity;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,12 +15,14 @@ public class BuddyReadUser {
 
     @MapsId("buddyReadId")
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JsonIncludeProperties("book")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "buddy_read_id", nullable = false)
     private BuddyRead buddyRead;
 
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JsonIncludeProperties("username")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

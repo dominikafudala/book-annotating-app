@@ -12,4 +12,7 @@ import java.util.List;
 public interface BuddyReadUserRepository extends JpaRepository<BuddyReadUser, BuddyReadUserId> {
     @Query("select b.buddyRead from BuddyReadUser b where b.user = ?1")
     List<BuddyRead> findBuddyReadsByUserId(User user);
+
+    @Query("select b from BuddyReadUser b where b.buddyRead IN ?1")
+    List<BuddyReadUser> findBuddyReadUserByBuddyRead(List<BuddyRead> br);
 }

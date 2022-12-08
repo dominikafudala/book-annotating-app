@@ -36,7 +36,8 @@ public class SecurityConfig {
 
     private static final String[] USER_URLS = {
             "/book/**",
-            "/note/**"
+            "/note/**",
+            "/buddy/**"
 
     };
     @Bean

@@ -1,6 +1,7 @@
 package com.dominikafudala.papier.entity;
 
 import com.dominikafudala.papier.entity.Book;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import javax.persistence.*;
 
@@ -13,6 +14,7 @@ public class BuddyRead {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JsonIncludeProperties("title")
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 

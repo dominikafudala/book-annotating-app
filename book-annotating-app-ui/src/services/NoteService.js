@@ -54,6 +54,24 @@ class NoteService {
         if(response.status === 200) return response.data;
         else return -1;
     }
+
+    static async addNote(note) {
+
+        let response;
+
+        try{
+            response = await axios.post(BACKEND_LOCATION+this.#mapping+"/addnote",note,{
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return -1;
+    }
 }
 
 export default NoteService;

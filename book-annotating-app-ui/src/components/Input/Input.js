@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import styles from "./Input.module.scss";
 
 
-const Input = ({name, label, id, type, inputQuantity, tag:Tag, labelTop, errorInput, ...props}) => {
+const Input = ({name, label, id, type, inputQuantity, tag:Tag, labelTop, errorInput, smallInput, ...props}) => {
     const labelClass = labelTop ? styles.labelTop : styles.label;
     const inputs = [];
    const erroraClassInput = errorInput ? styles.errorInput : "";
+   const smallClassInput = smallInput ? styles.smallInput : "";
 
     for(let i = 0; i < inputQuantity; i++){
         inputs.push(
@@ -16,7 +17,7 @@ const Input = ({name, label, id, type, inputQuantity, tag:Tag, labelTop, errorIn
                 id = {id ? id : label} 
                 data-name = {name}
                 data-label = {label}
-                className = {`${Tag === "input" ? (type === "checkbox" ? styles.checkbox : styles.input) : styles.textarea} ${erroraClassInput}`} 
+                className = {`${Tag === "input" ? (type === "checkbox" ? styles.checkbox : styles.input) : styles.textarea} ${erroraClassInput} ${smallClassInput}`} 
                 placeholder = " "
                 key={`${label}${i}`}
                 {...props}
@@ -28,7 +29,7 @@ const Input = ({name, label, id, type, inputQuantity, tag:Tag, labelTop, errorIn
     const radioClass = type === "radio" ? styles.radio: "";
 
     return(
-        <div className={`${styles.formItem} ${multipleInputsClassName} ${radioClass} ${erroraClassInput}`}>
+        <div className={`${styles.formItem} ${multipleInputsClassName} ${radioClass} ${erroraClassInput} ${smallClassInput}`}>
             {inputs}            
             <label 
                 className={labelClass}

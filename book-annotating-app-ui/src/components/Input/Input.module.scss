@@ -53,6 +53,11 @@
             border-color: $red;
             position: relative;
         }
+
+        &.smallInput {
+            height: rem(24);
+            margin: 0;
+        }
     }
 
     .input[type="number"] {
@@ -79,6 +84,10 @@
 
     &:nth-last-of-type(1)>.input {
         margin-bottom: rem(40);
+
+        &.smallInput {
+            margin: 0;
+        }
     }
 
     &.errorInput::before {
@@ -93,6 +102,11 @@
         background-image: url("/assets/error.svg");
         background-repeat: no-repeat;
         background-size: cover;
+    }
+
+    &.smallInput::before {
+        width: 0;
+        height: 0;
     }
 
     .input:focus {

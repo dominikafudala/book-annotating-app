@@ -8,6 +8,7 @@ import BookService from "services/BookService";
 import { useEffect } from "react";
 import Notes from "components/Notes/Notes";
 import NoteService from "services/NoteService";
+import BookContext from "contexts/BookContext";
 
 const BookView = () => {
     const params = useParams();
@@ -98,12 +99,20 @@ const BookView = () => {
         },[isLoggedIn]
     )
 
+
     if(isLoading || isLoadingPublicNotes || isLoadingUserNotes || isLoadingBuddyNotes) return <Loading/>
     else
     return(
         <ContentWrapper>
             <BookSummary bookData = {bookData} userLoggedIn = {isLoggedIn} userProgress = {progress} updateProgressFn = {updateProgressFn}/>
-            <Notes isLoggedIn={isLoggedIn} publicNotes = {publicNotes} userNotes = {userNotes} buddyNotes = {buddyNotes}/>
+            <Notes 
+                isLoggedIn={isLoggedIn} 
+                publicNotes = {publicNotes} 
+                userNotes = {userNotes} 
+                buddyNotes = {buddyNotes} 
+                bookLength = {bookData.page_number} 
+                userProgress = {progress} 
+                bookId= {bookId}/>
         </ContentWrapper>
     )
 }

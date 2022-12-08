@@ -1,0 +1,80 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.wrapper {
+    position: fixed;
+    z-index: 4;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(16, 24, 40, 80%);
+
+    .modal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: em(24) em(80);
+        min-width: rem(700);
+        background-color: $beige;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: rem(20);
+
+
+        .img {
+            width: rem(40);
+            height: rem(40);
+        }
+
+        .controls {
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: rem(40);
+
+            .access {
+                display: flex;
+
+                >* {
+                    cursor: pointer;
+                    width: rem(79);
+                    height: rem(36);
+                    border: 1px solid $gray-600;
+                    color: $gray-600;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: rem(14);
+                    font-weight: 500;
+
+                    &.active {
+                        font-weight: 500;
+                        background-color: black;
+                        color: white;
+                        border-color: $gray-700;
+                    }
+                }
+            }
+
+            .pages {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        .inputWrapper {
+            width: 90%;
+        }
+
+        .buttonWrapper {
+            width: 90%;
+            display: flex;
+            gap: rem(12);
+            margin-bottom: rem(28);
+        }
+    }
+}
