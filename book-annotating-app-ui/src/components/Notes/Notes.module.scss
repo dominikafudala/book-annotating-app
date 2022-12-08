@@ -1,0 +1,10 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 55%;
+    padding: rem(32);
+}

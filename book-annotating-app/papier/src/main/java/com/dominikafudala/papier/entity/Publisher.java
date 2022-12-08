@@ -1,5 +1,6 @@
 package com.dominikafudala.papier.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonSerialize
 public class Publisher implements DataInterface{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

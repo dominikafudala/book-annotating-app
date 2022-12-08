@@ -1,0 +1,33 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+
+.wrapper {
+    height: rem(262);
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: rem(30);
+
+        .buttonContainer {
+            width: rem(106);
+
+            .amount {
+                font-weight: 400;
+                padding-left: rem(4);
+            }
+        }
+
+        h1 {
+            margin: 0
+        }
+    }
+
+    .notesContainer {
+        display: flex;
+        height: 100%;
+        gap: rem(40);
+    }
+}

@@ -7,13 +7,10 @@ import com.dominikafudala.papier.repository.*;
 import com.dominikafudala.papier.service.BookService;
 import com.dominikafudala.papier.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @RestController
 @CrossOrigin("http://localhost:3000")

@@ -13,22 +13,33 @@ const SelectInput = ({name, label, placeholder, setStateFn, values, single, noAd
     const toggleCheckedValue = (e) => {
         if(checkIfIdExists(e.id)){
             setCheckedValues([...checkedValues.filter(el => el.id !== e.id)]);
+
+            const selected = document.querySelectorAll(`.${styles.checkedDropdown}`);
+            selected.forEach(s => {if(s.id === e.id) s.classList.remove(styles.checkedDropdown)});
         }else{
-            single ?
-            setCheckedValues([
+            if(single){
+                setCheckedValues([
                     {
                     id: e.id,
                     name: e.dataset.label
                     }
-            ])
-            :
-            setCheckedValues(prev => ([
-                ...prev,
-                {
-                id: e.id,
-                name: e.dataset.label
-                }
-            ]))
+            ]);
+            
+            const selected = document.querySelectorAll(`.${styles.checkedDropdown}`);
+            selected.forEach(s => s.classList.remove(styles.checkedDropdown));
+            
+            e.classList.toggle(styles.checkedDropdown);
+            } else{
+                setCheckedValues(prev => ([
+                    ...prev,
+                    {
+                    id: e.id,
+                    name: e.dataset.label
+                    }
+                ]));
+
+                e.classList.toggle(styles.checkedDropdown);
+            }
         }
     }
 

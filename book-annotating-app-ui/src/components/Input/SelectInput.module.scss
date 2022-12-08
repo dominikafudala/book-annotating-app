@@ -149,6 +149,8 @@
         background-color: $beige;
         z-index: 1;
 
+
+
         .inner {
             position: relative;
             height: auto;
@@ -173,6 +175,28 @@
 
                 font-size: rem(14);
                 position: relative;
+
+                &:has(.checkedDropdown) {
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        right: rem(12);
+                        width: rem(14);
+                        height: rem(10);
+                        background-image: url("/assets/checked.svg");
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                    }
+
+                    &+* {
+                        border-top: rem(2) solid $gray-600;
+                    }
+
+                    border-top: rem(2) solid $gray-600;
+                    font-weight: 600;
+                }
 
                 &:nth-last-child(1) {
                     border-bottom: rem(1) solid $gray-400;
