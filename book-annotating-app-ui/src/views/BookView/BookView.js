@@ -8,7 +8,6 @@ import BookService from "services/BookService";
 import { useEffect } from "react";
 import Notes from "components/Notes/Notes";
 import NoteService from "services/NoteService";
-import BookContext from "contexts/BookContext";
 
 const BookView = () => {
     const params = useParams();

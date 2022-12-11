@@ -1,0 +1,96 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.wrapper {
+    padding: em(24);
+    border: 1px solid $gray-900;
+    min-width: rem(664);
+    position: relative;
+    cursor: pointer;
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .basicInfo {
+            display: flex;
+            align-items: center;
+            gap: rem(16);
+
+            .cover {
+                .coverImg {
+                    position: static;
+                    width: rem(75);
+                    height: rem(112);
+                    border-radius: rem(4);
+                }
+            }
+
+            .seriesName {
+                font-weight: 700;
+                font-size: rem(14);
+                color: $gray-900;
+                margin-bottom: rem(4);
+            }
+
+            .title {
+                font-weight: 700;
+                font-size: rem(24);
+                color: $gray-900;
+                margin-bottom: rem(4);
+                text-align: center;
+            }
+
+            .authors {
+                font-weight: 400;
+                font-size: rem(16);
+                color: $gray-700;
+                margin-bottom: rem(8);
+            }
+
+            .pages {
+                font-size: rem(14);
+                color: $gray-900;
+                font-weight: 400;
+
+                .pageNumber {
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    .info {
+        width: 100%;
+        margin-top: rem(12);
+
+        .infoElement {
+            display: flex;
+            width: 100%;
+            margin-bottom: rem(8);
+
+            p {
+                font-size: rem(16);
+                color: $gray-700;
+            }
+
+            p:nth-child(1) {
+                width: 18%;
+                font-weight: 500;
+            }
+
+            p:nth-child(2) {
+                font-weight: 400;
+            }
+        }
+    }
+
+    .blobs,
+    img {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+}

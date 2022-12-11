@@ -6,6 +6,10 @@ import Button from "components/Button/Button";
 import noCover from "assets/book_no_cover.png"
 import Modal from "components/Modal/Modal";
 import Input from "components/Input/Input";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import LocationContext from "contexts/LocationContext";
+
 
 const BookSummary = ({bookData, userProgress, userLoggedIn, updateProgressFn}) => {
     // calculating position of fixed elements
@@ -86,7 +90,7 @@ const BookSummary = ({bookData, userProgress, userLoggedIn, updateProgressFn}) =
     )
 
     const authors = [];
-
+    
     bookData.authors.forEach(
         a => authors.push(a.name)
     )
@@ -127,6 +131,13 @@ const BookSummary = ({bookData, userProgress, userLoggedIn, updateProgressFn}) =
 
     const changeProgressFn = () => {
         setShowProgressModal(true);
+    }
+
+    const navigate = useNavigate();
+    const context = useContext(LocationContext);
+    const seeOtherEditions = () => {
+        context.setLocation({location: '/edition'})
+        navigate("/edition/"+bookData.edition.id, {state: {bookAuthors: bookData.authors, bookTitle: bookData.title}});
     }
 
     return(<>
@@ -182,7 +193,7 @@ const BookSummary = ({bookData, userProgress, userLoggedIn, updateProgressFn}) =
                 <img src={saveIcon }alt={"Save icon"} />
             </div>
             <div className={styles.buttons}>
-                    <Button secondary>See other editions</Button>
+                    {bookData.edition.id &&<Button onClickFn = {seeOtherEditions} secondary>See other editions</Button>}
                     <Button onClickFn={changeProgressFn}>Change progress</Button>
             </div>
         </>

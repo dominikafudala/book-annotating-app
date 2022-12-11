@@ -32,7 +32,11 @@ public class BookModel {
     private boolean reviewed;
     private String imgUrl;
 
+    private boolean isSelectedEdition;
+    private Integer bookId;
+
     public BookModel(Book bookFound) {
+        this.bookId = bookFound.getId();
         this.isbn = bookFound.getIsbn();
         this.title = bookFound.getTitle();
         this.series_number = bookFound.getSeriesNumber();

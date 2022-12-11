@@ -31,13 +31,15 @@ public class SecurityConfig {
             "/verifyMail",
             "/login",
             "/book/{id:\\d+}",
-            "/note/{bookid:\\d+}"
+            "/note/{bookid:\\d+}",
+            "/edition/{editionid:\\d+}"
     };
 
     private static final String[] USER_URLS = {
             "/book/**",
             "/note/**",
-            "/buddy/**"
+            "/buddy/**",
+            "/edition/**"
 
     };
     @Bean

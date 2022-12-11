@@ -15,6 +15,7 @@ import AddBookView from "views/AddBookView/AddBookView";
 import NewBookView from "views/NewBookView/NewBookView";
 import BookView from "views/BookView/BookView";
 import PrivateRoute from "components/PrivateRoute/PrivateRoute";
+import EditionView from "views/EditionView/EditionView";
 
 import blobBigPink from "assets/blob_big_pink.svg";
 import blobSmallPink from "assets/blob_small_pink.svg";
@@ -35,7 +36,8 @@ const PAGES = {
     verifyEmail: 'VerifyMail',
     addBook: 'addBook',
     newBook: 'newBook',
-    book: 'book'
+    book: 'book',
+    edition: 'edition'
 }
 
 const Root = () => {
@@ -55,7 +57,9 @@ const Root = () => {
                     location.location === `/${PAGES.newBook}` ? 
                     blobTopPink :
                     location.location.includes(`/${PAGES.book}`) ?
-                    blobPinkBook:              
+                    blobPinkBook : 
+                    location.location === `/${PAGES.edition}`?
+                    null :             
                     blobBigPink : 
                     blobSmallPink
                 } 
@@ -66,6 +70,8 @@ const Root = () => {
                     blobTopOrange : 
                     location.location.includes(`/${PAGES.book}`) ?
                     blobOrangeBook:
+                    location.location === `/${PAGES.edition}`?
+                    null :  
                     blobBigOrange : 
                     blobSmallOrange
                 }
@@ -88,6 +94,7 @@ const Root = () => {
                     <Route path = {`/${PAGES.newBook}`} element = {<NewBookView/>}></Route>
                 </Route>
                 <Route path = {`/${PAGES.book}/:bookid`} element = {<BookView/>}></Route>
+                <Route path = {`/${PAGES.edition}/:editionid`} element = {<EditionView/>}></Route>
             </Routes>
             </AppContext.Provider>
         </BrowserRouter>

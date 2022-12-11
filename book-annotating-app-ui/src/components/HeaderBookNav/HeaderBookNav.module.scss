@@ -1,0 +1,45 @@
+@use 'styles/utils' as *;
+@use 'styles/global/' as *;
+
+
+.wrapper {
+    width: 100%;
+    max-width: rem(1400);
+    position: fixed;
+    top: rem(80);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 rem(96);
+    height: rem(78);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    a {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: rem(96);
+        transform: translateY(-50%);
+    }
+
+    .bookInfo {
+        text-align: center;
+
+        p:nth-child(1) {
+            font-weight: 700;
+            font-size: 20px;
+            color: $gray-900;
+            margin-bottom: rem(4);
+        }
+
+        p:nth-child(2) {
+            font-weight: 400;
+            font-size: 16px;
+            color: $gray-700;
+        }
+    }
+}

@@ -2,6 +2,7 @@ package com.dominikafudala.papier.service;
 
 import com.dominikafudala.papier.entity.*;
 import com.dominikafudala.papier.exceptions.BookWithIsbnExistsException;
+import com.dominikafudala.papier.filter.AuthorizationHelper;
 import com.dominikafudala.papier.model.BookModel;
 import com.dominikafudala.papier.repository.*;
 import com.google.gson.JsonArray;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,9 +41,12 @@ public class BookService {
     private final LanguageRepository languageRepository;
     private final EditionRepository editionRepository;
     private final BookProgressRepository bookProgressRepository;
+    private final AuthorizationHelper authorizationHelper;
+    private final UserRepository userRepository;
 
     private final IsbnService isbnService;
     private final BookProgressService bookProgressService;
+    private final EditionBookUserRepository editionBookUserRepository;
 
 
     public Book newBook (BookModel bookModel){
@@ -183,6 +188,14 @@ public class BookService {
                     this.setDataFromOpenLibrary(info, newBook);
 
                 bookRepository.save(newBook);
+
+                if(newBook.getEditionID() != null && editionBookUserRepository.findByEdition_IdAndUserNull(newBook.getEditionID().getId())== null){
+                    EditionBookUser editionBookUser = new EditionBookUser();
+                    editionBookUser.setBook(newBook);
+                    editionBookUser.setEdition(newBook.getEditionID());
+                    editionBookUserRepository.save(editionBookUser);
+                }
+
 
                 this.setCategories(volumeInfo, newBook);
 
@@ -413,5 +426,37 @@ public class BookService {
         }
 
         return 0;
+    }
+
+    public List<BookModel> getAllBooksByEdition(Integer editionid, String userToken){
+        Integer selectedBookId = null;
+        if(userToken != null){
+            User user = null;
+            if(authorizationHelper.checkDate(userToken)){
+                String userMail = authorizationHelper.getUsernameFromToken(userToken);
+                user = userRepository.findByEmail(userMail);
+            }
+                EditionBookUser editionBookUser = editionBookUserRepository.findByUserAndEdition_Id(user, editionid);
+                if(editionBookUser == null)
+                    editionBookUser = editionBookUserRepository.findByEdition_IdAndUserNull(editionid);
+                selectedBookId = editionBookUser.getBook().getId();
+        }else{
+            EditionBookUser editionBookUser = editionBookUserRepository.findByEdition_IdAndUserNull(editionid);
+            selectedBookId = editionBookUser.getBook().getId();
+        }
+
+        List<Book> books = bookRepository.findByEditionID_Id(editionid);
+        List<BookModel> bookModels = new ArrayList<>();
+
+        for(Book b: books){
+            BookModel bookModel = this.getBookModelFromId(b.getId());
+            if(b.getId() == selectedBookId){
+                bookModel.setSelectedEdition(true);
+            }
+
+            bookModels.add(bookModel);
+        }
+
+        return bookModels;
     }
 }

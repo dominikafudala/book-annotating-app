@@ -12,6 +12,7 @@ import BuddyReadService from "services/BuddyReadService";
 import SelectInput from "components/Input/SelectInput";
 import NoteService from "services/NoteService";
 import Modal from "components/Modal/Modal";
+import Background from "components/Background/Background";
 
 const NewNoteModal = ({type, bookId, page, maxPages, onCloseFn}) => {
     const [progressError, setProgressError] = useState(false);
@@ -148,8 +149,10 @@ const NewNoteModal = ({type, bookId, page, maxPages, onCloseFn}) => {
     if(successModal) return <Modal title = {"Your note was added"} button = {<Button onClickFn = {onCloseFn} ey = {"close"}>Close</Button>} success = {true}/>;
     else
     return(
-        <div className={styles.wrapper}>
+        <>
+            <div className={styles.wrapper}>
             <div className={styles.modal}>
+            <Background/>
                 <img className = {styles.img} src= {iconsType[type]} alt="Icon type" />
                 <Title smaller>{headingText[type]}</Title>
                 <div className={styles.controls}>
@@ -215,6 +218,7 @@ const NewNoteModal = ({type, bookId, page, maxPages, onCloseFn}) => {
                 </div>
             </div>
         </div>
+        </>
     )
 
 }
