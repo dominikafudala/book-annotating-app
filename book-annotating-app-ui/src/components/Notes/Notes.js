@@ -13,7 +13,8 @@ const Notes = ({isLoggedIn, publicNotes, userNotes, buddyNotes, bookLength, user
     const [type, setType] = useState();
 
     const closeModal = () => {
-        setModal(false)
+        setModal(false);
+        window.location.reload();
     }
 
     const openModal = (e) => {

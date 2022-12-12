@@ -121,5 +121,16 @@ public class BookController {
         return ResponseEntity.ok(bookService.updateProgress(bookid, newProgress, request.getHeader("Authorization")));
     }
 
+    @PostMapping("/save")
+    public ResponseEntity<?> saveBook(@RequestBody Integer bookid, HttpServletRequest request){
+
+        return ResponseEntity.ok(bookService.saveBook(bookid, request.getHeader("Authorization")));
+    }
+
+    @GetMapping("/saved/{bookid}")
+    public ResponseEntity<?> isBookSaved(@PathVariable Integer bookid, HttpServletRequest request){
+
+        return ResponseEntity.ok(bookService.isBookSaved(bookid, request.getHeader("Authorization")));
+    }
 
 }

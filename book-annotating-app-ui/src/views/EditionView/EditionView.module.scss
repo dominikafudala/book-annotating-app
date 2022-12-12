@@ -1,0 +1,33 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.filters {
+    align-self: flex-start;
+    min-width: 30%;
+
+    >p {
+        padding-bottom: rem(60);
+        font-weight: 700;
+        font-size: rem(20);
+        color: $gray-900;
+    }
+
+    .wrapper {
+        width: rem(250);
+
+        .fieldset {
+            border: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: rem(4);
+            margin-bottom: rem(68);
+
+            .legend {
+                font-size: rem(14);
+                margin-bottom: rem(6);
+                color: $gray-700;
+                font-weight: 500;
+            }
+        }
+    }
+}

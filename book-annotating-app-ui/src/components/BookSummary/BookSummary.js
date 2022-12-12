@@ -9,9 +9,10 @@ import Input from "components/Input/Input";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import LocationContext from "contexts/LocationContext";
+import saveTrue from "assets/save_true.svg";
 
 
-const BookSummary = ({bookData, userProgress, userLoggedIn, updateProgressFn}) => {
+const BookSummary = ({bookData, userProgress, isBookSaved, userLoggedIn, updateProgressFn, saveBookFn}) => {
     // calculating position of fixed elements
     useEffect(
         () => {
@@ -140,6 +141,8 @@ const BookSummary = ({bookData, userProgress, userLoggedIn, updateProgressFn}) =
         navigate("/edition/"+bookData.edition.id, {state: {bookAuthors: bookData.authors, bookTitle: bookData.title}});
     }
 
+    const [showSaveModal, setShowSaveModal] = useState(false);
+
     return(<>
             {showProgressModal && userLoggedIn && <Modal 
                 title={"Change progress"} 
@@ -160,9 +163,17 @@ const BookSummary = ({bookData, userProgress, userLoggedIn, updateProgressFn}) =
 
             {showProgressModal && !userLoggedIn && <Modal 
                 title={"Change progress"} 
-                subheading = {"To change progress please create  an account"}
+                subheading = {"To change progress please create an account"}
                 button = {[
                     <Button onClickFn = {() =>  setShowProgressModal(false)} secondary key = {"close"}>Close</Button>,
+                    <Button href = {"signup"} key = {"sign_up"}>Sign up</Button>
+                ]}>
+                </Modal>}
+                {showSaveModal && !userLoggedIn && <Modal 
+                title={"Save book"} 
+                subheading = {"To save a book please create an account"}
+                button = {[
+                    <Button onClickFn = {() =>  setShowSaveModal(false)} secondary key = {"close"}>Close</Button>,
                     <Button href = {"signup"} key = {"sign_up"}>Sign up</Button>
                 ]}>
                 </Modal>}
@@ -189,11 +200,11 @@ const BookSummary = ({bookData, userProgress, userLoggedIn, updateProgressFn}) =
                 <div className={styles.buttonsPlaceholder}></div>
             </div>
             <img className={styles.coverImg} src={bookData.imgUrl !== null ? bookData.imgUrl : noCover} alt={`Cover ${bookData.title}`} />
-            <div className={styles.save}>
-                <img src={saveIcon }alt={"Save icon"} />
+            <div className={styles.save} onClick = {() => userLoggedIn ? saveBookFn() : setShowSaveModal(true)}>
+                <img src={isBookSaved ? saveTrue : saveIcon }alt={"Save icon"} />
             </div>
             <div className={styles.buttons}>
-                    {bookData.edition.id &&<Button onClickFn = {seeOtherEditions} secondary>See other editions</Button>}
+                    {bookData.edition &&<Button onClickFn = {seeOtherEditions} secondary>See other editions</Button>}
                     <Button onClickFn={changeProgressFn}>Change progress</Button>
             </div>
         </>

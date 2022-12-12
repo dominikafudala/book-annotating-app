@@ -17,6 +17,7 @@ const BookView = () => {
     const [bookData, setBookData] = useState();
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [progress, setProgress] = useState();
+    const [isSavedBook, setSavedBook] = useState(false);
 
     const updateProgressFn = async (newProgress) => {
         if(newProgress < 0 || newProgress > bookData.page_number) return;
@@ -27,6 +28,12 @@ const BookView = () => {
                 }
             });
         }
+    }
+
+    const saveBook = async () => {
+        BookService.saveBook(bookId).then(resp => {
+            setSavedBook(resp);
+        })
     }
 
     //set loading or set book data and set if user logged in
@@ -42,11 +49,15 @@ const BookView = () => {
                             if(progressResp === -1){
                                 setLoggedIn(false);
                                 setProgress(0);
+                                setLoading(false);
                             }else{
                                 setLoggedIn(true);
                                 setProgress(progressResp);
+                                BookService.isBookSaved(bookId).then(isSavedResp => {
+                                    setSavedBook(isSavedResp)
+                                    setLoading(false);
+                                })
                             }
-                            setLoading(false);
                         })
                     }
                 })
@@ -103,7 +114,7 @@ const BookView = () => {
     else
     return(
         <ContentWrapper>
-            <BookSummary bookData = {bookData} userLoggedIn = {isLoggedIn} userProgress = {progress} updateProgressFn = {updateProgressFn}/>
+            <BookSummary bookData = {bookData} userLoggedIn = {isLoggedIn} userProgress = {progress} updateProgressFn = {updateProgressFn} isBookSaved = {isSavedBook} saveBookFn ={saveBook}/>
             <Notes 
                 isLoggedIn={isLoggedIn} 
                 publicNotes = {publicNotes} 

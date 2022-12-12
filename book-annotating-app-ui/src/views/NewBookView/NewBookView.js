@@ -155,6 +155,7 @@ const NewBookView = () => {
                 formIndex: prev.formIndex - 1
             }))
         } else if(formIndex.formIndex === 0){
+            locationContext.setLocation({location: pages.addBook})
             navigate("/"+ pages.addBook)
         }
     }

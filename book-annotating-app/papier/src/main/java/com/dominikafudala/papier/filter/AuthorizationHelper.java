@@ -41,6 +41,8 @@ public class AuthorizationHelper {
 
     public boolean checkDate(String token){
         boolean isValid = false;
+        if(token.startsWith("Bearer "))
+            token = token.substring(7);
         try{
             DecodedJWT decodedJWT = verifier.verify(token);
             isValid = decodedJWT.getExpiresAt().after(new Date(System.currentTimeMillis()));

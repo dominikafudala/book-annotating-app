@@ -47,6 +47,7 @@ public class BookService {
     private final IsbnService isbnService;
     private final BookProgressService bookProgressService;
     private final EditionBookUserRepository editionBookUserRepository;
+    private final SavedBookUserRepository savedBookUserRepository;
 
 
     public Book newBook (BookModel bookModel){
@@ -232,7 +233,12 @@ public class BookService {
             try{
                 newBook.setPublishedDate(LocalDate.parse(volumeInfo.get("publishedDate").getAsString()));
             } catch(DateTimeParseException e){
-                Year year = Year.parse(volumeInfo.get("publishedDate").getAsString());
+                Year year;
+                try{
+                    year = Year.parse(volumeInfo.get("publishedDate").getAsString());
+                }catch(DateTimeParseException e2){
+                    year = Year.parse(volumeInfo.get("publishedDate").getAsString().substring(0,4));
+                }
                 newBook.setPublishedDate(year.atDay(1));
             }
         if(volumeInfo.get("publisher") != null){
@@ -458,5 +464,62 @@ public class BookService {
         }
 
         return bookModels;
+    }
+
+    public EditionBookUser changeEdition(Integer bookId, String authorization) {
+        String userMail = authorizationHelper.getUsernameFromToken(authorization);
+        User user = userRepository.findByEmail(userMail);
+
+        Book book = bookRepository.findById(bookId).orElseThrow();
+        EditionBookUser editionBookUser = editionBookUserRepository.findByUserAndEdition_Id(user, book.getEditionID().getId());
+
+        if(editionBookUser == null){
+            EditionBookUser newEditionBookUser = new EditionBookUser();
+            Edition edition = book.getEditionID();
+            newEditionBookUser.setEdition(edition);
+            newEditionBookUser.setBook(book);
+            newEditionBookUser.setUser(user);
+            editionBookUserRepository.save(newEditionBookUser);
+            return newEditionBookUser;
+        }else{
+            editionBookUser.setBook(book);
+            editionBookUserRepository.save(editionBookUser);
+            return editionBookUser;
+        }
+    }
+
+    public boolean saveBook(Integer bookid, String authorization) {
+        String userMail = authorizationHelper.getUsernameFromToken(authorization);
+        User user = userRepository.findByEmail(userMail);
+        Book book = bookRepository.findById(bookid).orElseThrow();
+
+        SavedBookUser savedBookUser = savedBookUserRepository.findByBookAndUser(book, user);
+
+        if(savedBookUser != null){
+            savedBookUserRepository.delete(savedBookUser);
+            return false;
+        }
+
+        SavedBookUserId savedBookUserId = new SavedBookUserId();
+        savedBookUserId.setBookId(bookid);
+        savedBookUserId.setUserId(user.getId());
+        savedBookUser = new SavedBookUser(savedBookUserId, book, user);
+
+        savedBookUserRepository.save(savedBookUser);
+        return true;
+    }
+
+    public boolean isBookSaved(Integer bookid, String authorization) {
+        String userMail = authorizationHelper.getUsernameFromToken(authorization);
+        User user = userRepository.findByEmail(userMail);
+        Book book = bookRepository.findById(bookid).orElseThrow();
+
+        SavedBookUser savedBookUser = savedBookUserRepository.findByBookAndUser(book, user);
+
+        if(savedBookUser == null){
+            return false;
+        }
+
+        return true;
     }
 }

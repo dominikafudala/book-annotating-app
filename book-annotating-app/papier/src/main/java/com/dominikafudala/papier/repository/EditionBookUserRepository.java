@@ -10,4 +10,5 @@ public interface EditionBookUserRepository extends JpaRepository<EditionBookUser
 
     @Query("select e from EditionBookUser e where e.edition.id = ?1 and e.user is null")
     EditionBookUser findByEdition_IdAndUserNull(Integer id);
+
 }

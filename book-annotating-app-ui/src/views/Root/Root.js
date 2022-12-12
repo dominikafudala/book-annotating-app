@@ -54,11 +54,11 @@ const Root = () => {
             <Background 
                 blobPink = {
                     location.location !== `/${PAGES.signup}` ?
-                    location.location === `/${PAGES.newBook}` ? 
+                    location.location.includes(`/${PAGES.newBook}`) ? 
                     blobTopPink :
                     location.location.includes(`/${PAGES.book}`) ?
                     blobPinkBook : 
-                    location.location === `/${PAGES.edition}`?
+                    location.location.includes(`/${PAGES.edition}`)?
                     null :             
                     blobBigPink : 
                     blobSmallPink
@@ -66,11 +66,11 @@ const Root = () => {
 
                 blobOrange = {
                     location.location !== `/${PAGES.signup}` ? 
-                    location.location === `/${PAGES.newBook}` ? 
+                    location.location.includes(`/${PAGES.newBook}`) ? 
                     blobTopOrange : 
                     location.location.includes(`/${PAGES.book}`) ?
                     blobOrangeBook:
-                    location.location === `/${PAGES.edition}`?
+                    location.location.includes(`/${PAGES.edition}`)?
                     null :  
                     blobBigOrange : 
                     blobSmallOrange

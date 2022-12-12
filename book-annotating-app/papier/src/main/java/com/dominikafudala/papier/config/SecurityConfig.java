@@ -31,6 +31,7 @@ public class SecurityConfig {
             "/verifyMail",
             "/login",
             "/book/{id:\\d+}",
+            "/book/languages",
             "/note/{bookid:\\d+}",
             "/edition/{editionid:\\d+}"
     };
