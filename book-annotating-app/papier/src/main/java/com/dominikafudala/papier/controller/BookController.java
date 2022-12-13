@@ -133,4 +133,9 @@ public class BookController {
         return ResponseEntity.ok(bookService.isBookSaved(bookid, request.getHeader("Authorization")));
     }
 
+    @GetMapping("/top")
+    public ResponseEntity<?> getTopBooks(){
+        return ResponseEntity.ok(bookService.getTop());
+    }
+
 }

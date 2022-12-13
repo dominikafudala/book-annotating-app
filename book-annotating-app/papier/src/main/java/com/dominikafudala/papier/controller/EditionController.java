@@ -33,4 +33,9 @@ public class EditionController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/all/{amount}")
+    public ResponseEntity<?> getAllBooks(@PathVariable Integer amount, HttpServletRequest request) {
+        return ResponseEntity.ok(bookService.getAllBooks(amount,  request.getHeader("Authorization")));
+    }
 }

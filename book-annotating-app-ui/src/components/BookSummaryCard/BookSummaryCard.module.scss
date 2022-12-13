@@ -1,0 +1,60 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.wrapper {
+    cursor: pointer;
+    width: rem(153);
+
+    .cover {
+        width: fit-content;
+
+        img {
+            width: rem(153);
+            height: rem(233);
+            border-radius: rem(8);
+        }
+    }
+
+    .info {
+        height: rem(70);
+        display: flex;
+        flex-direction: column;
+        gap: rem(6);
+        margin-top: rem(12);
+        justify-content: space-between;
+
+        .basicInfo>* {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .basicInfo {
+            display: flex;
+            flex-direction: column;
+            gap: rem(4);
+        }
+
+        .title {
+            font-weight: 700;
+            font-size: rem(18);
+            color: $gray-900;
+        }
+
+        .replies {
+            display: flex;
+            align-items: center;
+            gap: rem(6);
+
+            img {
+                width: rem(16);
+                height: rem(16)
+            }
+
+            p {
+                font-weight: 600;
+                font-size: 14px;
+            }
+        }
+    }
+}

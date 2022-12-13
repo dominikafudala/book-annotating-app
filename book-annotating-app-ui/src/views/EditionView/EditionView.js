@@ -71,10 +71,10 @@ const EditionView = () => {
         const selectedFormatNames = [...selectedFormats].map(el => el.id.toLowerCase());
         if(selectedFormats.length !== 0){
             setCheckedData([...sorteddata]
-                .filter(el => !languageNull === true  ? el.language.name == languageName : true)
+                .filter(el => !languageNull === true  ? el.language.name === languageName : true)
                 .filter(el => el.format !== null ? selectedFormatNames.includes(el.format.name.toLowerCase()):false))
         }else{
-            setCheckedData(sorteddata.filter(el => !languageNull === true? el.language.name == languageName : true));
+            setCheckedData(sorteddata.filter(el => !languageNull === true? el.language.name === languageName : true));
         }
     }
 
@@ -143,6 +143,7 @@ const EditionView = () => {
                             setStateFn = {(e) => setSorting(e)}
                             single
                             noAdd
+                            noInput
                             key = {"sorting"}
                         />
                         <fieldset className={styles.fieldset}>

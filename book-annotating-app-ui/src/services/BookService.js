@@ -186,6 +186,18 @@ class BookService {
         if(response.status === 200) return response.data;
         else return 0;
     }
+
+    static async getTop() {
+        let response;
+        try{
+            response = await axios.get(BACKEND_LOCATION+"book/top");
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return 0;
+    }
 }
 
 export default BookService;

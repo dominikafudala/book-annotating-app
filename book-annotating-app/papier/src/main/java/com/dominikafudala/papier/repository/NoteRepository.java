@@ -19,4 +19,8 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
 
     List<Note> findNoteByBookAndBuddyReadidIn(Book book, List<BuddyRead> buddyReads);
 
+    long countByBook_IdIsAndAccess_NameIs(Integer id, String name);
+
+
+
 }

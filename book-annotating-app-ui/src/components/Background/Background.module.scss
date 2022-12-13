@@ -36,6 +36,10 @@
         width: 120vh;
         left: 10vw;
     }
+
+    &.main {
+        width: 70vw;
+    }
 }
 
 .blobOrange {
@@ -49,5 +53,10 @@
     &.book {
         top: 0;
         left: 0;
+    }
+
+    &.main {
+        left: 0;
+        width: 74vw
     }
 }

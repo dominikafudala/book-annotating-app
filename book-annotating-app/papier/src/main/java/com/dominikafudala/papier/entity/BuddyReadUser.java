@@ -1,6 +1,8 @@
 package com.dominikafudala.papier.entity;
 
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -8,6 +10,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "buddy_read_user")
+@Setter
+@Getter
 public class BuddyReadUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EmbeddedId
@@ -27,28 +31,5 @@ public class BuddyReadUser {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public BuddyReadUserId getId() {
-        return id;
-    }
-
-    public void setId(BuddyReadUserId id) {
-        this.id = id;
-    }
-
-    public BuddyRead getBuddyRead() {
-        return buddyRead;
-    }
-
-    public void setBuddyRead(BuddyRead buddyRead) {
-        this.buddyRead = buddyRead;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
 }

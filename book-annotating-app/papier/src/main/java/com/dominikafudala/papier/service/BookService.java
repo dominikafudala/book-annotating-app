@@ -4,6 +4,7 @@ import com.dominikafudala.papier.entity.*;
 import com.dominikafudala.papier.exceptions.BookWithIsbnExistsException;
 import com.dominikafudala.papier.filter.AuthorizationHelper;
 import com.dominikafudala.papier.model.BookModel;
+import com.dominikafudala.papier.model.SummaryBookModel;
 import com.dominikafudala.papier.repository.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -43,11 +44,14 @@ public class BookService {
     private final BookProgressRepository bookProgressRepository;
     private final AuthorizationHelper authorizationHelper;
     private final UserRepository userRepository;
+    private final NoteRepository noteRepository;
 
     private final IsbnService isbnService;
     private final BookProgressService bookProgressService;
     private final EditionBookUserRepository editionBookUserRepository;
     private final SavedBookUserRepository savedBookUserRepository;
+    private final Top10AllTimeRepository top10AllTimeRepository;
+    private final Top10Last24Repository top10Last24Repository;
 
 
     public Book newBook (BookModel bookModel){
@@ -521,5 +525,64 @@ public class BookService {
         }
 
         return true;
+    }
+
+    public List<List<SummaryBookModel>> getTop() {
+        List<List<SummaryBookModel>> allTop = new ArrayList<>();
+        List<Top10AllTime> top10AllTimes = top10AllTimeRepository.findAll();
+        List<SummaryBookModel> summaryBookModels = new ArrayList<>();
+
+        for(Top10AllTime t: top10AllTimes){
+            SummaryBookModel summaryBookModel = new SummaryBookModel();
+            summaryBookModel.setBookModel(this.getBookModelFromId(t.getBookID()));
+            summaryBookModel.setReplies(t.getNoteCount());
+            summaryBookModels.add(summaryBookModel);
+        }
+
+        allTop.add(summaryBookModels);
+
+        List<Top10Last24> top10ALast24 = top10Last24Repository.findAll();
+        List<SummaryBookModel> summaryBookModels24 = new ArrayList<>();
+
+        for(Top10Last24 t: top10ALast24){
+            SummaryBookModel summaryBookModel24 = new SummaryBookModel();
+            summaryBookModel24.setBookModel(this.getBookModelFromId(t.getBookID()));
+            summaryBookModel24.setReplies(t.getNoteCount());
+            summaryBookModels24.add(summaryBookModel24);
+        }
+
+        allTop.add(summaryBookModels24);
+
+        return allTop;
+    }
+
+    public List<SummaryBookModel> getAllBooks(Integer amount, String userToken) {
+        List<SummaryBookModel> summaryBookModels = new ArrayList<>();
+        User user = null;
+
+        if(userToken != null){
+            if(authorizationHelper.checkDate(userToken)){
+                String userMail = authorizationHelper.getUsernameFromToken(userToken);
+                user = userRepository.findByEmail(userMail);
+            }
+        }
+
+        if(user != null){
+
+        }else{
+            List<EditionBookUser> editionBookUsers= editionBookUserRepository.findByUserNull(amount);
+            List<Book> books = bookRepository.findAllById(editionBookUsers.stream().map(el -> el.getBook().getId()).toList());
+
+            for(Book b : books){
+                SummaryBookModel summaryBookModel = new SummaryBookModel();
+                summaryBookModel.setBookModel(this.getBookModelFromId(b.getId()));
+                summaryBookModel.setReplies(noteRepository.countByBook_IdIsAndAccess_NameIs(b.getId(), "public"));
+                summaryBookModels.add(summaryBookModel);
+            }
+
+        }
+
+
+        return summaryBookModels;
     }
 }

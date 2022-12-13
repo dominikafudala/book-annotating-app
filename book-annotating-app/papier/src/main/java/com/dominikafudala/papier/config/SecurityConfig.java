@@ -32,8 +32,11 @@ public class SecurityConfig {
             "/login",
             "/book/{id:\\d+}",
             "/book/languages",
+            "/book/genres",
             "/note/{bookid:\\d+}",
-            "/edition/{editionid:\\d+}"
+            "/edition/{editionid:\\d+}",
+            "/book/top",
+            "/edition/all/{amount:\\d+}"
     };
 
     private static final String[] USER_URLS = {

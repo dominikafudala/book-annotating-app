@@ -4,7 +4,7 @@ import styles from "./SelectInput.module.scss";
 import arrow from "assets/arrow_select.svg";
 import { useState } from "react";
 
-const SelectInput = ({name, label, placeholder, setStateFn, values, single, noAdd, startValues}) => {
+const SelectInput = ({name, label, placeholder, setStateFn, values, single, noAdd, startValues, noInput}) => {
     const [newValues, setNewValues] =  useState([...startValues.filter(el => el.id < 0)]);
     const [checkedValues, setCheckedValues] = useState(startValues.length > 0 && Object.keys(startValues[0]).length > 0 ? [...startValues] : []);
     const [renderedCheck, setRenderedCheck] = useState([]);
@@ -169,7 +169,7 @@ const SelectInput = ({name, label, placeholder, setStateFn, values, single, noAd
                 <div className={styles.checkedOptions}>
                     {renderedCheck}
                 </div>
-                <input type="text" className={styles.input} placeholder = {placeholder} onBlur = {onBlurFn}  onFocus = {onFocusFn} onKeyUp = {onKeyUpFn}/>          
+                <input type="text" className={styles.input} placeholder = {placeholder} onBlur = {onBlurFn}  onFocus = {onFocusFn} onKeyUp = {onKeyUpFn} readOnly = {noInput ? true : false}/>          
                 <label 
                     className={styles.label}
                     htmlFor = {label}

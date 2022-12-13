@@ -16,6 +16,7 @@ import NewBookView from "views/NewBookView/NewBookView";
 import BookView from "views/BookView/BookView";
 import PrivateRoute from "components/PrivateRoute/PrivateRoute";
 import EditionView from "views/EditionView/EditionView";
+import BookSearchView from "views/BookSearchView/BookSearchView";
 
 import blobBigPink from "assets/blob_big_pink.svg";
 import blobSmallPink from "assets/blob_small_pink.svg";
@@ -25,6 +26,8 @@ import blobTopOrange from "assets/blob_top_orange.svg";
 import blobTopPink from "assets/blob_top_pink.svg";
 import blobOrangeBook from "assets/blobOrangeBook.svg";
 import blobPinkBook from "assets/blobPinkBook.svg";
+import blobPinkMain from "assets/blob_pink_main.svg";
+import blobOrangeMain from "assets/blob_orange_main.svg";
 
 const PAGES = {
     signup: 'signup',
@@ -53,6 +56,8 @@ const Root = () => {
         <AppContext.Provider value={context}> 
             <Background 
                 blobPink = {
+                    location.location === "/"?
+                    blobPinkMain:
                     location.location !== `/${PAGES.signup}` ?
                     location.location.includes(`/${PAGES.newBook}`) ? 
                     blobTopPink :
@@ -65,6 +70,8 @@ const Root = () => {
                 } 
 
                 blobOrange = {
+                    location.location === "/"?
+                    blobOrangeMain:
                     location.location !== `/${PAGES.signup}` ? 
                     location.location.includes(`/${PAGES.newBook}`) ? 
                     blobTopOrange : 
@@ -75,11 +82,13 @@ const Root = () => {
                     blobBigOrange : 
                     blobSmallOrange
                 }
-                blobTop={location.location === `/${PAGES.newBook}` ? true : false}
+                blobTop={location.location === `/${PAGES.newBook}` || location.location === "/" ? true : false}
                 blobBook={location.location.includes(`/${PAGES.book}`) ? true : false}
+                blobMain = {location.location === "/" ? true : false}
                 />
             <Header/>
             <Routes>
+                <Route exact path = {`/`} element = {<BookSearchView/>}></Route>
                 <Route exact path = {`/${PAGES.signup}`} element = {<SignUpView/>}></Route>
                 <Route exact path = {`/${PAGES.login}`} element = {<LoginView/>}></Route>
                 <Route exact path = {`/${PAGES.reset}`} element = {<ResetPasswordView/>}></Route>

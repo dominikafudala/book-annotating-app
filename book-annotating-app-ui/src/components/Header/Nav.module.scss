@@ -1,0 +1,31 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.wrapper {
+    list-style: none;
+    display: flex;
+    gap: rem(48);
+    width: 400px;
+
+    .navItem {
+        height: rem(46);
+        position: relative;
+
+        &Link {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+
+            text-decoration: none;
+            font-size: rem(16);
+            font-weight: 500;
+            color: $gray-900;
+
+            &Active {
+                font-weight: 700;
+            }
+        }
+    }
+}
