@@ -4,9 +4,14 @@ import Title from "components/Title/Title";
 import Button from "components/Button/Button";
 import NoteCard from "./NoteCard";
 import PropTypes from 'prop-types';
+import LocationContext from "contexts/LocationContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-const NotesSection = ({title, notes, type, cardsAmount}) => {
+const NotesSection = ({title, notes, type, cardsAmount, bookid, bookLength, authorsData, titleData, userProgress}) => {
     const noteCards = []
+    const context = useContext(LocationContext);
+    const navigate = useNavigate();
 
     if(notes === undefined || notes.length === 0){
         noteCards.push(
@@ -16,6 +21,7 @@ const NotesSection = ({title, notes, type, cardsAmount}) => {
         for(let i = 0;  i < notes.length && i < cardsAmount; i++){
             noteCards.push(
                 <NoteCard 
+                noteid={notes[i].id}
                 page = {notes[i].page} 
                 type = {notes[i].noteType.name} 
                 quoteText = {notes[i].quote} 
@@ -30,12 +36,17 @@ const NotesSection = ({title, notes, type, cardsAmount}) => {
         }
     }
 
+    const seeAllNotes = () => {
+        context.setLocation({location: '/notes'})
+        navigate("/notes", {state: {notes: notes, type: type, bookid: bookid, bookLength: bookLength,bookAuthors: authorsData, bookTitle: titleData, progress: userProgress}});
+    }
+
     return(
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <Title smaller>{title}</Title>
                 <div className={styles.buttonContainer}>
-                    <Button>See all <p className={styles.amount}>({notes !== undefined ? notes.length : 0})</p></Button>
+                    <Button onClickFn={seeAllNotes}>See all <p className={styles.amount}>({notes !== undefined ? notes.length : 0})</p></Button>
                 </div>
             </div>
             <div className={styles.notesContainer}>

@@ -17,6 +17,7 @@ import BookView from "views/BookView/BookView";
 import PrivateRoute from "components/PrivateRoute/PrivateRoute";
 import EditionView from "views/EditionView/EditionView";
 import BookSearchView from "views/BookSearchView/BookSearchView";
+import NotesView from "views/NotesView/NotesView";
 
 import blobBigPink from "assets/blob_big_pink.svg";
 import blobSmallPink from "assets/blob_small_pink.svg";
@@ -40,7 +41,8 @@ const PAGES = {
     addBook: 'addBook',
     newBook: 'newBook',
     book: 'book',
-    edition: 'edition'
+    edition: 'edition',
+    notes: 'notes'
 }
 
 const Root = () => {
@@ -63,7 +65,7 @@ const Root = () => {
                     blobTopPink :
                     location.location.includes(`/${PAGES.book}`) ?
                     blobPinkBook : 
-                    location.location.includes(`/${PAGES.edition}`)?
+                    location.location.includes(`/${PAGES.edition}`) || location.location.includes(`/${PAGES.notes}`) ?
                     null :             
                     blobBigPink : 
                     blobSmallPink
@@ -77,7 +79,7 @@ const Root = () => {
                     blobTopOrange : 
                     location.location.includes(`/${PAGES.book}`) ?
                     blobOrangeBook:
-                    location.location.includes(`/${PAGES.edition}`)?
+                    location.location.includes(`/${PAGES.edition}`) || location.location.includes(`/${PAGES.notes}`)?
                     null :  
                     blobBigOrange : 
                     blobSmallOrange
@@ -104,6 +106,7 @@ const Root = () => {
                 </Route>
                 <Route path = {`/${PAGES.book}/:bookid`} element = {<BookView/>}></Route>
                 <Route path = {`/${PAGES.edition}/:editionid`} element = {<EditionView/>}></Route>
+                <Route path = {`/${PAGES.notes}`} element = {<NotesView/>}></Route>
             </Routes>
             </AppContext.Provider>
         </BrowserRouter>

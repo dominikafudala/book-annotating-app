@@ -11,6 +11,16 @@
     justify-content: space-between;
     cursor: pointer;
 
+    &.noteList {
+        border-left: none;
+        border-bottom: rem(1) solid $gray-600;
+
+        .cardBottom {
+
+            margin-bottom: rem(16);
+        }
+    }
+
     .wrapper>* {
         width: 100%;
     }

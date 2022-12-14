@@ -8,7 +8,7 @@ import noteQuote from "assets/note_quote.svg";
 import NewNoteModal from "components/NewNoteModal/NewNoteModal";
 import { useState } from "react";
 
-const Notes = ({isLoggedIn, publicNotes, userNotes, buddyNotes, bookLength, userProgress, bookId}) => {
+const Notes = ({isLoggedIn, publicNotes, userNotes, buddyNotes, bookLength, userProgress, bookId, authors, title}) => {
     const [modal, setModal] = useState(false);
     const [type, setType] = useState();
 
@@ -39,13 +39,13 @@ const Notes = ({isLoggedIn, publicNotes, userNotes, buddyNotes, bookLength, user
             <div className={styles.wrapper}>
                 {isLoggedIn 
                     &&
-                    <NotesSection title = {"My notes"} notes= {userNotes} type = {"user"}/>
+                    <NotesSection title = {"My notes"} notes= {userNotes} type = {"user"} bookid = {bookId} bookLength = {bookLength} authorsData = {authors} titleData = {title} userProgress = {userProgress}/>
                 }
                 {isLoggedIn
                 &&
-                <NotesSection title = {"Buddy read notes"} notes= {buddyNotes} type = {"buddy"}/>
+                <NotesSection title = {"Buddy read notes"} notes= {buddyNotes} type = {"buddy"} bookid = {bookId} bookLength = {bookLength} authorsData = {authors} titleData = {title} userProgress = {userProgress}/>
                 }
-                <NotesSection title = {"Community notes"} notes= {publicNotes} type = {"community"}/>
+                <NotesSection title = {"Community notes"} notes= {publicNotes} type = {"community"} bookid = {bookId} bookLength = {bookLength} authorsData = {authors} titleData = {title} userProgress = {userProgress}/>
             </div>
         </div>  
         </>

@@ -29,7 +29,7 @@ const BookSearchView = () => {
     }
 
     const viewMostPopularTime = (e) => {
-        if(e.target.id === 1) // most popular last 24 hours
+        if(e.target.id == 1) // most popular last 24 hours
         {
             changePopularBooks(popular24);
         }else{
@@ -206,6 +206,8 @@ const BookSearchView = () => {
             setQuery(false);
         }
     }
+
+
 if(popularLoading || loadingGenres || bookLoading) return <Loading/>
 return(
     <>

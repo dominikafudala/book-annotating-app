@@ -122,7 +122,9 @@ const BookView = () => {
                 buddyNotes = {buddyNotes} 
                 bookLength = {bookData.page_number} 
                 userProgress = {progress} 
-                bookId= {bookId}/>
+                bookId= {bookId}
+                authors = {bookData.authors}
+                title = {bookData.title}/>
         </ContentWrapper>
     )
 }

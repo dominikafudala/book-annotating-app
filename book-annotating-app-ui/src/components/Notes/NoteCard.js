@@ -11,7 +11,7 @@ import buddyIcon from "assets/buddy_icon_small.svg";
 
 
 
-const NoteCard = ({page, type, quoteText, noteText, likes, dislikes, access, replies, username}) => {
+const NoteCard = ({noteid, page, type, quoteText, noteText, likes, dislikes, access, replies, username, noteList}) => {
 
     const iconsType = {
         "quote": quote,
@@ -45,7 +45,7 @@ const NoteCard = ({page, type, quoteText, noteText, likes, dislikes, access, rep
     }
 
     return(
-        <div className={styles.wrapper}>
+        <div id = {noteid} className={`${styles.wrapper} ${noteList? styles.noteList: ""}`}>
             <div className={styles.top}>
                 <div className={styles.cardTop}>
                     <div className={styles.pageInfo}>
