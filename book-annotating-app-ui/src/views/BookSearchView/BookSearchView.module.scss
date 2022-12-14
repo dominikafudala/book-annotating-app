@@ -4,6 +4,14 @@
 .topWrapper {
     width: 100%;
     margin: rem(52) auto;
+
+}
+
+.search {
+    position: absolute;
+    top: 50%;
+    right: rem(100);
+    width: 40%;
 }
 
 .top {
@@ -73,5 +81,45 @@
         display: flex;
         flex-wrap: wrap;
         gap: rem(8);
+    }
+
+    .all {
+        margin-top: rem(64);
+        display: flex;
+        flex-wrap: wrap;
+        gap: rem(40);
+
+        .buttonContainer {
+            margin: 0 50%;
+
+            >* {
+                white-space: nowrap;
+            }
+        }
+
+
+    }
+}
+
+.query {
+    @extend .categories;
+
+    margin-top: 0;
+}
+
+.notFound {
+    max-width: rem(757);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto rem(96);
+
+    img {
+        mix-blend-mode: multiply;
+    }
+
+    .buttonContainer {
+        width: fit-content;
     }
 }

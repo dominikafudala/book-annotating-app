@@ -20,7 +20,7 @@ const AddBookView = () => {
     const context = useContext(LocationContext);
     const pages = context.PAGES;
 
-    const [isbn, setIsbn] = useState()
+    const [isbn, setIsbn] = useState("")
 
     const nextInputFn = (e) => {
         const isbnNew = document.querySelectorAll(`[name = "isbn"]`);
@@ -133,7 +133,7 @@ const AddBookView = () => {
         {modal && <Modal title = {modalTitle} subheading = {modalSubtitle} button = {modalButton} success = {modalSuccess}/>}
         <ContentWrapper>
             <LeftContentWrapper>
-                <GoBack>Cancel and go back</GoBack>
+                <GoBack href = "/">Cancel and go back</GoBack>
                 <Title>Find a book</Title>
                 <Subeading bigger>Use an ISBN number to fill in most of the book's information.</Subeading>
                 <Input 

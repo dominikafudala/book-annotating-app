@@ -15,9 +15,14 @@ public interface EditionBookUserRepository extends JpaRepository<EditionBookUser
     @Query("select e from EditionBookUser e where e.edition.id = ?1 and e.user is null")
     EditionBookUser findByEdition_IdAndUserNull(Integer id);
 
-    @Query(value = "select * from edition_book_user where user_id is null order by edition_id limit 10 offset ?1 ", nativeQuery = true)
-    List<EditionBookUser> findByUserNull(Integer skip);
+    @Query(value = "select * from edition_book_user where user_id is null order by edition_id limit ?2 offset ?1 ", nativeQuery = true)
+    List<EditionBookUser> findByUserNull(Integer skip, Integer limit);
 
+    @Query("select e from EditionBookUser e where e.user.id = ?1")
+    List<EditionBookUser> findByUser_Id(Integer id);
+
+    @Query(value = "select * from edition_book_user ebu where ebu.user_id is null and ebu.edition_id not in(?2) union select * from edition_book_user ebu2 where ebu2.user_id = ?3 order by edition_id limit ?3 offset ?1 ", nativeQuery = true)
+    List<EditionBookUser> findAllUsersEditions(Integer skip, List<Integer> editionIds, Integer userid, Integer limit);
 
 
 

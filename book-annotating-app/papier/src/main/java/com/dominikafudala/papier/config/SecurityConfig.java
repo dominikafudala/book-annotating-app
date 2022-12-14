@@ -36,7 +36,8 @@ public class SecurityConfig {
             "/note/{bookid:\\d+}",
             "/edition/{editionid:\\d+}",
             "/book/top",
-            "/edition/all/{amount:\\d+}"
+            "/edition/all/{amount:\\d+}",
+            "/book/search"
     };
 
     private static final String[] USER_URLS = {

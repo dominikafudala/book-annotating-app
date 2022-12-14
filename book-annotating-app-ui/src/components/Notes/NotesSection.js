@@ -3,8 +3,9 @@ import styles from "./NotesSection.module.scss";
 import Title from "components/Title/Title";
 import Button from "components/Button/Button";
 import NoteCard from "./NoteCard";
+import PropTypes from 'prop-types';
 
-const NotesSection = ({title, notes, type}) => {
+const NotesSection = ({title, notes, type, cardsAmount}) => {
     const noteCards = []
 
     if(notes === undefined || notes.length === 0){
@@ -12,7 +13,7 @@ const NotesSection = ({title, notes, type}) => {
             <div className={styles.empty} key = {"empty"}>No notes added</div>
         )
     }else{
-        for(let i = 0;  i < notes.length && i < 2; i++){
+        for(let i = 0;  i < notes.length && i < cardsAmount; i++){
             noteCards.push(
                 <NoteCard 
                 page = {notes[i].page} 
@@ -42,6 +43,10 @@ const NotesSection = ({title, notes, type}) => {
             </div>
         </div>
     )
+}
+
+NotesSection.defaultProps = {
+    cardsAmount: 2,
 }
 
 export default NotesSection;

@@ -5,6 +5,22 @@
     cursor: pointer;
     width: rem(153);
 
+    &.full {
+        display: flex;
+        gap: rem(16);
+        align-items: center;
+        // max-width: rem(228);
+        min-width: rem(228);
+        flex-basis: 30%;
+
+        .info {
+            height: fit-content;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+
     .cover {
         width: fit-content;
 
@@ -22,6 +38,13 @@
         gap: rem(6);
         margin-top: rem(12);
         justify-content: space-between;
+
+        .series {
+            font-weight: 700;
+            font-size: rem(14);
+            color: $gray-900;
+            margin-bottom: rem(4);
+        }
 
         .basicInfo>* {
             text-overflow: ellipsis;
@@ -54,6 +77,25 @@
             p {
                 font-weight: 600;
                 font-size: 14px;
+            }
+        }
+
+        .genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: rem(4);
+            margin-bottom: rem(16);
+
+            .genre {
+                padding: em(4) em(8);
+                border: 1px solid $gray-700;
+                border-radius: rem(500);
+                font-weight: 500;
+                font-size: rem(14);
+                color: $gray-900;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
             }
         }
     }

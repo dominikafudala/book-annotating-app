@@ -9,18 +9,34 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+
 
     .contentWrapper {
+        height: rem(80);
         max-width: rem(1400);
         margin: 0 auto;
         width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     &.background {
         background-color: $beige;
+
+        &:before {
+            display: block;
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/assets/paper_texture.png');
+            opacity: 38%;
+            mix-blend-mode: multiply;
+            z-index: 21;
+        }
     }
 
     .logoWrapper {

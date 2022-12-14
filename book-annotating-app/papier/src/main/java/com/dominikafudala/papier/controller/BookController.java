@@ -138,4 +138,9 @@ public class BookController {
         return ResponseEntity.ok(bookService.getTop());
     }
 
+    @PostMapping("/search")
+    public ResponseEntity<?> search(@RequestBody String search, HttpServletRequest request){
+
+        return ResponseEntity.ok(bookService.search(search, request.getHeader("Authorization")));
+    }
 }

@@ -558,6 +558,51 @@ public class BookService {
 
     public List<SummaryBookModel> getAllBooks(Integer amount, String userToken) {
         List<SummaryBookModel> summaryBookModels = new ArrayList<>();
+
+        List<EditionBookUser> editionBookUsers = this.getEditionBookUserFromToken(userToken, amount, 9);
+
+        List<Book> books = bookRepository.findAllById(editionBookUsers.stream().map(el -> el.getBook().getId()).toList());
+
+        return getSummaryBookModels(books, summaryBookModels);
+    }
+
+    public List<SummaryBookModel> search(String search, String authorization) {
+        search = search.replace("=", "");
+        List<BookAuthor> bookAuthors = bookAuthorRepository.findByAuthorID_NameContainsIgnoreCase(search);
+        List<Book> books = bookRepository.findByTitleLikeIgnoreCaseOrSeriesID_NameLikeIgnoreCase(search, search);
+        List<Integer> bookIds = Stream.concat(bookAuthors.stream().map(b -> b.getBookID().getId()), books.stream().map(b -> b.getId())).toList();
+
+
+        List <Book> foundBooks = bookRepository.findAllById(bookIds);
+        List <EditionBookUser> editionBookUsers = this.getEditionBookUserFromToken(authorization, 0, 50);
+
+        // get editions that user chose that are in found books
+        List<Book> intersectionBooks = editionBookUsers.stream()
+                .map(b -> b.getBook())
+                .filter(el -> foundBooks.stream().map(fb -> fb.getEditionID() != null ? fb.getEditionID().getId() : null)
+                        .toList()
+                        .contains(el.getEditionID().getId())).toList();
+        List<Book> booksNoEditionAndIntersection = Stream.concat(intersectionBooks.stream(), foundBooks.stream().filter(book -> book.getEditionID() == null).toList().stream()).toList();
+
+
+
+        List<SummaryBookModel> summaryBookModels = new ArrayList<>();
+        return getSummaryBookModels(booksNoEditionAndIntersection, summaryBookModels);
+
+    }
+
+    private List<SummaryBookModel> getSummaryBookModels(List<Book> booksNoEditionAndIntersection, List<SummaryBookModel> summaryBookModels) {
+        for(Book b : booksNoEditionAndIntersection){
+            SummaryBookModel summaryBookModel = new SummaryBookModel();
+            summaryBookModel.setBookModel(this.getBookModelFromId(b.getId()));
+            summaryBookModel.setReplies(noteRepository.countByBook_IdIsAndAccess_NameIs(b.getId(), "public"));
+            summaryBookModels.add(summaryBookModel);
+        }
+
+        return summaryBookModels;
+    }
+
+    private List<EditionBookUser> getEditionBookUserFromToken(String userToken, Integer amount, Integer limit){
         User user = null;
 
         if(userToken != null){
@@ -566,23 +611,15 @@ public class BookService {
                 user = userRepository.findByEmail(userMail);
             }
         }
+        List<EditionBookUser> editionBookUsers;
 
         if(user != null){
-
+            List<EditionBookUser> usersEditions= editionBookUserRepository.findByUser_Id(user.getId());
+            editionBookUsers = editionBookUserRepository.findAllUsersEditions(amount, usersEditions.stream().map(e -> e.getEdition().getId()).toList(), user.getId(), limit);
         }else{
-            List<EditionBookUser> editionBookUsers= editionBookUserRepository.findByUserNull(amount);
-            List<Book> books = bookRepository.findAllById(editionBookUsers.stream().map(el -> el.getBook().getId()).toList());
-
-            for(Book b : books){
-                SummaryBookModel summaryBookModel = new SummaryBookModel();
-                summaryBookModel.setBookModel(this.getBookModelFromId(b.getId()));
-                summaryBookModel.setReplies(noteRepository.countByBook_IdIsAndAccess_NameIs(b.getId(), "public"));
-                summaryBookModels.add(summaryBookModel);
-            }
-
+            editionBookUsers= editionBookUserRepository.findByUserNull(amount, limit);
         }
 
-
-        return summaryBookModels;
+        return editionBookUsers;
     }
 }

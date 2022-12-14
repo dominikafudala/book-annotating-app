@@ -63,7 +63,7 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
 
     return (
         <LeftContentWrapper>
-            <GoBack>Go back</GoBack>
+            <GoBack href={"/"}>Go back</GoBack>
             <Title>{title}</Title>
             {
                 page !== types.signup && page !== types.login
