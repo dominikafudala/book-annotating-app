@@ -129,7 +129,7 @@ const EditionView = () => {
     if(isLoading || isLoadingLanguages) return <Loading/>
     return(
         <>
-            <HeaderBookNav bookAuthors={location.state ? location.state.bookAuthors : []} bookTitle = {location.state ? location.state.bookTitle: ""}/>
+            <HeaderBookNav bookAuthors={location.state ? location.state.bookAuthors : []} bookTitle = {location.state ? location.state.bookTitle: ""} location = {"/book"}/>
             <ContentWrapper>
                     <div className={styles.filters}>
                         <p>Filters</p>

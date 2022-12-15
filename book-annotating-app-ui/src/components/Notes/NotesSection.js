@@ -8,7 +8,7 @@ import LocationContext from "contexts/LocationContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-const NotesSection = ({title, notes, type, cardsAmount, bookid, bookLength, authorsData, titleData, userProgress}) => {
+const NotesSection = ({title, notes, type, cardsAmount, bookLength, authorsData, titleData, userProgress}) => {
     const noteCards = []
     const context = useContext(LocationContext);
     const navigate = useNavigate();
@@ -31,6 +31,7 @@ const NotesSection = ({title, notes, type, cardsAmount, bookid, bookLength, auth
                 access = {notes[i].access.name} 
                 username = {notes[i].user.username} 
                 replies = {notes[i].replies}
+                bookid= {notes[i].book.id}
                 key = {notes[i].id}/>
             )
         }
@@ -38,7 +39,7 @@ const NotesSection = ({title, notes, type, cardsAmount, bookid, bookLength, auth
 
     const seeAllNotes = () => {
         context.setLocation({location: '/notes'})
-        navigate("/notes", {state: {notes: notes, type: type, bookid: bookid, bookLength: bookLength,bookAuthors: authorsData, bookTitle: titleData, progress: userProgress}});
+        navigate("/notes", {state: {notes: notes, type: type, bookLength: bookLength,bookAuthors: authorsData, bookTitle: titleData, progress: userProgress}});
     }
 
     return(

@@ -1,0 +1,62 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.top {
+    max-width: rem(1420);
+    padding: 0 em(96);
+    margin: 0 auto;
+    overflow: hidden;
+    margin-bottom: rem(40);
+    margin-top: rem(60);
+
+    .bookCards {
+        position: relative;
+        margin-top: rem(40);
+        display: flex;
+        gap: rem(48);
+        transition: .2s;
+
+
+        .arrow {
+            top: 30%;
+            right: -30px;
+            position: absolute;
+            width: rem(56);
+            height: rem(56);
+            background-color: $gray-900;
+            border-radius: 500px;
+            box-shadow: 0px 4px 10px rgba(16, 24, 40, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .backwardArrow {
+            @extend .arrow;
+            transform: scale(-1);
+            display: none;
+        }
+    }
+}
+
+.myNotes {
+    max-width: rem(1420);
+    padding: rem(40) rem(96);
+    margin: 0 auto;
+    overflow: hidden;
+    margin-top: rem(64);
+    margin-bottom: rem(64);
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    gap: rem(24);
+
+    >p {
+        font-weight: 700;
+        font-size: 20px;
+        color: $gray-900;
+    }
+}

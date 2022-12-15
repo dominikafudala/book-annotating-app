@@ -624,4 +624,36 @@ public class BookService {
 
         return editionBookUsers;
     }
+
+    public List<SummaryBookModel> getCurrentlyReading(String authorization) {
+        List<SummaryBookModel> summaryBookModels= new ArrayList<>();
+        String userMail = authorizationHelper.getUsernameFromToken(authorization);
+        User user = userRepository.findByEmail(userMail);
+
+        List<BookProgress> bookProgresses = bookProgressRepository.findByUser(user);
+        for(BookProgress bp : bookProgresses){
+            SummaryBookModel summaryBookModel = new SummaryBookModel();
+            summaryBookModel.setBookModel(this.getBookModelFromId(bp.getBook().getId()));
+            summaryBookModel.setReplies(noteRepository.countByBook_IdIsAndAccess_NameIs(bp.getBook().getId(), "public"));
+            summaryBookModels.add(summaryBookModel);
+        }
+
+        return summaryBookModels;
+    }
+
+    public List<SummaryBookModel> getSaved(String authorization) {
+        List<SummaryBookModel> summaryBookModels= new ArrayList<>();
+        String userMail = authorizationHelper.getUsernameFromToken(authorization);
+        User user = userRepository.findByEmail(userMail);
+
+        List<SavedBookUser> savedBookUsers = savedBookUserRepository.findByUser(user);
+        for(SavedBookUser bp : savedBookUsers){
+            SummaryBookModel summaryBookModel = new SummaryBookModel();
+            summaryBookModel.setBookModel(this.getBookModelFromId(bp.getBook().getId()));
+            summaryBookModel.setReplies(noteRepository.countByBook_IdIsAndAccess_NameIs(bp.getBook().getId(), "public"));
+            summaryBookModels.add(summaryBookModel);
+        }
+
+        return summaryBookModels;
+    }
 }

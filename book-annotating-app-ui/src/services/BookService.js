@@ -231,6 +231,38 @@ class BookService {
         if(response.status === 200) return response.data;
         else return 0;
     }
+
+    static async getCurrentlyReading() {
+        let response;
+        try{
+            response = await axios.get(BACKEND_LOCATION+"book/currentlyreading", {
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return 0;
+    }
+
+    static async getSaved() {
+        let response;
+        try{
+            response = await axios.get(BACKEND_LOCATION+"book/saved", {
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return 0;
+    }
 }
 
 export default BookService;

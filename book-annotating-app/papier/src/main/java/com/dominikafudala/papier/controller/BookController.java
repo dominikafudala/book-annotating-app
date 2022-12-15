@@ -143,4 +143,14 @@ public class BookController {
 
         return ResponseEntity.ok(bookService.search(search, request.getHeader("Authorization")));
     }
+
+    @GetMapping("/currentlyreading")
+    public ResponseEntity<?> getCurrentlyReading(HttpServletRequest request){
+        return ResponseEntity.ok(bookService.getCurrentlyReading(request.getHeader("Authorization")));
+    }
+
+    @GetMapping("/saved")
+    public ResponseEntity<?> getSaved(HttpServletRequest request){
+        return ResponseEntity.ok(bookService.getSaved(request.getHeader("Authorization")));
+    }
 }

@@ -140,4 +140,29 @@
         margin: 0 auto;
     }
 
+    .access {
+        display: flex;
+        gap: rem(8);
+        align-items: center;
+        margin-bottom: rem(10);
+
+        p {
+            font-weight: 600;
+            font-size: rem(12);
+            color: $gray-600;
+        }
+
+
+        img {
+            width: rem(16);
+            margin: 0;
+        }
+    }
+
+}
+
+.noteAddButtons {
+    display: flex;
+    gap: rem(10);
+    padding-bottom: rem(40);
 }

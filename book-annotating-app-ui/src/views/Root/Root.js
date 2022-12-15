@@ -19,6 +19,7 @@ import EditionView from "views/EditionView/EditionView";
 import BookSearchView from "views/BookSearchView/BookSearchView";
 import NotesView from "views/NotesView/NotesView";
 import NoteView from "views/NoteView/NoteView";
+import DashboardView from "views/DashboardView/DashboardView";
 
 import blobBigPink from "assets/blob_big_pink.svg";
 import blobSmallPink from "assets/blob_small_pink.svg";
@@ -44,7 +45,8 @@ const PAGES = {
     book: 'book',
     edition: 'edition',
     notes: 'notes',
-    note: 'note'
+    note: 'note',
+    dashboard: 'dashboard'
 }
 
 const Root = () => {
@@ -60,7 +62,7 @@ const Root = () => {
         <AppContext.Provider value={context}> 
             <Background 
                 blobPink = {
-                    location.location === "/"?
+                    location.location === "/" || location.location==`/${PAGES.dashboard}`?
                     blobPinkMain:
                     location.location !== `/${PAGES.signup}` ?
                     location.location.includes(`/${PAGES.newBook}`) || location.location==`/${PAGES.note}`? 
@@ -74,7 +76,7 @@ const Root = () => {
                 } 
 
                 blobOrange = {
-                    location.location === "/"?
+                    location.location === "/" || location.location==`/${PAGES.dashboard}`?
                     blobOrangeMain:
                     location.location !== `/${PAGES.signup}` ? 
                     location.location.includes(`/${PAGES.newBook}`) || location.location ==`/${PAGES.note}` ? 
@@ -86,9 +88,9 @@ const Root = () => {
                     blobBigOrange : 
                     blobSmallOrange
                 }
-                blobTop={location.location === `/${PAGES.newBook}` || location.location === "/" || location.location==`/${PAGES.note}`? true : false}
+                blobTop={location.location === `/${PAGES.newBook}` || location.location === "/" || location.location==`/${PAGES.note}` || location.location==`/${PAGES.dashboard}` ? true : false}
                 blobBook={location.location.includes(`/${PAGES.book}`) ? true : false}
-                blobMain = {location.location === "/" ? true : false}
+                blobMain = {location.location === "/" || location.location==`/${PAGES.dashboard}`? true : false}
                 />
             <Header/>
             <Routes>
@@ -109,6 +111,9 @@ const Root = () => {
                 <Route path = {`/${PAGES.book}/:bookid`} element = {<BookView/>}></Route>
                 <Route path = {`/${PAGES.edition}/:editionid`} element = {<EditionView/>}></Route>
                 <Route path = {`/${PAGES.notes}`} element = {<NotesView/>}></Route>
+                <Route exact path={`/${PAGES.dashboard}`} element={<PrivateRoute/>}>
+                    <Route path = {`/${PAGES.dashboard}`} element = {<DashboardView/>}></Route>
+                </Route>
                 <Route exact path = {`/${PAGES.note}`} element = {<NoteView/>}></Route>
             </Routes>
             </AppContext.Provider>

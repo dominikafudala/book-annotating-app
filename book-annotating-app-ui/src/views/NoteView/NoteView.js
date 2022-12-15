@@ -15,6 +15,11 @@ import buddyIcon from "assets/buddy_icon_small.svg";
 import Button from "components/Button/Button";
 import Modal from "components/Modal/Modal";
 import { useState } from "react";
+import SessionService from "services/SessionService";
+import AddNoteButton from "components/AddNoteButton/AddNoteButton";
+import NewNoteModal from "components/NewNoteModal/NewNoteModal";
+import { useEffect } from "react";
+import NoteService from "services/NoteService";
 
 const NoteView = () => {
     const location = useLocation();
@@ -58,23 +63,34 @@ const NoteView = () => {
         </div>
     }
 
-    const replies = [];
-    locationState.replies.forEach( note => {
-        replies.push(<NoteCard 
-            noteid={note.id}
-            page = {note.page} 
-            type = {note.noteType.name} 
-            quoteText = {note.quote} 
-            noteText = {note.note} 
-            likes = {note.likes}
-            dislikes = {note.dislikes} 
-            access = {note.access.name} 
-            username = {note.user.username} 
-            replies = {note.replies}
-            key = {note.id}
-            noteList
-            />)
-    })
+    const [stateReply, setStateReply] = useState([]);
+    let replies = [];
+
+    const renderReplies = (repl) => {
+        replies = [];
+        repl.forEach(note => {
+            replies.push(<NoteCard 
+                noteid={note.id}
+                page = {note.page} 
+                type = {note.noteType.name} 
+                quoteText = {note.quote} 
+                noteText = {note.note} 
+                likes = {note.likes}
+                dislikes = {note.dislikes} 
+                access = {note.access.name} 
+                username = {note.user.username} 
+                replies = {note.replies}
+                key = {note.id}
+                noteList
+                />)
+        })
+    }
+
+    renderReplies(locationState.replies);
+    
+    useEffect(
+        ()=> setStateReply(replies),[]
+    )
 
     const [showOptions, setShowOptions] = useState(false);
 
@@ -82,11 +98,46 @@ const NoteView = () => {
         setShowOptions(true);
     }
 
+    const [newReply, setNewReply] = useState();
+    const [typeReply, setTypeReply] = useState()
+
+    const openModal = (e) => {
+        setShowOptions(false);
+        setTypeReply(e.target.nodeName === "DIV"  ? e.target.dataset.type: e.target.parentElement.dataset.type);
+        setNewReply(true);
+    }
+
+    const closeModal = async () => {
+        setNewReply(false);
+        await NoteService.getReplies(parentNote.noteid).then(resp => {
+            renderReplies(resp);
+            setStateReply(replies);
+        })
+    }
+
+    let modal;
+    if(SessionService.isAccesTokenValid()){
+        modal = <Modal 
+        title={"Reply"}
+        button={<Button onClickFn={() => setShowOptions(false)}>Close</Button>}>
+            <div className={styles.noteAddButtons}>
+                <AddNoteButton type={"note"} icon = {noteIcon} onClickFn = {openModal}>Add note</AddNoteButton>
+                <AddNoteButton type={"quote"} icon = {quote} onClickFn = {openModal}>Add quote</AddNoteButton>
+                <AddNoteButton type={"quote note"} icon = {noteQuote} onClickFn = {openModal}>Add note with quote</AddNoteButton>
+            </div>  
+        </Modal>
+    }else{
+        modal = <Modal 
+        title={"Reply"}
+        subheading = {"To reply please create an account"}
+        button={[<Button secondary onClickFn={() => setShowOptions(false)}>Close</Button>, <Button href = {"signup"} key = {"sign_up"}>Sign up</Button>]}>
+        </Modal>
+    }
+
     return(
         <>
-        {showOptions && <Modal button={<Button onClickFn={() => setShowOptions(false)}>Close</Button>}>
-
-        </Modal>}
+        {showOptions && modal}
+        {newReply && <NewNoteModal type = {typeReply} bookId={parentNote.bookid} page = {"parent"} parentNoteId = {parentNote.noteid} accessParent = {parentNote.access} maxPages = {parentNote.page} onCloseFn = {closeModal}/>}
         <div className={styles.wrapper}>
         <GoBack onClickFn={() => {navigate(-1)}}>Go back</GoBack>
                 <section className={styles.parent}>
@@ -119,7 +170,7 @@ const NoteView = () => {
                     <div className={styles.buttonContainer}>
                         <Button onClickFn={showOptionsReply}>Reply</Button>
                     </div>
-                    {replies}
+                    {stateReply}
                 </section>
         </div>
         </>

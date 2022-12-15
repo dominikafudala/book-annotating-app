@@ -36,12 +36,26 @@ public class NoteController {
         return ResponseEntity.ok(notes);
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<?> getUserNotes(HttpServletRequest request){
+        List<Note> notes = noteService.getAllUserNotes(request.getHeader("Authorization"));
+        notes.forEach(note -> note.setReplies(noteService.countReplies(note.getId())));
+        return ResponseEntity.ok(notes);
+    }
+
     @GetMapping("/buddy/{bookid}")
     public ResponseEntity<?> getBuddyNotes(@PathVariable Integer bookid, HttpServletRequest request){
         List<Note> notes = noteService.getAllBuddyNotes(bookid, request.getHeader("Authorization"));
         notes.forEach(note -> note.setReplies(noteService.countReplies(note.getId())));
         return ResponseEntity.ok(notes);
     }
+    @GetMapping("/buddy")
+    public ResponseEntity<?> getBuddyNotes(HttpServletRequest request){
+        List<Note> notes = noteService.getAllBuddyNotes(request.getHeader("Authorization"));
+        notes.forEach(note -> note.setReplies(noteService.countReplies(note.getId())));
+        return ResponseEntity.ok(notes);
+    }
+
 
     @PostMapping("/addnote")
     public ResponseEntity<?> addNote(@RequestBody NoteModel noteModel, HttpServletRequest request){

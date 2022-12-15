@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -37,6 +39,11 @@ public class UserController {
             return "Couldn't verify account";
         }
         return "Your account was verified";
+    }
+
+    @GetMapping("/username")
+    public ResponseEntity<?> getUsername(HttpServletRequest request){
+        return ResponseEntity.ok(userService.getUsername(request.getHeader("Authorization")));
     }
 
 }

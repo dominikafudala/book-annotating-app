@@ -12,7 +12,7 @@ const Nav = ({isLoggedIn}) => {
             {
                 isLoggedIn && 
                 <li className= {styles.navItem}>
-                    <NavLink className={(navData) => (navData.isActive ? styles.navItemLinkActive + " " + styles.navItemLink : styles.navItemLink)} to = "/newBook">Home</NavLink>
+                    <NavLink className={(navData) => (navData.isActive ? styles.navItemLinkActive + " " + styles.navItemLink : styles.navItemLink)} to = "/dashboard" onClick={() => context.setLocation({location: "/dashboard"})}>Home</NavLink>
                 </li>
             }
             <li className= {styles.navItem}>

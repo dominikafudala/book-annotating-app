@@ -35,7 +35,7 @@
             background-image: url('/assets/paper_texture.png');
             opacity: 38%;
             mix-blend-mode: multiply;
-            z-index: 21;
+            z-index: -1;
         }
     }
 
@@ -52,5 +52,9 @@
         justify-content: space-between;
         gap: rem(12);
         margin-right: em(32);
+    }
+
+    .logOut {
+        cursor: pointer;
     }
 }

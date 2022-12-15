@@ -4,6 +4,7 @@ import com.dominikafudala.papier.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,12 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
     long countByBook_IdIsAndAccess_NameIs(Integer id, String name);
 
     List<Note> findByParentNote_Id(Integer id);
+
+    List<Note> findAllByUser(User user);
+
+    List<Note> findByBuddyReadidIn(Collection<BuddyRead> buddyReadids);
+
+
 
 
 

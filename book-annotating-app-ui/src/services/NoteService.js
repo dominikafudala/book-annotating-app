@@ -20,11 +20,11 @@ class NoteService {
     }
 
     static async getUserNotes(bookId) {
-
+        let postfix = bookId !== undefined ? "/" + bookId : "";
         let response;
 
         try{
-            response = await axios.get(BACKEND_LOCATION+this.#mapping+"/user/"+bookId,{
+            response = await axios.get(BACKEND_LOCATION+this.#mapping+"/user"+postfix,{
                 headers: {
                     'Authorization': `Bearer ${SessionService.getAccessToken()}`
                 }
@@ -38,11 +38,12 @@ class NoteService {
     }
 
     static async getBuddyNotes(bookId) {
+        let postfix = bookId !== undefined ? "/" + bookId : "";
 
         let response;
 
         try{
-            response = await axios.get(BACKEND_LOCATION+this.#mapping+"/buddy/"+bookId,{
+            response = await axios.get(BACKEND_LOCATION+this.#mapping+"/buddy"+postfix,{
                 headers: {
                     'Authorization': `Bearer ${SessionService.getAccessToken()}`
                 }

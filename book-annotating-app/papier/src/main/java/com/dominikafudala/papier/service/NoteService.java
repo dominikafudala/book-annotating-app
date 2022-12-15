@@ -97,4 +97,19 @@ public class NoteService {
     public List<Note> getAllReplies(Integer noteid) {
         return noteRepository.findByParentNote_Id(noteid);
     }
+
+    public List<Note> getAllUserNotes(String authorization) {
+        String userMail = authorizationHelper.getUsernameFromToken(authorization);
+        User user = userRepository.findByEmail(userMail);
+        return noteRepository.findAllByUser(user);
+    }
+
+    public List<Note> getAllBuddyNotes(String authorization) {
+        String userMail = authorizationHelper.getUsernameFromToken(authorization);
+        User user = userRepository.findByEmail(userMail);
+
+        List<BuddyRead> buddyReads = buddyReadUserRepository.findBuddyReadsByUserId(user);
+
+        return noteRepository.findByBuddyReadidIn(buddyReads);
+    }
 }

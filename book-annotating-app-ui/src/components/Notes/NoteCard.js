@@ -14,7 +14,7 @@ import LocationContext from "contexts/LocationContext";
 
 
 
-const NoteCard = ({noteid, page, type, quoteText, noteText, likes, dislikes, access, replies, username, noteList}) => {
+const NoteCard = ({noteid, page, type, quoteText, noteText, likes, dislikes, access, replies, username, bookid, noteList}) => {
     const navigate = useNavigate();
     const context = useContext(LocationContext);
 
@@ -41,7 +41,7 @@ const NoteCard = ({noteid, page, type, quoteText, noteText, likes, dislikes, acc
             </div>
             <p>Private</p>
         </div>,
-        "buddy read": <div className={styles.access}>
+        "buddy": <div className={styles.access}>
             <div className={styles.accessIcon}>
                 <img src={buddyIcon} alt="Buddy icon" />
             </div>
@@ -62,7 +62,8 @@ const NoteCard = ({noteid, page, type, quoteText, noteText, likes, dislikes, acc
                 dislikes:dislikes,
                 access: access,
                 replies:replies,
-                username: username
+                username: username,
+                bookid: bookid
             }, replies: resp}})
         })
     }

@@ -14,7 +14,7 @@ import NoteService from "services/NoteService";
 import Modal from "components/Modal/Modal";
 import Background from "components/Background/Background";
 
-const NewNoteModal = ({type, bookId, page, maxPages, onCloseFn}) => {
+const NewNoteModal = ({type, bookId, page, maxPages, onCloseFn, parentNoteId, accessParent}) => {
     const [progressError, setProgressError] = useState(false);
 
     const iconsType = {
@@ -32,11 +32,11 @@ const NewNoteModal = ({type, bookId, page, maxPages, onCloseFn}) => {
     const [note, setNote] = useState({
         bookId: bookId,
         type: type,
-        page: page === 0 ? null : page,
-        access: "private",
+        page: page === 0 ? null : page === "parent" ? maxPages : page,
+        access: accessParent ? accessParent : "private",
         quote: null,
         note: null,
-        parentNoteId: null,
+        parentNoteId: parentNoteId ? parentNoteId : null,
         buddyReadId: null
     })
 
@@ -157,7 +157,8 @@ const NewNoteModal = ({type, bookId, page, maxPages, onCloseFn}) => {
                 <Title smaller>{headingText[type]}</Title>
                 <div className={styles.controls}>
                     <div className={styles.pages}>
-                        Page 
+                        Page:
+                       {page !== "parent" &&<>
                         <Input 
                         name = {"pages"} 
                         smallInput 
@@ -171,12 +172,14 @@ const NewNoteModal = ({type, bookId, page, maxPages, onCloseFn}) => {
                         errorInput = {progressError}>
 
                         </Input>
-                        /{maxPages}
+                        /
+                        </>}
+                        {maxPages}
                     </div>
                     <div className={styles.access}>
-                        <div className={styles.active} onClick = {changeAccessFn}>Private</div>
-                        <div onClick = {changeAccessFn}>Public</div>
-                        <div onClick = {changeAccessFn}>Buddy</div>
+                        {(accessParent === undefined || accessParent === "private") &&<div className={styles.active} onClick = {changeAccessFn}>Private</div>}
+                        {(accessParent === undefined || accessParent === "public") && <div className={accessParent === "public" ? styles.active : ""} onClick = {changeAccessFn}>Public</div>}
+                        {(accessParent === undefined || accessParent === "buddy") && <div className={accessParent === "buddy" ? styles.active : ""} onClick = {changeAccessFn}>Buddy</div>}
                     </div>
                 </div>
                 <div className={styles.inputWrapper}>

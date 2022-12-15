@@ -27,7 +27,10 @@ public class BuddyReadService {
 
         List<BuddyRead> buddyReads = buddyReadUserRepository.findBuddyReadsByUserId(user);
 
-        List<BuddyRead> bookBuddyReads = buddyReads.stream().filter(buddyRead -> buddyRead.getBook().getId() == bookid).toList();
+        List<BuddyRead> bookBuddyReads = buddyReads.stream().filter(buddyRead -> {
+            return buddyRead.getBook().getId().intValue() == bookid.intValue();
+        }).toList();
+
 
         return buddyReadUserRepository.findBuddyReadUserByBuddyRead(bookBuddyReads);
 

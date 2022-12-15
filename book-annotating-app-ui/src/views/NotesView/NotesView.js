@@ -29,6 +29,7 @@ const NotesView = () => {
             access = {note.access.name} 
             username = {note.user.username} 
             replies = {note.replies}
+            bookid= {note.book.id}
             key = {note.id}
             noteList
             />)
@@ -47,7 +48,7 @@ const NotesView = () => {
 
     const filterNotesByPages = (e) => {
         if(e === undefined){
-            if(pagesFilter != 0){
+            if(pagesFilter != 0 && pagesFilter !== undefined){
                 const filteredNotes = [...originalNotes].filter(el =>  el.props.page == pagesFilter);
                 setNotes(filteredNotes)
             }else{
@@ -85,17 +86,17 @@ const NotesView = () => {
         setNotes([...originalNotes]
             .filter(el =>  el.props.access == e.target.innerText.toLowerCase() 
             &&
-            (pagesFilter  != 0 && pagesFilter.length !== 0 ? el.props.page == pagesFilter : true)));
+            (pagesFilter  != 0 &&locationState.bookLength !== undefined && pagesFilter.length !== 0 ? el.props.page == pagesFilter : true)));
     }
 
     return(
         <>
-             <HeaderBookNav bookAuthors={locationState ? locationState.bookAuthors : []} bookTitle = {locationState ? locationState.bookTitle: ""}/>
+             <HeaderBookNav bookAuthors={locationState.bookAuthors !== undefined ? locationState.bookAuthors : []} bookTitle = {locationState.bookTitle !== undefined ? locationState.bookTitle: ""} location = {locationState.bookLength === undefined ? "/dashboard" : "/book"}/>
              
              <ContentWrapper>
                 <section className={styles.notes}>
                 <div className={styles.controls}>
-                    <div className={styles.pages}>
+                    {locationState.bookLength !== undefined ? <div className={styles.pages}>
                         Page 
                         <Input 
                         name = {"pages"} 
@@ -111,7 +112,7 @@ const NotesView = () => {
 
                         </Input>
                         /{locationState.bookLength}
-                    </div>
+                    </div> : null}
                     <div className={styles.access}>
                         {locationState.type === "user" && <div className={locationState.type === "user" ? styles.active : ""} onClick = {filterNotesAccess}>All</div>}
                         {locationState.type === "user" &&<div onClick = {filterNotesAccess}>Private</div>}

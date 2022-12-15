@@ -4,6 +4,7 @@ import com.dominikafudala.papier.entity.Token;
 import com.dominikafudala.papier.entity.User;
 import com.dominikafudala.papier.entity.UserType;
 import com.dominikafudala.papier.exceptions.PasswordDontMatchException;
+import com.dominikafudala.papier.filter.AuthorizationHelper;
 import com.dominikafudala.papier.model.UserModel;
 import com.dominikafudala.papier.repository.UserRepository;
 import com.dominikafudala.papier.repository.UserTypeRepository;
@@ -29,6 +30,7 @@ public class UserService implements UserDetailsService {
     private final TokenService tokenService;
     private final UserTypeRepository userTypeRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthorizationHelper authorizationHelper;
 
     public User newUser(UserModel userModel){
         checkPasswords(userModel.getPassword(), userModel.getRepeatPassword());
@@ -115,5 +117,15 @@ public class UserService implements UserDetailsService {
 
     private Collection < ? extends GrantedAuthority> mapRolesToAuthorities(UserType role) {
         return Collections.singleton(new SimpleGrantedAuthority(role.getName()));
+    }
+
+    public String getUsername(String userToken) {
+        if(userToken != null){
+            if(authorizationHelper.checkDate(userToken)){
+                String userMail = authorizationHelper.getUsernameFromToken(userToken);
+                return userRepository.findByEmail(userMail).getUsername();
+            }
+        }
+        return null;
     }
 }

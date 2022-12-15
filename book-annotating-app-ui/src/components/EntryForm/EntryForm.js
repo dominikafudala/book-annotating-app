@@ -49,6 +49,8 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
             ReactSession.setStoreType("localStorage");
             ReactSession.set("access_token", accessToken);
             ReactSession.set("refresh_token", refreshToken);
+            context.setLocation({location: "/dahsboard"});
+            navigation(`/${types.dashboard}`)
         }
 
         if(page === 'signup'){
