@@ -21,6 +21,8 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
 
     long countByBook_IdIsAndAccess_NameIs(Integer id, String name);
 
+    List<Note> findByParentNote_Id(Integer id);
+
 
 
 }

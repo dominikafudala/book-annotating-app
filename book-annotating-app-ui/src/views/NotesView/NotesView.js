@@ -30,7 +30,8 @@ const NotesView = () => {
             username = {note.user.username} 
             replies = {note.replies}
             key = {note.id}
-            noteList/>)
+            noteList
+            />)
     })
 
     useEffect(()=> {
@@ -40,7 +41,8 @@ const NotesView = () => {
 
 
     const [pagesFilter, setPagesFilter] = useState(locationState.progress)
-    const [accessFilter, setAccessFilter] = useState("All");
+    const accessFiltered = locationState.type === "community" ? "Public" : locationState.type === "buddy" ? "Buddy" : "All";
+    const [accessFilter, setAccessFilter] = useState(accessFiltered);
     const [progressError, setProgressError] = useState(false);
 
     const filterNotesByPages = (e) => {

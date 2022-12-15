@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./NoteCard.module.scss";
 import more from "assets/dots.svg";
 import quote from "assets/quote.svg";
@@ -8,10 +8,15 @@ import likeIcon from "assets/like.svg";
 import dislikeIcon from "assets/dislike.svg";
 import privateIcon from "assets/private_icon_small.svg";
 import buddyIcon from "assets/buddy_icon_small.svg";
+import NoteService from "services/NoteService";
+import { useNavigate } from "react-router-dom";
+import LocationContext from "contexts/LocationContext";
 
 
 
 const NoteCard = ({noteid, page, type, quoteText, noteText, likes, dislikes, access, replies, username, noteList}) => {
+    const navigate = useNavigate();
+    const context = useContext(LocationContext);
 
     const iconsType = {
         "quote": quote,
@@ -44,8 +49,26 @@ const NoteCard = ({noteid, page, type, quoteText, noteText, likes, dislikes, acc
         </div>
     }
 
+    const getNote = async () => {
+        await NoteService.getReplies(noteid).then(resp => {
+            context.setLocation({location: '/note'});
+            navigate("/note", {state: {pathname: window.location.pathname, parentNote:{
+                noteid: noteid,
+                page:page,
+                type: type,
+                quoteText: quoteText,
+                noteText: noteText,
+                likes:likes,
+                dislikes:dislikes,
+                access: access,
+                replies:replies,
+                username: username
+            }, replies: resp}})
+        })
+    }
+
     return(
-        <div id = {noteid} className={`${styles.wrapper} ${noteList? styles.noteList: ""}`}>
+        <div id = {noteid} className={`${styles.wrapper} ${noteList? styles.noteList: ""}`} onClick={getNote}>
             <div className={styles.top}>
                 <div className={styles.cardTop}>
                     <div className={styles.pageInfo}>

@@ -93,4 +93,8 @@ public class NoteService {
 
         noteRepository.save(note);
     }
+
+    public List<Note> getAllReplies(Integer noteid) {
+        return noteRepository.findByParentNote_Id(noteid);
+    }
 }

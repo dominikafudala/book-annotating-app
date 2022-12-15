@@ -18,6 +18,7 @@ import PrivateRoute from "components/PrivateRoute/PrivateRoute";
 import EditionView from "views/EditionView/EditionView";
 import BookSearchView from "views/BookSearchView/BookSearchView";
 import NotesView from "views/NotesView/NotesView";
+import NoteView from "views/NoteView/NoteView";
 
 import blobBigPink from "assets/blob_big_pink.svg";
 import blobSmallPink from "assets/blob_small_pink.svg";
@@ -42,7 +43,8 @@ const PAGES = {
     newBook: 'newBook',
     book: 'book',
     edition: 'edition',
-    notes: 'notes'
+    notes: 'notes',
+    note: 'note'
 }
 
 const Root = () => {
@@ -61,7 +63,7 @@ const Root = () => {
                     location.location === "/"?
                     blobPinkMain:
                     location.location !== `/${PAGES.signup}` ?
-                    location.location.includes(`/${PAGES.newBook}`) ? 
+                    location.location.includes(`/${PAGES.newBook}`) || location.location==`/${PAGES.note}`? 
                     blobTopPink :
                     location.location.includes(`/${PAGES.book}`) ?
                     blobPinkBook : 
@@ -75,7 +77,7 @@ const Root = () => {
                     location.location === "/"?
                     blobOrangeMain:
                     location.location !== `/${PAGES.signup}` ? 
-                    location.location.includes(`/${PAGES.newBook}`) ? 
+                    location.location.includes(`/${PAGES.newBook}`) || location.location ==`/${PAGES.note}` ? 
                     blobTopOrange : 
                     location.location.includes(`/${PAGES.book}`) ?
                     blobOrangeBook:
@@ -84,7 +86,7 @@ const Root = () => {
                     blobBigOrange : 
                     blobSmallOrange
                 }
-                blobTop={location.location === `/${PAGES.newBook}` || location.location === "/" ? true : false}
+                blobTop={location.location === `/${PAGES.newBook}` || location.location === "/" || location.location==`/${PAGES.note}`? true : false}
                 blobBook={location.location.includes(`/${PAGES.book}`) ? true : false}
                 blobMain = {location.location === "/" ? true : false}
                 />
@@ -107,6 +109,7 @@ const Root = () => {
                 <Route path = {`/${PAGES.book}/:bookid`} element = {<BookView/>}></Route>
                 <Route path = {`/${PAGES.edition}/:editionid`} element = {<EditionView/>}></Route>
                 <Route path = {`/${PAGES.notes}`} element = {<NotesView/>}></Route>
+                <Route exact path = {`/${PAGES.note}`} element = {<NoteView/>}></Route>
             </Routes>
             </AppContext.Provider>
         </BrowserRouter>

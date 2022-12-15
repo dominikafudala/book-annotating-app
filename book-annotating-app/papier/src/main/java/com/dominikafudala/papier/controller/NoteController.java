@@ -48,4 +48,11 @@ public class NoteController {
         noteService.addNewNote(noteModel, request.getHeader("Authorization"));
         return ResponseEntity.ok("ok");
     }
+
+    @GetMapping("/replies/{noteid}")
+    public ResponseEntity<?> getReplies(@PathVariable Integer noteid){
+        List<Note> notes = noteService.getAllReplies(noteid);
+        notes.forEach(note -> note.setReplies(noteService.countReplies(note.getId())));
+        return ResponseEntity.ok(notes);
+    }
 }

@@ -1,0 +1,143 @@
+@use 'styles/utils/' as *;
+@use 'styles/global/' as *;
+
+.wrapper {
+    max-width: rem(1420);
+    margin: rem(124) auto rem(24);
+    padding: 0 em(96);
+
+    .parent {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: rem(660);
+        margin: rem(50) auto;
+        border: 1px solid $gray-600;
+        background-color: $beige;
+        position: relative;
+        padding: em(20);
+
+        &:after {
+            display: block;
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/assets/paper_texture.png');
+            opacity: 38%;
+            mix-blend-mode: multiply;
+        }
+
+        .cardTop {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            .dots {
+                cursor: pointer;
+                position: absolute;
+                top: rem(8);
+                right: rem(20);
+                z-index: 3;
+            }
+
+            .pageInfo {
+                display: flex;
+                font-weight: 400;
+                font-size: 14px;
+                gap: rem(4);
+                color: $gray-600;
+
+                p:nth-child(2) {
+                    font-weight: 700;
+                    color: black;
+                }
+            }
+        }
+
+        img {
+            width: rem(40);
+            margin-bottom: rem(30);
+        }
+
+        .quoteText,
+        .noteText {
+            width: 100%;
+            font-size: rem(20);
+            color: $gray-900;
+            line-height: rem(24);
+            margin-bottom: rem(40);
+        }
+
+        .quoteText {
+            font-weight: 700;
+        }
+
+        .noteText {
+            font-weight: 400;
+        }
+    }
+
+    .bottom {
+        align-self: flex-start;
+        margin-top: rem(40);
+
+        .likes {
+            display: flex;
+            gap: rem(16);
+            height: fit-content;
+
+            >* {
+                height: rem(30);
+                display: flex;
+                gap: rem(6);
+            }
+
+            img {
+                height: rem(20);
+                width: rem(16);
+            }
+        }
+
+        .access {
+            display: flex;
+            gap: rem(8);
+            align-items: center;
+
+            p {
+                font-weight: 600;
+                font-size: rem(16);
+                color: $gray-600;
+            }
+        }
+
+        .cardBottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+
+            .username {
+                font-size: rem(16);
+                color: $gray-900;
+            }
+        }
+    }
+
+    .replies {
+        width: 100%;
+        max-width: rem(659);
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: rem(64);
+    }
+
+    .buttonContainer {
+        width: fit-content;
+        margin: 0 auto;
+    }
+
+}

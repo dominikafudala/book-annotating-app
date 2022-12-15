@@ -72,6 +72,24 @@ class NoteService {
         if(response.status === 200) return response.data;
         else return -1;
     }
+
+    static async getReplies(noteid) {
+
+        let response;
+
+        try{
+            response = await axios.get(BACKEND_LOCATION+this.#mapping+"/replies/"+noteid,{
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return -1;
+    }
 }
 
 export default NoteService;
