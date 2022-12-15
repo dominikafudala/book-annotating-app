@@ -263,6 +263,57 @@ class BookService {
         if(response.status === 200) return response.data;
         else return 0;
     }
+
+    static async getToReview() {
+        let response;
+        try{
+            response = await axios.get(BACKEND_LOCATION+"book/toreview", {
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return 0;
+    }
+
+    static async delete(id) {
+        let response;
+        try{
+            response = await axios.post(BACKEND_LOCATION+"book/delete",id, {
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`,
+                    'Access-Control-Allow-Origin': "*",
+                    'Content-Type': 'application/json'
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return 0;
+    }
+    static async accept(id) {
+        let response;
+        try{
+            response = await axios.post(BACKEND_LOCATION+"book/accept",id, {
+                headers: {
+                    'Authorization': `Bearer ${SessionService.getAccessToken()}`,
+                    'Access-Control-Allow-Origin': "*",
+                    'Content-Type': 'application/json'
+                }
+            });
+        }catch (err){
+            return -1;
+        }
+
+        if(response.status === 200) return response.data;
+        else return 0;
+    }
 }
 
 export default BookService;

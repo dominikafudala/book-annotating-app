@@ -153,4 +153,19 @@ public class BookController {
     public ResponseEntity<?> getSaved(HttpServletRequest request){
         return ResponseEntity.ok(bookService.getSaved(request.getHeader("Authorization")));
     }
+    @GetMapping("/toreview")
+    public ResponseEntity<?> getToReview(){
+        return ResponseEntity.ok(bookService.getToReview());
+    }
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteBook(@RequestBody Integer bookid){
+        return ResponseEntity.ok(bookService.deleteBook(bookid));
+    }
+    @PostMapping("/accept")
+    public ResponseEntity<?> acceptBook(@RequestBody Integer bookid){
+        return ResponseEntity.ok(bookService.acceptBook(bookid));
+    }
+
+
+
 }

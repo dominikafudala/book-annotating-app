@@ -656,4 +656,37 @@ public class BookService {
 
         return summaryBookModels;
     }
+
+    public List<SummaryBookModel> getToReview() {
+        List<SummaryBookModel> summaryBookModels= new ArrayList<>();
+        List <Book> books = bookRepository.findByReviewedFalse();
+        for(Book b : books){
+            SummaryBookModel summaryBookModel = new SummaryBookModel();
+            summaryBookModel.setBookModel(this.getBookModelFromId(b.getId()));
+            summaryBookModel.setReplies(0L);
+            summaryBookModels.add(summaryBookModel);
+        }
+        return summaryBookModels;
+    }
+
+    public boolean deleteBook(Integer bookid) {
+        try {
+            Book book = bookRepository.findById(bookid).orElseThrow();
+            bookRepository.delete(book);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean acceptBook(Integer bookid) {
+        try {
+            Book book = bookRepository.findById(bookid).orElseThrow();
+            book.setReviewed(true);
+            bookRepository.save(book);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
 }

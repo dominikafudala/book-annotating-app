@@ -6,9 +6,10 @@ import { useContext } from "react";
 import noteIcon from "assets/note.svg";
 
 
-const BookSummaryCard = ({bookModel, full, genreCount}) => {
+const BookSummaryCard = ({bookModel, full, genreCount, admin}) => {
     const locationContext = useContext(LocationContext);
     const classFull = full ? styles.full : "";
+    const classAdmin = admin ? styles.admin : "";
     const book = bookModel.bookModel;
     const authors = [];
     const genres = [];
@@ -28,7 +29,7 @@ const BookSummaryCard = ({bookModel, full, genreCount}) => {
     )
 
     return(
-        <div className={`${styles.wrapper} ${classFull}`} onClick = {() => window.location.pathname = locationContext.PAGES.book + "/" + book.bookId}>
+        <div className={`${styles.wrapper} ${classFull} ${classAdmin}`} onClick = {() => window.location.pathname = locationContext.PAGES.book + "/" + book.bookId}>
             <div className={styles.cover}>
                 <img src={book.imgUrl !== null ? book.imgUrl : noCover} alt="Book cover"/>
             </div>
@@ -40,10 +41,10 @@ const BookSummaryCard = ({bookModel, full, genreCount}) => {
                     <div className={styles.title}>{book.title}</div>
                     <div className={styles.authors}>{authors.join(", ")}</div>
                 </div>
-                <div className={styles.replies}>
+                {!admin && <div className={styles.replies}>
                 <img src={noteIcon} alt="Reply icon" />
                 <p>{bookModel.replies}</p>
-            </div>
+            </div>}
             {full && <div className={styles.genres}>
                     {genres}
                 </div>}

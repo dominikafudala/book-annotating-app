@@ -146,7 +146,7 @@ const NewNoteModal = ({type, bookId, page, maxPages, onCloseFn, parentNoteId, ac
             )
         }
     }
-    if(successModal) return <Modal title = {"Your note was added"} button = {<Button onClickFn = {onCloseFn} ey = {"close"}>Close</Button>} success = {true}/>;
+    if(successModal) return <Modal title = {"Your note was added"} button = {<Button onClickFn = {onCloseFn} key = {"close"}>Close</Button>} success = {true}/>;
     else
     return(
         <>

@@ -186,7 +186,10 @@ const NewBookView = () => {
                     })}  
                     to={"/book/"+ resp}>{"book page"}</Link>
                 </>);
-                setModalButton(<Button href = {pages.login}>Got it</Button>)
+                setModalButton(<Button onClickFn={() => {locationContext.setLocation({
+                    location: "/"
+                });
+                window.location.pathname = "/"}}>Got it</Button>)
                 setModalSuccess(true);
             } else{
                 setModalTitle("Something went wrong!");

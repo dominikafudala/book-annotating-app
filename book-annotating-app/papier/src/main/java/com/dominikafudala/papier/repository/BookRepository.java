@@ -14,4 +14,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "select * from book b left join series s on b.seriesID = s.seriesID where upper(b.title) like upper(concat('%', ?1, '%')) or upper(s.name) like upper(concat('%', ?2, '%'))", nativeQuery = true)
     List<Book> findByTitleLikeIgnoreCaseOrSeriesID_NameLikeIgnoreCase(String title, String name);
 
+    List<Book> findByReviewedFalse();
+
 }

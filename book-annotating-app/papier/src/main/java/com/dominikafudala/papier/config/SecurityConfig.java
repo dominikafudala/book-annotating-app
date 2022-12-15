@@ -48,6 +48,12 @@ public class SecurityConfig {
             "/edition/**"
 
     };
+    private static final String[] ADMIN_URLS = {
+            "/book/toreview",
+            "/book/delete",
+            "/book/accept"
+    };
+
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -66,7 +72,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests()
                 .antMatchers(NO_AUTH_URLS).permitAll()
-                .antMatchers(USER_URLS).hasAnyAuthority("user");
+                .antMatchers(USER_URLS).hasAnyAuthority("user", "admin")
+                .antMatchers(ADMIN_URLS).hasAnyAuthority("admin");
 
         // authorize user
 
