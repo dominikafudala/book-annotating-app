@@ -133,6 +133,7 @@ public class BookService {
             Integer authorID = a.getAsNumber("id").intValue();
             Author author;
             if(authorID < 0){
+                if(!a.getAsString("name").matches("^[A-z]*(([.]|-|\s)*[A-z])*$")) return null;
                 author = new Author(a.getAsString("name"));
                 authorRepository.save(author);
             } else{
@@ -162,7 +163,6 @@ public class BookService {
     }
 
     public Book findBookByIsbn(String isbn) {
-        // TODO: sprawdzać czy isbn w dobrym formacie
 
         if(bookRepository.findByIsbn(isbn) != null){
             throw new BookWithIsbnExistsException(bookRepository.findByIsbn(isbn).getId());

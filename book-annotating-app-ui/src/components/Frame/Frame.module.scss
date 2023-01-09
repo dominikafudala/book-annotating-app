@@ -8,4 +8,19 @@
     top: 50%;
     left: 60%;
     transform: translate(0, -50%);
+    background-color: $beige;
+
+    &:after {
+        display: block;
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('/assets/paper_texture.png');
+        opacity: 38%;
+        mix-blend-mode: multiply;
+        z-index: -1;
+    }
 }

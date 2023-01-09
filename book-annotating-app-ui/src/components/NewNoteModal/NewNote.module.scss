@@ -64,6 +64,10 @@
             .pages {
                 display: flex;
                 align-items: center;
+
+                input {
+                    max-width: rem(60);
+                }
             }
         }
 

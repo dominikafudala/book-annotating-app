@@ -193,7 +193,7 @@ const NewBookView = () => {
                 setModalSuccess(true);
             } else{
                 setModalTitle("Something went wrong!");
-                setModalSubTitle("Check if Title and Pages are filled in and then try again");
+                setModalSubTitle("Check if if authors don't contain any special characters and then try again");
                 setModalButton(<Button onClickFn={() => setModal(false)}>Close</Button>)
                 setModalSuccess(false);
             }

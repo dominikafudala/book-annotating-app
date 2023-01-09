@@ -77,7 +77,7 @@ const AdminDashboard = () => {
     return(
         <section className={styles.review}>
             <div className={styles.heading}>
-                <p>Books to review</p>
+                <p>New books added</p>
             </div>
         {showModal && <Modal 
             title={modalTitle} 

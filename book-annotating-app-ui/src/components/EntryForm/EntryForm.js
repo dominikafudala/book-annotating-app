@@ -75,7 +75,7 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
                 null
             }
             <div className={styles.action}>
-                {
+                {/* {
                     page === types.signup || page === types.login ?
                     <>
                         <Button secondary google>Sign in with Google</Button>
@@ -86,7 +86,7 @@ const EntryForm = ({title, buttonText, page, questionText, actionText, link, sub
                         </div>
                     </> :
                     null
-                }
+                } */}
                 {
                     page !== types.check && page !== types.checkSignup?
                     <form onSubmit={e => onSubmitFn(e)} className={styles.form}>

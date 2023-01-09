@@ -21,12 +21,12 @@ const SignUpView = () => {
                 actionText= {"Log in"}
                 link={"login" } 
             />
-            <Frame>
+            {/* <Frame>
                     <Heading size = {24}>Are you an author?</Heading>
                     <Subeading>Leave us your email, we will contact you!</Subeading>
                     <Input name = {"author"} label = {"Email author"} type = {"email"}/>
                     <Button>Submit</Button>
-            </Frame>
+            </Frame> */}
         </ContentWrapper>
     )
 }

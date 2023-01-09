@@ -5,7 +5,6 @@ import Input from "components/Input/Input";
 import BookContext from "contexts/BookContext";
 import SelectInput from "components/Input/SelectInput";
 import FormDataContext from "contexts/FormDataContext";
-import { useState } from "react";
 
 const GeneralStep = () => {
 
